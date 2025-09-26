@@ -213,9 +213,9 @@ export function FreeCoursModal({ isOpen, onClose }: FreeCoursModalProps) {
             </div>
 
             {/* Content */}
-            <div className="flex h-[calc(100%-88px)]">
+            <div className="flex flex-col lg:flex-row h-full flex-1 overflow-hidden">
               {/* Video Player Section */}
-              <div className="flex-1 flex flex-col">
+              <div className="flex-1 flex flex-col min-h-0">
                 {/* Video Player */}
                 <motion.div 
                   className="relative bg-black aspect-video"
