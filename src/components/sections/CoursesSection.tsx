@@ -159,7 +159,7 @@ export function CoursesSection() {
         
         {/* Enhanced courses grid with sophisticated animations */}
         <ScrollAnimated animation="fadeIn">
-          <StaggerContainer className="grid md:grid-cols-3 gap-10 mb-20" staggerDelay={0.2}>
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20" staggerDelay={0.2}>
             {courses.map((course, index) => (
               <motion.div
                 key={course.id}
