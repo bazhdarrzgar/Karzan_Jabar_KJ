@@ -313,7 +313,7 @@ export function FreeCoursModal({ isOpen, onClose }: FreeCoursModalProps) {
 
               {/* Playlist Sidebar */}
               <motion.div 
-                className="w-80 xl:w-96 bg-gray-50 dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 flex flex-col"
+                className="w-full lg:w-80 xl:w-96 bg-gray-50 dark:bg-gray-800 border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700 flex flex-col max-h-96 lg:max-h-full"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
