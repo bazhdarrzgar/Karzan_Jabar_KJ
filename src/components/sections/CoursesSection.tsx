@@ -226,6 +226,25 @@ export function CoursesSection() {
                         </div>
                       </motion.div>
                     )}
+
+                    {/* Free Course Badge */}
+                    {course.isFree && (
+                      <motion.div
+                        className="text-center mb-4"
+                        animate={{
+                          scale: [1, 1.05, 1]
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      >
+                        <div className="inline-block bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 text-white font-bold py-2 px-4 text-sm rounded-full shadow-lg">
+                          🎁 {t("completely_free")} 🎁
+                        </div>
+                      </motion.div>
+                    )}
                     
                     <div className="text-center mb-8">
                       <motion.div 
