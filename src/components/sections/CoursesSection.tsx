@@ -289,7 +289,15 @@ export function CoursesSection() {
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <p className="text-5xl font-bold gradient-text mb-2">{course.price}</p>
+                        <p className="text-5xl font-bold gradient-text mb-2">
+                          {course.isFree ? (
+                            <span className="bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent">
+                              {course.price}
+                            </span>
+                          ) : (
+                            course.price
+                          )}
+                        </p>
                         {course.isPopular && (
                           <motion.div 
                             className="absolute -inset-2 bg-gold/20 rounded-lg blur opacity-0 group-hover:opacity-100"
