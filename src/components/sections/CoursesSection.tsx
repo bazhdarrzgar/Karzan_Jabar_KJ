@@ -11,6 +11,21 @@ import { FreeCoursModal } from "../FreeCoursModal";
 
 const courses = [
   {
+    id: 0,
+    titleKey: "free_course",
+    price: "FREE",
+    icon: Play,
+    iconBg: "bg-gradient-to-br from-green-500 to-emerald-600",
+    iconColor: "text-white",
+    isFree: true,
+    features: [
+      "free_course_feature_1",
+      "free_course_feature_2", 
+      "free_course_feature_3",
+      "free_course_feature_4"
+    ]
+  },
+  {
     id: 1,
     titleKey: "beginner_course",
     price: "$299",
