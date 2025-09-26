@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Check, Sprout, TrendingUp, Crown, Star } from "lucide-react";
+import { Check, Sprout, TrendingUp, Crown, Star, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ScrollAnimated, StaggerContainer, FloatingElement, AnimatedSection } from "../AnimatedSection";
+import { useState } from "react";
+import { FreeCoursModal } from "../FreeCoursModal";
 
 const courses = [
   {
