@@ -262,7 +262,7 @@ export function AboutSection() {
                 className="text-lg font-semibold text-slate-800 dark:text-white mb-2"
                 whileHover={{ scale: 1.1 }}
               >
-                Advanced Level
+                {t("about_trading_level")}
               </motion.p>
               <p className="text-gray-600 dark:text-gray-300">{t("about_trading_level")}</p>
             </motion.div>
