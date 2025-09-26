@@ -518,6 +518,12 @@ export function CoursesSection() {
           </motion.div>
         </ScrollAnimated>
       </div>
+
+      {/* Free Course Modal */}
+      <FreeCoursModal 
+        isOpen={isFreeCourseModalOpen}
+        onClose={() => setIsFreeCourseModalOpen(false)}
+      />
     </section>
   );
 }
