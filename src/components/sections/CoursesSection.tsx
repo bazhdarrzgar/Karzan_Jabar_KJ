@@ -97,12 +97,17 @@ const testimonials = [
 export function CoursesSection() {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const [isFreeCourseModalOpen, setIsFreeCourseModalOpen] = useState(false);
 
-  const handleEnrollment = (courseTitleKey: string) => {
-    toast({
-      title: t("enrollment_interest_received"),
-      description: t("enrollment_thank_you", { course: t(courseTitleKey) }),
-    });
+  const handleEnrollment = (courseTitleKey: string, isFree: boolean = false) => {
+    if (isFree) {
+      setIsFreeCourseModalOpen(true);
+    } else {
+      toast({
+        title: t("enrollment_interest_received"),
+        description: t("enrollment_thank_you", { course: t(courseTitleKey) }),
+      });
+    }
   };
 
   return (
