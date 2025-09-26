@@ -259,7 +259,7 @@ export function AboutSection() {
               </div>
               <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t("about_trading")}</h4>
               <motion.p 
-                className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-2"
+                className="text-lg font-semibold text-slate-800 dark:text-white mb-2"
                 whileHover={{ scale: 1.1 }}
               >
                 Advanced Level
