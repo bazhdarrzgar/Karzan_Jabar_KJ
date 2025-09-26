@@ -1,0 +1,10 @@
+# Override file for local development
+version: '3.8'
+
+services:
+  kj-website-dev:
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # For hot reload in Docker on Windows/Mac

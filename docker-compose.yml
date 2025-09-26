@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # Development environment
+  kj-website-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: kj-financial-dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - kj-network
+    restart: unless-stopped
+
+  # Production environment
+  kj-website-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: kj-financial-prod
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - kj-network
+    restart: unless-stopped
+
+networks:
+  kj-network:
+    driver: bridge
