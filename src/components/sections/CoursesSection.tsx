@@ -349,14 +349,16 @@ export function CoursesSection() {
                       whileTap={{ scale: 0.95 }}
                     >
                       <Button 
-                        onClick={() => handleEnrollment(course.titleKey)}
+                        onClick={() => handleEnrollment(course.titleKey, course.isFree)}
                         className={`w-full text-lg font-bold py-4 transition-all duration-500 ${
-                          course.isPopular 
-                            ? 'bg-gradient-to-r from-gold via-yellow-500 to-gold hover:from-yellow-500 hover:via-gold hover:to-yellow-500 text-black shadow-xl'
-                            : 'bg-gold hover:bg-gold-dark text-black'
+                          course.isFree
+                            ? 'bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-600 text-white shadow-xl'
+                            : course.isPopular 
+                              ? 'bg-gradient-to-r from-gold via-yellow-500 to-gold hover:from-yellow-500 hover:via-gold hover:to-yellow-500 text-black shadow-xl'
+                              : 'bg-gold hover:bg-gold-dark text-black'
                         }`}
                       >
-                        {t("enroll_now")}
+                        {course.isFree ? t("start_free_course") : t("enroll_now")}
                       </Button>
                     </motion.div>
                     
