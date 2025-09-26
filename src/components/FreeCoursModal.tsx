@@ -175,7 +175,7 @@ export function FreeCoursModal({ isOpen, onClose }: FreeCoursModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed inset-4 md:inset-8 lg:inset-12 xl:inset-16 bg-white dark:bg-gray-900 rounded-3xl shadow-2xl z-50 overflow-hidden"
+            className="fixed inset-4 md:inset-8 lg:inset-12 xl:inset-16 bg-white dark:bg-gray-900 rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
