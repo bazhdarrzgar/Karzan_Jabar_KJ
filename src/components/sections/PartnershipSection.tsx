@@ -1,6 +1,6 @@
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import { Check, Handshake, Shield, GraduationCap, UserPlus } from "lucide-react";
+import { Check, Handshake, Shield, GraduationCap, UserPlus, TrendingUp, Award, Clock, DollarSign, Users, Globe, Star, Zap } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { ScrollAnimated } from "../../hooks/use-scroll-animation";
 
@@ -28,108 +28,185 @@ const partnershipBenefits = [
     icon: Handshake,
     titleKey: "direct_partnership",
     descriptionKey: "direct_partnership_desc",
-    bgColor: "bg-gold"
+    bgColor: "bg-gradient-to-br from-gold to-yellow-500"
   },
   {
     icon: Shield,
     titleKey: "regulated_safe", 
     descriptionKey: "regulated_safe_desc",
-    bgColor: "bg-navy"
+    bgColor: "bg-gradient-to-br from-blue-600 to-indigo-700"
   },
   {
     icon: GraduationCap,
     titleKey: "educational_support",
     descriptionKey: "educational_support_desc", 
-    bgColor: "bg-gold"
+    bgColor: "bg-gradient-to-br from-purple-600 to-pink-600"
   }
+];
+
+const features = [
+  {
+    icon: TrendingUp,
+    titleKey: "Market Analysis",
+    descriptionKey: "Real-time market insights and trading signals"
+  },
+  {
+    icon: Award,
+    titleKey: "Certified Broker",
+    descriptionKey: "Regulated and award-winning broker"
+  },
+  {
+    icon: Clock,
+    titleKey: "24/7 Support",
+    descriptionKey: "Round-the-clock customer service"
+  },
+  {
+    icon: DollarSign,
+    titleKey: "No Hidden Fees",
+    descriptionKey: "Transparent pricing structure"
+  }
+];
+
+const stats = [
+  { number: "10K+", label: "Active Traders", icon: Users },
+  { number: "150+", label: "Countries Served", icon: Globe },
+  { number: "4.9/5", label: "Customer Rating", icon: Star },
+  { number: "99.9%", label: "Uptime", icon: Zap }
 ];
 
 export function PartnershipSection() {
   const { t } = useTranslation();
 
   return (
-    <section id="partnership" className="py-20 bg-gray-50 dark:bg-gray-800 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute top-10 left-20 w-72 h-72 bg-gradient-to-br from-gold/15 to-blue-600/15 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-48 h-48 bg-gradient-to-tl from-purple-500/15 to-pink-500/15 rounded-full blur-2xl animate-bounce"></div>
+    <section id="partnership" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
+      {/* Advanced animated background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-10 sm:top-20 left-5 sm:left-20 w-48 h-48 sm:w-72 sm:h-72 bg-gradient-to-br from-gold/20 to-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-5 sm:right-10 w-40 h-40 sm:w-64 sm:h-64 bg-gradient-to-tl from-purple-500/20 to-pink-500/20 rounded-full blur-2xl animate-bounce" style={{ animationDuration: '3s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 sm:w-96 sm:h-96 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <ScrollAnimated animation="fadeInUp" className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 hover:scale-105 transition-transform duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Hero Header */}
+        <ScrollAnimated animation="fadeInUp" className="text-center mb-12 sm:mb-16 lg:mb-20">
+          <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-gold/20 to-blue-600/20 rounded-full">
+            <span className="text-sm sm:text-base font-semibold text-gold dark:text-gold">✨ Official Partnership</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight">
             {t("official_partnership")}
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">
             {t("official_partnership_desc")}
           </p>
         </ScrollAnimated>
+
+        {/* Stats Section */}
+        <ScrollAnimated animation="fadeInUp" delay={200} className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            {stats.map((stat, index) => (
+              <Card key={index} className="p-4 sm:p-6 text-center hover:shadow-xl transition-all duration-300 hover:scale-105 bg-white dark:bg-gray-800 border-2 border-transparent hover:border-gold">
+                <stat.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2 sm:mb-3 text-gold" />
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">{stat.number}</div>
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
+              </Card>
+            ))}
+          </div>
+        </ScrollAnimated>
         
+        {/* Main Partnership Card */}
         <ScrollAnimated animation="scaleIn" delay={400}>
-          <Card className="p-8 lg:p-12 shadow-2xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-0 hover:shadow-3xl transition-all duration-500">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <Card className="p-6 sm:p-8 lg:p-12 shadow-2xl bg-gradient-to-br from-white via-gray-50 to-white dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:shadow-3xl transition-all duration-500 rounded-2xl sm:rounded-3xl overflow-hidden">
+            <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
+              {/* Left Column - JustMarkets Info */}
               <ScrollAnimated animation="slideInLeft" delay={200}>
-                <div className="hover:scale-102 transition-transform duration-300">
+                <div>
                   {/* Enhanced JustMarkets branding */}
-                  <div className="bg-navy rounded-2xl p-8 text-center mb-8 relative overflow-hidden hover:scale-105 transition-transform duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-r from-gold/10 to-blue-500/10 animate-pulse"></div>
-                    <div className="text-4xl font-bold text-white mb-2 relative z-10">
+                  <div className="bg-gradient-to-br from-navy via-blue-900 to-navy rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center mb-6 sm:mb-8 relative overflow-hidden group hover:scale-105 transition-transform duration-300 shadow-xl">
+                    <div className="absolute inset-0 bg-gradient-to-r from-gold/20 via-blue-500/20 to-gold/20 animate-pulse"></div>
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+                    </div>
+                    <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-3 relative z-10">
                       JustMarkets
                     </div>
-                    <div className="text-gold font-semibold relative z-10">
+                    <div className="text-gold text-base sm:text-lg font-semibold relative z-10 flex items-center justify-center gap-2">
+                      <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
                       {t("official_partner")}
                     </div>
                   </div>
                   
-                  <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                     {t("why_choose_justmarkets")}
                   </h3>
                   
-                  <div className="space-y-4 mb-8">
+                  {/* Benefits List */}
+                  <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                     {benefits.map((benefit, index) => (
                       <ScrollAnimated 
                         key={index}
                         animation="slideInLeft"
                         delay={index * 100}
-                        className="flex items-start group hover:translate-x-2 transition-transform"
+                        className="flex items-start group hover:translate-x-2 transition-transform bg-gray-50 dark:bg-gray-800/50 p-3 sm:p-4 rounded-xl hover:bg-gold/10 dark:hover:bg-gold/10"
                       >
-                        <div className="bg-gold rounded-full w-6 h-6 flex items-center justify-center mr-4 mt-1 group-hover:scale-110 transition-transform">
-                          <Check className="text-black text-sm" />
+                        <div className="bg-gradient-to-br from-gold to-yellow-500 rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center mr-3 sm:mr-4 mt-1 group-hover:scale-110 transition-transform flex-shrink-0 shadow-md">
+                          <Check className="text-black text-sm sm:text-base" />
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900 dark:text-white group-hover:text-gold transition-colors">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white group-hover:text-gold transition-colors">
                             {t(benefit.titleKey)}
                           </h4>
-                          <p className="text-gray-600 dark:text-gray-300">{t(benefit.descriptionKey)}</p>
+                          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-1">{t(benefit.descriptionKey)}</p>
                         </div>
                       </ScrollAnimated>
+                    ))}
+                  </div>
+
+                  {/* Additional Features Grid - Hidden on mobile to save space */}
+                  <div className="hidden sm:grid grid-cols-2 gap-3 sm:gap-4">
+                    {features.map((feature, index) => (
+                      <div key={index} className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 p-3 sm:p-4 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-gold group">
+                        <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-gold mb-2 group-hover:scale-110 transition-transform" />
+                        <h5 className="font-semibold text-xs sm:text-sm text-gray-900 dark:text-white mb-1">{feature.titleKey}</h5>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">{feature.descriptionKey}</p>
+                      </div>
                     ))}
                   </div>
                 </div>
               </ScrollAnimated>
               
+              {/* Right Column - Image & CTA */}
               <ScrollAnimated animation="slideInRight" delay={600}>
-                <div className="hover:scale-103 transition-transform duration-300">
-                  <div className="relative mb-8">
-                    <div className="absolute inset-0 bg-gradient-to-r from-gold/30 to-blue-500/30 rounded-2xl blur-xl animate-pulse"></div>
-                    <img 
-                      src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75" 
-                      alt={t("certificate_img_alt")} 
-                      loading="lazy"
-                      decoding="async"
-                      className="rounded-2xl shadow-lg w-full h-auto relative z-10 hover:scale-105 transition-transform duration-300"
-                    />
+                <div className="space-y-6 sm:space-y-8">
+                  {/* Certificate Image */}
+                  <div className="relative group">
+                    <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-gold/40 via-blue-500/40 to-purple-500/40 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                    <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl">
+                      <img 
+                        src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=75" 
+                        alt={t("certificate_img_alt")} 
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-auto transform group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                   </div>
                   
-                  <div className="text-center">
+                  {/* CTA Section */}
+                  <div className="text-center bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-2 border-gray-200 dark:border-gray-700 hover:border-gold transition-colors duration-300">
+                    <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Ready to Start Trading?</h4>
                     <Button 
                       asChild
-                      className="bg-gold hover:bg-gold-dark text-black px-8 py-4 text-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl"
+                      className="w-full sm:w-auto bg-gradient-to-r from-gold via-yellow-500 to-gold hover:from-yellow-600 hover:via-gold hover:to-yellow-600 text-black px-6 sm:px-10 py-4 sm:py-6 text-base sm:text-lg font-bold transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl rounded-xl"
                     >
-                      <a href="#" target="_blank" rel="noopener noreferrer">
-                        <UserPlus className="mr-2 h-5 w-5" />
+                      <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                        <UserPlus className="h-5 w-5 sm:h-6 sm:w-6" />
                         {t("open_account_now")}
                       </a>
                     </Button>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-3 sm:mt-4 flex items-center justify-center gap-2">
+                      <Check className="w-4 h-4 text-green-500" />
                       {t("broker_features")}
                     </p>
                   </div>
@@ -137,31 +214,57 @@ export function PartnershipSection() {
               </ScrollAnimated>
             </div>
             
-            {/* Partnership Benefits */}
-            <ScrollAnimated animation="fadeInUp" delay={800} className="mt-16 pt-12 border-t border-gray-200 dark:border-gray-600">
-              <h3 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-12">
-                {t("partnership_benefits")}
-              </h3>
+            {/* Partnership Benefits Section */}
+            <ScrollAnimated animation="fadeInUp" delay={800} className="mt-12 sm:mt-16 lg:mt-20 pt-12 border-t-2 border-gray-200 dark:border-gray-700">
+              <div className="text-center mb-8 sm:mb-12">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+                  {t("partnership_benefits")}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
+                  Unlock exclusive advantages through our strategic partnership
+                </p>
+              </div>
               
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {partnershipBenefits.map((benefit, index) => (
                   <ScrollAnimated 
                     key={index} 
                     animation="bounceIn" 
                     delay={index * 200}
-                    className="text-center group hover:scale-110 transition-transform duration-300"
+                    className="relative group"
                   >
-                    <div className={`${benefit.bgColor} rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg group-hover:shadow-xl`}>
-                      <benefit.icon className={`${benefit.bgColor === 'bg-gold' ? 'text-black' : 'text-gold'} text-2xl`} />
-                    </div>
-                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-gold transition-colors">
-                      {t(benefit.titleKey)}
-                    </h4>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      {t(benefit.descriptionKey)}
-                    </p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-purple-500/20 rounded-2xl sm:rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <Card className="relative p-6 sm:p-8 text-center hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-gold rounded-2xl sm:rounded-3xl h-full">
+                      <div className={`${benefit.bgColor} rounded-2xl sm:rounded-3xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl`}>
+                        <benefit.icon className="text-white text-2xl sm:text-3xl" />
+                      </div>
+                      <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 group-hover:text-gold transition-colors">
+                        {t(benefit.titleKey)}
+                      </h4>
+                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+                        {t(benefit.descriptionKey)}
+                      </p>
+                    </Card>
                   </ScrollAnimated>
                 ))}
+              </div>
+            </ScrollAnimated>
+
+            {/* Trust Badges */}
+            <ScrollAnimated animation="fadeInUp" delay={1000} className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
+                  <Shield className="w-4 h-4 text-green-500" />
+                  <span className="font-medium">SSL Secured</span>
+                </div>
+                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
+                  <Award className="w-4 h-4 text-gold" />
+                  <span className="font-medium">Certified Partner</span>
+                </div>
+                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
+                  <Star className="w-4 h-4 text-yellow-500" />
+                  <span className="font-medium">Award Winning</span>
+                </div>
               </div>
             </ScrollAnimated>
           </Card>
