@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useToast } from "../../hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "../../lib/queryClient";
-import { Mail, Phone, MessageCircle, Clock, ExternalLink, ArrowRight, GraduationCap, MapPin, Send, CheckCircle, Users, Zap, Globe } from "lucide-react";
+import { Mail, Phone, MessageCircle, Clock, ExternalLink, ArrowRight, GraduationCap, MapPin, Send, CheckCircle, Users, Zap, Globe, Sparkles, TrendingUp, Award, Shield } from "lucide-react";
 import { ScrollAnimated } from "../../hooks/use-scroll-animation";
 
 interface ContactFormData {
@@ -24,53 +24,67 @@ const contactMethods = [
     icon: Mail,
     title: "Email",
     value: "contact@kjcompany.com",
-    color: "from-gold to-yellow-500",
-    hoverColor: "hover:text-gold"
+    color: "from-amber-400 via-yellow-500 to-orange-500",
+    bgGlow: "bg-amber-500/20",
+    description: "Drop us a message anytime"
   },
   {
     icon: Phone,
     title: "WhatsApp",
     value: "+1 (555) 123-4567",
-    color: "from-green-500 to-green-600",
-    hoverColor: "hover:text-green-500"
+    color: "from-emerald-400 via-green-500 to-teal-500",
+    bgGlow: "bg-green-500/20",
+    description: "Chat with us directly"
   },
   {
     icon: MessageCircle,
     title: "Telegram",
     value: "@KJTrading",
-    color: "from-blue-500 to-blue-600",
-    hoverColor: "hover:text-blue-500"
+    color: "from-sky-400 via-blue-500 to-indigo-500",
+    bgGlow: "bg-blue-500/20",
+    description: "Join our trading community"
   },
   {
     icon: MapPin,
     title: "Location",
     value: "Kurdistan Region",
-    color: "from-purple-500 to-pink-500",
-    hoverColor: "hover:text-purple-500"
+    color: "from-fuchsia-400 via-purple-500 to-pink-500",
+    bgGlow: "bg-purple-500/20",
+    description: "Our regional office"
   }
 ];
 
 const features = [
   {
-    icon: CheckCircle,
+    icon: Shield,
     title: "Verified Expert",
-    description: "Certified trading professional"
+    description: "Certified trading professional",
+    gradient: "from-blue-500 to-cyan-500"
   },
   {
     icon: Users,
     title: "1000+ Students",
-    description: "Join our growing community"
+    description: "Join our growing community",
+    gradient: "from-purple-500 to-pink-500"
   },
   {
     icon: Zap,
     title: "Fast Response",
-    description: "Reply within 24 hours"
+    description: "Reply within 24 hours",
+    gradient: "from-amber-500 to-orange-500"
   },
   {
     icon: Globe,
     title: "Global Support",
-    description: "Multiple languages available"
+    description: "Multiple languages available",
+    gradient: "from-green-500 to-emerald-500"
   }
+];
+
+const trustBadges = [
+  { icon: Award, text: "5+ Years Experience" },
+  { icon: CheckCircle, text: "95% Success Rate" },
+  { icon: TrendingUp, text: "Expert Analysis" }
 ];
 
 export function ContactSection() {
