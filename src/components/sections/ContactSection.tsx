@@ -24,15 +24,15 @@ const contactMethods = [
     icon: Mail,
     title: "Email",
     value: "contact@kjcompany.com",
-    color: "from-gold to-yellow-500",
-    bgGlow: "bg-gold/20",
+    color: "from-amber-400 via-yellow-500 to-orange-500",
+    bgGlow: "bg-amber-500/20",
     description: "Drop us a message anytime"
   },
   {
     icon: Phone,
     title: "WhatsApp",
     value: "+1 (555) 123-4567",
-    color: "from-green-500 to-green-600",
+    color: "from-emerald-400 via-green-500 to-teal-500",
     bgGlow: "bg-green-500/20",
     description: "Chat with us directly"
   },
@@ -40,7 +40,7 @@ const contactMethods = [
     icon: MessageCircle,
     title: "Telegram",
     value: "@KJTrading",
-    color: "from-blue-500 to-blue-600",
+    color: "from-sky-400 via-blue-500 to-indigo-500",
     bgGlow: "bg-blue-500/20",
     description: "Join our trading community"
   },
@@ -48,7 +48,7 @@ const contactMethods = [
     icon: MapPin,
     title: "Location",
     value: "Kurdistan Region",
-    color: "from-purple-500 to-pink-500",
+    color: "from-fuchsia-400 via-purple-500 to-pink-500",
     bgGlow: "bg-purple-500/20",
     description: "Our regional office"
   }
@@ -59,25 +59,25 @@ const features = [
     icon: Shield,
     title: "Verified Expert",
     description: "Certified trading professional",
-    gradient: "from-gold to-yellow-500"
+    gradient: "from-blue-500 to-cyan-500"
   },
   {
     icon: Users,
     title: "1000+ Students",
     description: "Join our growing community",
-    gradient: "from-gold to-yellow-500"
+    gradient: "from-purple-500 to-pink-500"
   },
   {
     icon: Zap,
     title: "Fast Response",
     description: "Reply within 24 hours",
-    gradient: "from-gold to-yellow-500"
+    gradient: "from-amber-500 to-orange-500"
   },
   {
     icon: Globe,
     title: "Global Support",
     description: "Multiple languages available",
-    gradient: "from-gold to-yellow-500"
+    gradient: "from-green-500 to-emerald-500"
   }
 ];
 
