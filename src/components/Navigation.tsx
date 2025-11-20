@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Menu, X, Sparkles, Zap, Star } from "lucide-react";
+import { Menu, X, Sparkles, Zap, Star, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
 import { ScrollProgressBar } from "./ScrollProgressBar";
 import { motion, AnimatePresence } from "framer-motion";
 import LanguageToggle from "./LanguageToggle";
 import ThemeToggle from "./ThemeToggle";
+import { Link, useLocation } from "wouter";
 
 const navItems = [
-  { key: "home", href: "#home", icon: <Star className="w-4 h-4" /> },
-  { key: "about", href: "#about", icon: <Sparkles className="w-4 h-4" /> },
-  { key: "courses", href: "#courses", icon: <Zap className="w-4 h-4" /> },
-  { key: "social", href: "#social", icon: <Star className="w-4 h-4" /> },
-  { key: "projects", href: "#projects", icon: <Sparkles className="w-4 h-4" /> },
-  { key: "partnership", href: "#partnership", icon: <Zap className="w-4 h-4" /> },
-  { key: "contact", href: "#contact", icon: <Star className="w-4 h-4" /> },
+  { key: "home", href: "#home", icon: <Star className="w-4 h-4" />, isRoute: false },
+  { key: "about", href: "#about", icon: <Sparkles className="w-4 h-4" />, isRoute: false },
+  { key: "courses", href: "#courses", icon: <Zap className="w-4 h-4" />, isRoute: false },
+  { key: "social", href: "#social", icon: <Star className="w-4 h-4" />, isRoute: false },
+  { key: "projects", href: "#projects", icon: <Sparkles className="w-4 h-4" />, isRoute: false },
+  { key: "trade", href: "/trade", icon: <TrendingUp className="w-4 h-4" />, isRoute: true },
+  { key: "partnership", href: "#partnership", icon: <Zap className="w-4 h-4" />, isRoute: false },
+  { key: "contact", href: "#contact", icon: <Star className="w-4 h-4" />, isRoute: false },
 ];
 
 const Navigation = () => {
@@ -22,6 +24,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [location] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -109,32 +112,14 @@ const Navigation = () => {
             <div className="hidden md:block">
               <div className="ml-10 flex items-center">
                 <div className="relative flex items-center space-x-1 p-2 rounded-2xl backdrop-blur-sm bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10">
-                  {navItems.map((item, index) => (
-                    <motion.div key={item.key} className="relative">
-                      <motion.a
-                        href={item.href}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          scrollToSection(item.href);
-                        }}
-                        className={`group relative flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
-                          activeSection === item.key
-                            ? "text-white bg-primary shadow-lg"
-                            : "text-slate-700 dark:text-foreground/80 hover:text-slate-900 dark:hover:text-white"
-                        }`}
-                        whileHover={{ 
-                          scale: 1.05,
-                          y: -2
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                      >
+                  {navItems.map((item, index) => {
+                    const isActive = item.isRoute ? location === item.href : activeSection === item.key;
+                    const navContent = (
+                      <>
                         <motion.span
                           animate={{
-                            rotate: activeSection === item.key ? 360 : 0,
-                            scale: activeSection === item.key ? 1.1 : 1,
+                            rotate: isActive ? 360 : 0,
+                            scale: isActive ? 1.1 : 1,
                           }}
                           transition={{ duration: 0.3 }}
                         >
@@ -145,14 +130,14 @@ const Navigation = () => {
                           {t(item.key.charAt(0).toUpperCase() + item.key.slice(1))}
                         </span>
                         
-                        {activeSection !== item.key && (
+                        {!isActive && (
                           <motion.div 
                             className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/20 to-primary/10 rounded-xl scale-0 group-hover:scale-100 transition-transform duration-300"
                           />
                         )}
                         
                         <AnimatePresence>
-                          {activeSection === item.key && (
+                          {isActive && (
                             <motion.div
                               className="absolute -bottom-1 left-1/2 w-2 h-2 bg-white rounded-full shadow-lg"
                               initial={{ scale: 0, opacity: 0 }}
@@ -162,9 +147,58 @@ const Navigation = () => {
                             />
                           )}
                         </AnimatePresence>
-                      </motion.a>
-                    </motion.div>
-                  ))}
+                      </>
+                    );
+
+                    return (
+                      <motion.div key={item.key} className="relative">
+                        {item.isRoute ? (
+                          <Link href={item.href}>
+                            <motion.a
+                              className={`group relative flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${
+                                isActive
+                                  ? "text-white bg-primary shadow-lg"
+                                  : "text-slate-700 dark:text-foreground/80 hover:text-slate-900 dark:hover:text-white"
+                              }`}
+                              whileHover={{ 
+                                scale: 1.05,
+                                y: -2
+                              }}
+                              whileTap={{ scale: 0.95 }}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.1 }}
+                            >
+                              {navContent}
+                            </motion.a>
+                          </Link>
+                        ) : (
+                          <motion.a
+                            href={item.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              scrollToSection(item.href);
+                            }}
+                            className={`group relative flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                              isActive
+                                ? "text-white bg-primary shadow-lg"
+                                : "text-slate-700 dark:text-foreground/80 hover:text-slate-900 dark:hover:text-white"
+                            }`}
+                            whileHover={{ 
+                              scale: 1.05,
+                              y: -2
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                          >
+                            {navContent}
+                          </motion.a>
+                        )}
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -267,49 +301,76 @@ const Navigation = () => {
                   exit={{ y: -20 }}
                 >
                   <div className="px-4 pt-4 pb-6 space-y-2">
-                    {navItems.map((item, index) => (
-                      <motion.a
-                        key={item.key}
-                        href={item.href}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          scrollToSection(item.href);
-                        }}
-                        className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
-                          activeSection === item.key
-                            ? "text-white bg-primary shadow-lg"
-                            : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                        }`}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ x: 5, scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <motion.span
-                          animate={{
-                            rotate: activeSection === item.key ? 360 : 0,
-                            scale: activeSection === item.key ? 1.1 : 1,
+                    {navItems.map((item, index) => {
+                      const isActive = item.isRoute ? location === item.href : activeSection === item.key;
+                      const mobileNavContent = (
+                        <>
+                          <motion.span
+                            animate={{
+                              rotate: isActive ? 360 : 0,
+                              scale: isActive ? 1.1 : 1,
+                            }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            {item.icon}
+                          </motion.span>
+                          
+                          {t(item.key.charAt(0).toUpperCase() + item.key.slice(1))}
+                          
+                          <AnimatePresence>
+                            {isActive && (
+                              <motion.div
+                                className="ml-auto w-2 h-2 bg-white rounded-full shadow-lg"
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0, opacity: 0 }}
+                              />
+                            )}
+                          </AnimatePresence>
+                        </>
+                      );
+
+                      return item.isRoute ? (
+                        <Link key={item.key} href={item.href}>
+                          <motion.a
+                            onClick={() => setIsOpen(false)}
+                            className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 cursor-pointer ${
+                              isActive
+                                ? "text-white bg-primary shadow-lg"
+                                : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                            }`}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            whileHover={{ x: 5, scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            {mobileNavContent}
+                          </motion.a>
+                        </Link>
+                      ) : (
+                        <motion.a
+                          key={item.key}
+                          href={item.href}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            scrollToSection(item.href);
                           }}
-                          transition={{ duration: 0.3 }}
+                          className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
+                            isActive
+                              ? "text-white bg-primary shadow-lg"
+                              : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                          }`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          whileHover={{ x: 5, scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          {item.icon}
-                        </motion.span>
-                        
-                        {t(item.key.charAt(0).toUpperCase() + item.key.slice(1))}
-                        
-                        <AnimatePresence>
-                          {activeSection === item.key && (
-                            <motion.div
-                              className="ml-auto w-2 h-2 bg-white rounded-full shadow-lg"
-                              initial={{ scale: 0, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              exit={{ scale: 0, opacity: 0 }}
-                            />
-                          )}
-                        </AnimatePresence>
-                      </motion.a>
-                    ))}
+                          {mobileNavContent}
+                        </motion.a>
+                      );
+                    })}
                   </div>
                 </motion.div>
               </motion.div>

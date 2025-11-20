@@ -11,6 +11,7 @@ const resources = {
         courses: "Courses",
         social: "Social",
         projects: "Projects",
+        trade: "Trade",
         partnership: "Partnership",
         contact: "Contact",
       },
@@ -282,6 +283,16 @@ const resources = {
       contact_nav: "Contact",
       get_in_touch: "Get in Touch",
       view_courses: "View Courses",
+      
+      // Direct Navigation Keys
+      Home: "Home",
+      About: "About",
+      Courses: "Courses",
+      Social: "Social",
+      Projects: "Projects",
+      Trade: "Trade",
+      Partnership: "Partnership",
+      Contact: "Contact",
 
       // Free Course
       free_course: "Free Trading Course",
@@ -316,6 +327,7 @@ const resources = {
         courses: "کۆرسەکان",
         social: "کۆمەڵایەتی",
         projects: "پڕۆژەکان",
+        trade: "بازرگانی",
         partnership: "هاوبەشکاری",
         contact: "پەیوەندی",
       },
@@ -587,6 +599,16 @@ const resources = {
       contact_nav: "پەیوەندی",
       get_in_touch: "پەیوەندیمان پێوە بکە",
       view_courses: "بینینی کۆرسەکان",
+      
+      // Direct Navigation Keys
+      Home: "ماڵەوە",
+      About: "دەربارە",
+      Courses: "کۆرسەکان",
+      Social: "کۆمەڵایەتی",
+      Projects: "پڕۆژەکان",
+      Trade: "بازرگانی",
+      Partnership: "هاوبەشکاری",
+      Contact: "پەیوەندی",
 
       // Free Course
       free_course: "کۆرسی بازرگانی بەخۆڕایی",
@@ -621,6 +643,7 @@ const resources = {
         courses: "الدورات",
         social: "وسائل التواصل",
         projects: "المشاريع",
+        trade: "التداول",
         partnership: "الشراكة",
         contact: "اتصل بنا",
       },
@@ -892,6 +915,16 @@ const resources = {
       contact_nav: "اتصل بنا",
       get_in_touch: "تواصل معنا",
       view_courses: "عرض الدورات",
+      
+      // Direct Navigation Keys
+      Home: "الرئيسية",
+      About: "عني",
+      Courses: "الدورات",
+      Social: "وسائل التواصل",
+      Projects: "المشاريع",
+      Trade: "التداول",
+      Partnership: "الشراكة",
+      Contact: "اتصل بنا",
 
       // Free Course
       free_course: "دورة التداول المجانية",

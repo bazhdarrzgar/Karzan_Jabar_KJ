@@ -9,6 +9,7 @@ import ResponsiveToolbar from "./components/ResponsiveToolbar";
 import { DropdownProvider } from "./contexts/DropdownContext";
 
 import Home from "./pages/Home";
+import Trade from "./pages/Trade";
 import NotFound from "./pages/NotFound";
 import "./i18n";
 
@@ -20,6 +21,7 @@ function App() {
           <div className="min-h-screen bg-background font-sans antialiased">
             <Switch>
               <Route path="/" component={Home} />
+              <Route path="/trade" component={Trade} />
               <Route component={NotFound} />
             </Switch>
           </div>
