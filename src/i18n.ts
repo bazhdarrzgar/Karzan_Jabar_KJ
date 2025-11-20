@@ -279,6 +279,17 @@ const resources = {
       terms_of_service: "Terms of Service",
       cookie_policy: "Cookie Policy",
 
+      // Trade Section
+      trade_performance: "Live Trading Performance",
+      real_trading_results: "Real Trading Results",
+      trade_section_description: "Witness actual trading performance from my live accounts. These are real results, not simulations.",
+      account: "Account",
+      initial_deposit: "Initial Deposit",
+      total_profit: "Total Profit",
+      view_full_analysis: "View Full Analysis",
+      click_for_details: "Click on any account to see detailed trading statistics and performance charts",
+      view_detailed_dashboard: "View Detailed Dashboard",
+
       // Common
       contact_nav: "Contact",
       get_in_touch: "Get in Touch",
@@ -595,6 +606,17 @@ const resources = {
       terms_of_service: "مەرجەکانی خزمەتگوزاری",
       cookie_policy: "سیاسەتی کووکی",
 
+      // Trade Section
+      trade_performance: "کارکردنی بازرگانی ڕاستەوخۆ",
+      real_trading_results: "ئەنجامەکانی بازرگانی ڕاستەقینە",
+      trade_section_description: "کارکردنی بازرگانی ڕاستەوخۆ لە هەژمارە ڕاستەقینەکانم ببینە. ئەمانە ئەنجامی ڕاستەقینەن، نەک شبیهسازی.",
+      account: "هەژمار",
+      initial_deposit: "پاشەکەوتی سەرەتایی",
+      total_profit: "کۆی قازانج",
+      view_full_analysis: "بینینی شیکاری تەواو",
+      click_for_details: "کلیک لە هەر هەژمارێک بکە بۆ بینینی ئاماری وردی بازرگانی و هێڵکاری کارکردن",
+      view_detailed_dashboard: "بینینی داشبۆردی ورد",
+
       // Common
       contact_nav: "پەیوەندی",
       get_in_touch: "پەیوەندیمان پێوە بکە",
@@ -910,6 +932,17 @@ const resources = {
       privacy_policy: "سياسة الخصوصية",
       terms_of_service: "شروط الخدمة",
       cookie_policy: "سياسة ملفات تعريف الارتباط",
+
+      // Trade Section
+      trade_performance: "أداء التداول المباشر",
+      real_trading_results: "نتائج التداول الحقيقية",
+      trade_section_description: "شاهد الأداء الفعلي للتداول من حساباتي الحية. هذه نتائج حقيقية، وليست محاكاة.",
+      account: "الحساب",
+      initial_deposit: "الإيداع الأولي",
+      total_profit: "إجمالي الربح",
+      view_full_analysis: "عرض التحليل الكامل",
+      click_for_details: "انقر على أي حساب لرؤية إحصائيات التداول التفصيلية ورسوم الأداء البيانية",
+      view_detailed_dashboard: "عرض لوحة التحكم التفصيلية",
 
       // Common
       contact_nav: "اتصل بنا",

@@ -8,6 +8,7 @@ import { ModernParticles } from "../components/ModernParticles";
 
 // Lazy load sections for better performance
 const AboutSection = lazy(() => import("../components/sections/AboutSection").then(m => ({ default: m.AboutSection })));
+const TradeSection = lazy(() => import("../components/sections/TradeSection").then(m => ({ default: m.TradeSection })));
 const CoursesSection = lazy(() => import("../components/sections/CoursesSection").then(m => ({ default: m.CoursesSection })));
 const SocialSection = lazy(() => import("../components/sections/SocialSection").then(m => ({ default: m.SocialSection })));
 const ProjectsSection = lazy(() => import("../components/sections/ProjectsSection").then(m => ({ default: m.ProjectsSection })));
@@ -46,6 +47,9 @@ export default function Home() {
         <HeroSection />
         <Suspense fallback={<SectionLoader />}>
           <AboutSection />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <TradeSection />
         </Suspense>
         <Suspense fallback={<SectionLoader />}>
           <CoursesSection />

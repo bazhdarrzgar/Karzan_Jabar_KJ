@@ -11,10 +11,10 @@ import { Link, useLocation } from "wouter";
 const navItems = [
   { key: "home", href: "#home", icon: <Star className="w-4 h-4" />, isRoute: false },
   { key: "about", href: "#about", icon: <Sparkles className="w-4 h-4" />, isRoute: false },
+  { key: "trade", href: "#trade", icon: <TrendingUp className="w-4 h-4" />, isRoute: false },
   { key: "courses", href: "#courses", icon: <Zap className="w-4 h-4" />, isRoute: false },
   { key: "social", href: "#social", icon: <Star className="w-4 h-4" />, isRoute: false },
   { key: "projects", href: "#projects", icon: <Sparkles className="w-4 h-4" />, isRoute: false },
-  { key: "trade", href: "/trade", icon: <TrendingUp className="w-4 h-4" />, isRoute: true },
   { key: "partnership", href: "#partnership", icon: <Zap className="w-4 h-4" />, isRoute: false },
   { key: "contact", href: "#contact", icon: <Star className="w-4 h-4" />, isRoute: false },
 ];
