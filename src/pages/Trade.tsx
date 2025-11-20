@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend, PieChart, Pie, Cell } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { TrendingUp, TrendingDown, Activity, DollarSign, BarChart3, Info } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
 
@@ -24,6 +24,8 @@ interface AccountInfo {
   password: string;
   server: string;
   filename: string;
+  initialBalance: number;
+  finalBalance: number;
 }
 
 const accountsInfo: AccountInfo[] = [
@@ -31,19 +33,25 @@ const accountsInfo: AccountInfo[] = [
     id: '2002009090',
     password: 'Kj5000$30000$Kj',
     server: 'JustMarkets-Live',
-    filename: '2002009090.tsv'
+    filename: '2002009090.tsv',
+    initialBalance: 5000,
+    finalBalance: 31900
   },
   {
     id: '2000697192',
     password: '$KJcompany$1',
     server: 'JustMarkets-Live',
-    filename: '2000697192.tsv'
+    filename: '2000697192.tsv',
+    initialBalance: 100,
+    finalBalance: 11250
   },
   {
     id: '2002588689',
     password: 'KJnumber1$',
     server: 'JustMarkets-Live',
-    filename: '2002588689.tsv'
+    filename: '2002588689.tsv',
+    initialBalance: 250,
+    finalBalance: 2500
   }
 ];
 
@@ -191,7 +199,22 @@ export default function Trade() {
         </Card>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Profit Price</CardTitle>
+              <DollarSign className="h-4 w-4 text-blue-600" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-blue-600">
+                ${accountInfo.initialBalance.toLocaleString()} to ${accountInfo.finalBalance.toLocaleString()}
+              </div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                Initial to Final Balance
+              </p>
+            </CardContent>
+          </Card>
+
           <Card className={`${stats.totalProfit >= 0 ? 'border-green-200 bg-green-50 dark:bg-green-950' : 'border-red-200 bg-red-50 dark:bg-red-950'}`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Profit/Loss</CardTitle>
@@ -207,19 +230,6 @@ export default function Trade() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Win Rate</CardTitle>
-              <Activity className="h-4 w-4 text-blue-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stats.winRate.toFixed(1)}%</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                {stats.profitableTradesCount} wins / {stats.lossTradesCount} losses
-              </p>
-            </CardContent>
-          </Card>
-
           <Card className="border-green-200 bg-green-50 dark:bg-green-950">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Wins</CardTitle>
@@ -229,19 +239,6 @@ export default function Trade() {
               <div className="text-2xl font-bold text-green-600">${stats.totalProfitFromWins.toFixed(2)}</div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                 Avg: ${stats.avgProfit.toFixed(2)} per win
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-red-200 bg-red-50 dark:bg-red-950">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Losses</CardTitle>
-              <TrendingDown className="h-4 w-4 text-red-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-red-600">${stats.totalLoss.toFixed(2)}</div>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                Avg: ${stats.avgLoss.toFixed(2)} per loss
               </p>
             </CardContent>
           </Card>
@@ -296,64 +293,6 @@ export default function Trade() {
             </CardContent>
           </Card>
         </div>
-
-        {/* Trade Distribution */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Performance Summary</CardTitle>
-            <CardDescription>Distribution of profitable vs losing trades</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
-                    <Pie
-                      data={[
-                        { name: 'Winning Trades', value: stats.profitableTradesCount },
-                        { name: 'Losing Trades', value: stats.lossTradesCount }
-                      ]}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      <Cell fill="#10b981" />
-                      <Cell fill="#ef4444" />
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-950 rounded-lg">
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Winning Trades</p>
-                    <p className="text-2xl font-bold text-green-600">{stats.profitableTradesCount}</p>
-                  </div>
-                  <TrendingUp className="w-8 h-8 text-green-600" />
-                </div>
-                <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-950 rounded-lg">
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Losing Trades</p>
-                    <p className="text-2xl font-bold text-red-600">{stats.lossTradesCount}</p>
-                  </div>
-                  <TrendingDown className="w-8 h-8 text-red-600" />
-                </div>
-                <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Total Trades</p>
-                    <p className="text-2xl font-bold text-blue-600">{stats.totalTrades}</p>
-                  </div>
-                  <Activity className="w-8 h-8 text-blue-600" />
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </TabsContent>
     );
   };
