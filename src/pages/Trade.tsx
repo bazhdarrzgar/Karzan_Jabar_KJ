@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { TrendingUp, TrendingDown, Activity, DollarSign, BarChart3, Info } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, AreaChart, Area, Cell } from 'recharts';
+import { TrendingUp, TrendingDown, Activity, DollarSign, BarChart3, Info, Download } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
+import { Button } from '../components/ui/button';
 
 interface Trade {
   time: string;
@@ -55,7 +56,41 @@ const accountsInfo: AccountInfo[] = [
   }
 ];
 
-const COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6'];
+const COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
+
+// Custom Tooltip Component
+const CustomTooltip = ({ active, payload, label, type }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">{label}</p>
+        {payload.map((entry: any, index: number) => (
+          <div key={index} className="flex items-center gap-2 text-sm">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
+            <span className="text-gray-600 dark:text-gray-400">{entry.name}:</span>
+            <span className="font-semibold text-gray-900 dark:text-gray-100">
+              {type === 'currency' ? `$${entry.value.toFixed(2)}` : entry.value.toFixed(2)}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
+// Export chart data as CSV
+const exportToCSV = (data: any[], filename: string) => {
+  const headers = Object.keys(data[0]).join(',');
+  const rows = data.map(row => Object.values(row).join(','));
+  const csv = [headers, ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${filename}.csv`;
+  a.click();
+};
 
 export default function Trade() {
   const [tradesData, setTradesData] = useState<{ [key: string]: Trade[] }>({});
@@ -161,6 +196,41 @@ export default function Trade() {
       .slice(0, 10);
   };
 
+  const getWinLossData = (trades: Trade[]) => {
+    const profitable = trades.filter(t => t.profit > 0).length;
+    const loss = trades.filter(t => t.profit < 0).length;
+    const breakeven = trades.filter(t => t.profit === 0).length;
+    
+    return [
+      { name: 'Winning Trades', value: profitable, color: '#10b981' },
+      { name: 'Losing Trades', value: loss, color: '#ef4444' },
+      ...(breakeven > 0 ? [{ name: 'Breakeven', value: breakeven, color: '#6b7280' }] : [])
+    ];
+  };
+
+  const getMonthlyPerformance = (trades: Trade[]) => {
+    const monthMap: { [key: string]: { profit: number, trades: number } } = {};
+    
+    trades.forEach(trade => {
+      const date = new Date(trade.time);
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      
+      if (!monthMap[monthKey]) {
+        monthMap[monthKey] = { profit: 0, trades: 0 };
+      }
+      monthMap[monthKey].profit += trade.profit;
+      monthMap[monthKey].trades += 1;
+    });
+    
+    return Object.entries(monthMap)
+      .map(([month, data]) => ({
+        month,
+        profit: data.profit,
+        trades: data.trades
+      }))
+      .sort((a, b) => a.month.localeCompare(b.month));
+  };
+
   const renderAccountCard = (accountInfo: AccountInfo) => {
     const trades = tradesData[accountInfo.id] || [];
     const stats = calculateStats(trades);
@@ -168,45 +238,45 @@ export default function Trade() {
     const symbolPerformance = getSymbolPerformance(trades);
 
     return (
-      <TabsContent key={accountInfo.id} value={accountInfo.id} className="space-y-6">
+      <TabsContent key={accountInfo.id} value={accountInfo.id} className="space-y-4 sm:space-y-6">
         {/* Account Info Card */}
         <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 border-blue-200 dark:border-blue-800">
-          <CardHeader>
-            <div className="flex items-center justify-between">
+          <CardHeader className="pb-3 sm:pb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
               <div>
-                <CardTitle className="text-2xl font-bold text-blue-900 dark:text-blue-100">MetaTrader 5 Account</CardTitle>
-                <CardDescription className="text-blue-700 dark:text-blue-300 mt-1">Account ID: {accountInfo.id}</CardDescription>
+                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900 dark:text-blue-100">MetaTrader 5 Account</CardTitle>
+                <CardDescription className="text-sm sm:text-base text-blue-700 dark:text-blue-300 mt-1">Account ID: {accountInfo.id}</CardDescription>
               </div>
-              <Info className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <Info className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Account ID</p>
-                <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{accountInfo.id}</p>
+          <CardContent className="pt-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-lg shadow-sm">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Account ID</p>
+                <p className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 break-all">{accountInfo.id}</p>
               </div>
-              <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Investor Password</p>
-                <p className="text-lg font-semibold text-gray-900 dark:text-gray-100 font-mono">{accountInfo.password}</p>
+              <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-lg shadow-sm">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Investor Password</p>
+                <p className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 font-mono break-all">{accountInfo.password}</p>
               </div>
-              <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Server</p>
-                <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{accountInfo.server}</p>
+              <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-lg shadow-sm sm:col-span-2 lg:col-span-1">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Server</p>
+                <p className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 break-all">{accountInfo.server}</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Profit Price</CardTitle>
-              <DollarSign className="h-4 w-4 text-blue-600" />
+              <CardTitle className="text-xs sm:text-sm font-medium">Total Profit Price</CardTitle>
+              <DollarSign className="h-4 w-4 text-blue-600 flex-shrink-0" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600 break-words">
                 ${accountInfo.initialBalance.toLocaleString()} to ${accountInfo.finalBalance.toLocaleString()}
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
@@ -217,11 +287,11 @@ export default function Trade() {
 
           <Card className={`${stats.totalProfit >= 0 ? 'border-green-200 bg-green-50 dark:bg-green-950' : 'border-red-200 bg-red-50 dark:bg-red-950'}`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Profit/Loss</CardTitle>
-              <DollarSign className={`h-4 w-4 ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`} />
+              <CardTitle className="text-xs sm:text-sm font-medium">Total Profit/Loss</CardTitle>
+              <DollarSign className={`h-4 w-4 flex-shrink-0 ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`} />
             </CardHeader>
             <CardContent>
-              <div className={`text-2xl font-bold ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <div className={`text-lg sm:text-xl lg:text-2xl font-bold ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                 ${stats.totalProfit.toFixed(2)}
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
@@ -230,13 +300,13 @@ export default function Trade() {
             </CardContent>
           </Card>
 
-          <Card className="border-green-200 bg-green-50 dark:bg-green-950">
+          <Card className="border-green-200 bg-green-50 dark:bg-green-950 sm:col-span-2 lg:col-span-1">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Wins</CardTitle>
-              <TrendingUp className="h-4 w-4 text-green-600" />
+              <CardTitle className="text-xs sm:text-sm font-medium">Total Wins</CardTitle>
+              <TrendingUp className="h-4 w-4 text-green-600 flex-shrink-0" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">${stats.totalProfitFromWins.toFixed(2)}</div>
+              <div className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">${stats.totalProfitFromWins.toFixed(2)}</div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                 Avg: ${stats.avgProfit.toFixed(2)} per win
               </p>
@@ -244,52 +314,114 @@ export default function Trade() {
           </Card>
         </div>
 
-        {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Cumulative Profit Chart */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5" />
-                Cumulative Profit Over Time
-              </CardTitle>
-              <CardDescription>Track profit progression across all trades</CardDescription>
+        {/* Enhanced Charts Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          {/* Cumulative Profit Area Chart with Gradient */}
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-3 sm:pb-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-blue-600" />
+                  <CardTitle className="text-base sm:text-lg break-words">Cumulative Profit Curve</CardTitle>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => exportToCSV(cumulativeData, `cumulative-profit-${accountInfo.id}`)}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+              <CardDescription className="text-xs sm:text-sm">Visual progression of your trading journey</CardDescription>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={cumulativeData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="index" />
-                  <YAxis />
-                  <Tooltip 
-                    formatter={(value: any) => [`$${parseFloat(value).toFixed(2)}`, 'Cumulative']}
-                    labelFormatter={(label) => `Trade #${label}`}
-                  />
-                  <Line type="monotone" dataKey="cumulative" stroke="#3b82f6" strokeWidth={2} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
+            <CardContent className="pt-0">
+              <div className="w-full overflow-x-auto">
+                <ResponsiveContainer width="100%" height={280} minWidth={300}>
+                  <AreaChart data={cumulativeData}>
+                    <defs>
+                      <linearGradient id={`colorProfit${accountInfo.id}`} x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+                    <XAxis 
+                      dataKey="index" 
+                      tick={{ fontSize: 11, fill: '#6b7280' }} 
+                      label={{ value: 'Trade Number', position: 'insideBottom', offset: -5, fontSize: 11 }}
+                    />
+                    <YAxis 
+                      tick={{ fontSize: 11, fill: '#6b7280' }}
+                      label={{ value: 'Profit ($)', angle: -90, position: 'insideLeft', fontSize: 11 }}
+                    />
+                    <Tooltip content={<CustomTooltip type="currency" />} />
+                    <Area 
+                      type="monotone" 
+                      dataKey="cumulative" 
+                      stroke="#3b82f6" 
+                      strokeWidth={3}
+                      fill={`url(#colorProfit${accountInfo.id})`}
+                      name="Cumulative Profit"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Symbol Performance Chart */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5" />
-                Top Symbols Performance
-              </CardTitle>
-              <CardDescription>Profit by trading symbol (Top 10)</CardDescription>
+          {/* Symbol Performance Enhanced Bar Chart */}
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-3 sm:pb-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-purple-600" />
+                  <CardTitle className="text-base sm:text-lg break-words">Top Performing Symbols</CardTitle>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => exportToCSV(symbolPerformance, `symbol-performance-${accountInfo.id}`)}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+              <CardDescription className="text-xs sm:text-sm">Best and worst performing trading pairs</CardDescription>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={symbolPerformance}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="symbol" />
-                  <YAxis />
-                  <Tooltip formatter={(value: any) => `$${parseFloat(value).toFixed(2)}`} />
-                  <Bar dataKey="profit" fill="#10b981" />
-                </BarChart>
-              </ResponsiveContainer>
+            <CardContent className="pt-0">
+              <div className="w-full overflow-x-auto">
+                <ResponsiveContainer width="100%" height={280} minWidth={300}>
+                  <BarChart data={symbolPerformance} layout="horizontal">
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
+                    <XAxis 
+                      dataKey="symbol" 
+                      tick={{ fontSize: 11, fill: '#6b7280' }} 
+                      angle={-45} 
+                      textAnchor="end" 
+                      height={80}
+                    />
+                    <YAxis 
+                      tick={{ fontSize: 11, fill: '#6b7280' }}
+                      label={{ value: 'Profit ($)', angle: -90, position: 'insideLeft', fontSize: 11 }}
+                    />
+                    <Tooltip content={<CustomTooltip type="currency" />} />
+                    <Bar 
+                      dataKey="profit" 
+                      fill="#8b5cf6"
+                      radius={[8, 8, 0, 0]}
+                      name="Profit"
+                    >
+                      {symbolPerformance.map((entry, index) => (
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={entry.profit >= 0 ? '#10b981' : '#ef4444'} 
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -310,35 +442,50 @@ export default function Trade() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <a href="/" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-2 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 max-w-7xl">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center gap-2 sm:gap-4 mb-3 sm:mb-4">
+            <a href="/" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center gap-1 sm:gap-2 transition-colors text-sm sm:text-base">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
               </svg>
-              Back to Home
+              <span className="hidden xs:inline">Back to Home</span>
+              <span className="xs:hidden">Back</span>
             </a>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">Trading Dashboard</h1>
-          <p className="text-gray-600 dark:text-gray-400">Monitor and analyze your MetaTrader 5 trading performance</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-1 sm:mb-2">Trading Dashboard</h1>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Monitor and analyze your MetaTrader 5 trading performance</p>
         </div>
 
         <Tabs defaultValue={accountsInfo[0].id} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
-            {accountsInfo.map(account => {
-              const trades = tradesData[account.id] || [];
-              const stats = calculateStats(trades);
-              return (
-                <TabsTrigger key={account.id} value={account.id} className="flex flex-col items-center gap-1">
-                  <span className="font-semibold">Account {account.id}</span>
-                  <Badge variant={stats.totalProfit >= 0 ? "default" : "destructive"} className="text-xs">
-                    ${stats.totalProfit.toFixed(2)}
-                  </Badge>
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
+          {/* Mobile: Scrollable tabs, Desktop: Grid */}
+          <div className="mb-4 sm:mb-6">
+            <TabsList className="w-full grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-0 h-auto sm:h-10 bg-transparent sm:bg-muted p-0 sm:p-1">
+              {accountsInfo.map(account => {
+                const trades = tradesData[account.id] || [];
+                const stats = calculateStats(trades);
+                return (
+                  <TabsTrigger 
+                    key={account.id} 
+                    value={account.id} 
+                    className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-3 sm:py-1.5 px-3 sm:px-4 data-[state=active]:bg-background rounded-md w-full"
+                  >
+                    <span className="font-semibold text-sm sm:text-base whitespace-nowrap">
+                      <span className="hidden sm:inline">Account </span>
+                      <span className="sm:hidden">#</span>
+                      {account.id}
+                    </span>
+                    <Badge 
+                      variant={stats.totalProfit >= 0 ? "default" : "destructive"} 
+                      className="text-xs whitespace-nowrap"
+                    >
+                      ${stats.totalProfit.toFixed(2)}
+                    </Badge>
+                  </TabsTrigger>
+                );
+              })}
+            </TabsList>
+          </div>
 
           {accountsInfo.map(account => renderAccountCard(account))}
         </Tabs>
