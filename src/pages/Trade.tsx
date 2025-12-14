@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, AreaChart, Area, Cell } from 'recharts';
-import { TrendingUp, TrendingDown, Activity, DollarSign, BarChart3, Info, Download } from 'lucide-react';
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, AreaChart, Area, Cell } from 'recharts';
+import { TrendingUp, Activity, DollarSign, BarChart3, Info, Download } from 'lucide-react';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 
@@ -56,7 +57,7 @@ const accountsInfo: AccountInfo[] = [
   }
 ];
 
-const COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
+
 
 // Custom Tooltip Component
 const CustomTooltip = ({ active, payload, label, type }: any) => {
@@ -93,6 +94,7 @@ const exportToCSV = (data: any[], filename: string) => {
 };
 
 export default function Trade() {
+  const { t } = useTranslation();
   const [tradesData, setTradesData] = useState<{ [key: string]: Trade[] }>({});
   const [loading, setLoading] = useState(true);
 
@@ -102,7 +104,7 @@ export default function Trade() {
 
   const loadAllTradesData = async () => {
     const allData: { [key: string]: Trade[] } = {};
-    
+
     for (const account of accountsInfo) {
       try {
         const response = await fetch(`/data/${account.filename}`);
@@ -114,7 +116,7 @@ export default function Trade() {
         allData[account.id] = [];
       }
     }
-    
+
     setTradesData(allData);
     setLoading(false);
   };
@@ -122,7 +124,7 @@ export default function Trade() {
   const parseTSV = (text: string): Trade[] => {
     const lines = text.split('\n').filter(line => line.trim());
     const trades: Trade[] = [];
-    
+
     for (let i = 1; i < lines.length; i++) {
       const fields = lines[i].split('\t');
       if (fields.length >= 13) {
@@ -141,7 +143,7 @@ export default function Trade() {
         });
       }
     }
-    
+
     return trades;
   };
 
@@ -154,7 +156,7 @@ export default function Trade() {
     const winRate = trades.length > 0 ? (profitableTrades.length / trades.length) * 100 : 0;
     const avgProfit = profitableTrades.length > 0 ? totalProfitFromWins / profitableTrades.length : 0;
     const avgLoss = lossTrades.length > 0 ? totalLoss / lossTrades.length : 0;
-    
+
     return {
       totalProfit,
       totalProfitFromWins,
@@ -189,47 +191,13 @@ export default function Trade() {
       }
       symbolMap[trade.symbol] += trade.profit;
     });
-    
+
     return Object.entries(symbolMap)
       .map(([symbol, profit]) => ({ symbol, profit }))
       .sort((a, b) => b.profit - a.profit)
       .slice(0, 10);
   };
 
-  const getWinLossData = (trades: Trade[]) => {
-    const profitable = trades.filter(t => t.profit > 0).length;
-    const loss = trades.filter(t => t.profit < 0).length;
-    const breakeven = trades.filter(t => t.profit === 0).length;
-    
-    return [
-      { name: 'Winning Trades', value: profitable, color: '#10b981' },
-      { name: 'Losing Trades', value: loss, color: '#ef4444' },
-      ...(breakeven > 0 ? [{ name: 'Breakeven', value: breakeven, color: '#6b7280' }] : [])
-    ];
-  };
-
-  const getMonthlyPerformance = (trades: Trade[]) => {
-    const monthMap: { [key: string]: { profit: number, trades: number } } = {};
-    
-    trades.forEach(trade => {
-      const date = new Date(trade.time);
-      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      
-      if (!monthMap[monthKey]) {
-        monthMap[monthKey] = { profit: 0, trades: 0 };
-      }
-      monthMap[monthKey].profit += trade.profit;
-      monthMap[monthKey].trades += 1;
-    });
-    
-    return Object.entries(monthMap)
-      .map(([month, data]) => ({
-        month,
-        profit: data.profit,
-        trades: data.trades
-      }))
-      .sort((a, b) => a.month.localeCompare(b.month));
-  };
 
   const renderAccountCard = (accountInfo: AccountInfo) => {
     const trades = tradesData[accountInfo.id] || [];
@@ -244,8 +212,8 @@ export default function Trade() {
           <CardHeader className="pb-3 sm:pb-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
               <div>
-                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900 dark:text-blue-100">MetaTrader 5 Account</CardTitle>
-                <CardDescription className="text-sm sm:text-base text-blue-700 dark:text-blue-300 mt-1">Account ID: {accountInfo.id}</CardDescription>
+                <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-900 dark:text-blue-100">{t('metatrader_account')}</CardTitle>
+                <CardDescription className="text-sm sm:text-base text-blue-700 dark:text-blue-300 mt-1">{t('account_id')}: {accountInfo.id}</CardDescription>
               </div>
               <Info className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400" />
             </div>
@@ -253,15 +221,15 @@ export default function Trade() {
           <CardContent className="pt-0">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-lg shadow-sm">
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Account ID</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{t('account_id')}</p>
                 <p className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 break-all">{accountInfo.id}</p>
               </div>
               <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-lg shadow-sm">
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Investor Password</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{t('investor_password')}</p>
                 <p className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 font-mono break-all">{accountInfo.password}</p>
               </div>
               <div className="bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-lg shadow-sm sm:col-span-2 lg:col-span-1">
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Server</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{t('server')}</p>
                 <p className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 break-all">{accountInfo.server}</p>
               </div>
             </div>
@@ -272,7 +240,7 @@ export default function Trade() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs sm:text-sm font-medium">Total Profit Price</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium">{t('total_profit_price')}</CardTitle>
               <DollarSign className="h-4 w-4 text-blue-600 flex-shrink-0" />
             </CardHeader>
             <CardContent>
@@ -280,14 +248,14 @@ export default function Trade() {
                 ${accountInfo.initialBalance.toLocaleString()} to ${accountInfo.finalBalance.toLocaleString()}
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                Initial to Final Balance
+                {t('initial_to_final_balance')}
               </p>
             </CardContent>
           </Card>
 
           <Card className={`${stats.totalProfit >= 0 ? 'border-green-200 bg-green-50 dark:bg-green-950' : 'border-red-200 bg-red-50 dark:bg-red-950'}`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs sm:text-sm font-medium">Total Profit/Loss</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium">{t('total_profit_loss')}</CardTitle>
               <DollarSign className={`h-4 w-4 flex-shrink-0 ${stats.totalProfit >= 0 ? 'text-green-600' : 'text-red-600'}`} />
             </CardHeader>
             <CardContent>
@@ -295,20 +263,20 @@ export default function Trade() {
                 ${stats.totalProfit.toFixed(2)}
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                {stats.totalProfit >= 0 ? 'Profitable' : 'Loss'} overall
+                {stats.totalProfit >= 0 ? t('profitable_overall') : t('loss_overall')}
               </p>
             </CardContent>
           </Card>
 
           <Card className="border-green-200 bg-green-50 dark:bg-green-950 sm:col-span-2 lg:col-span-1">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs sm:text-sm font-medium">Total Wins</CardTitle>
+              <CardTitle className="text-xs sm:text-sm font-medium">{t('total_wins')}</CardTitle>
               <TrendingUp className="h-4 w-4 text-green-600 flex-shrink-0" />
             </CardHeader>
             <CardContent>
               <div className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">${stats.totalProfitFromWins.toFixed(2)}</div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                Avg: ${stats.avgProfit.toFixed(2)} per win
+                {t('avg_per_win', { amount: stats.avgProfit.toFixed(2) })}
               </p>
             </CardContent>
           </Card>
@@ -322,7 +290,7 @@ export default function Trade() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Activity className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-blue-600" />
-                  <CardTitle className="text-base sm:text-lg break-words">Cumulative Profit Curve</CardTitle>
+                  <CardTitle className="text-base sm:text-lg break-words">{t('cumulative_profit_curve')}</CardTitle>
                 </div>
                 <Button
                   variant="ghost"
@@ -333,7 +301,7 @@ export default function Trade() {
                   <Download className="h-4 w-4" />
                 </Button>
               </div>
-              <CardDescription className="text-xs sm:text-sm">Visual progression of your trading journey</CardDescription>
+              <CardDescription className="text-xs sm:text-sm">{t('cumulative_profit_desc')}</CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
               <div className="w-full overflow-x-auto">
@@ -341,25 +309,25 @@ export default function Trade() {
                   <AreaChart data={cumulativeData}>
                     <defs>
                       <linearGradient id={`colorProfit${accountInfo.id}`} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
+                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
-                    <XAxis 
-                      dataKey="index" 
-                      tick={{ fontSize: 11, fill: '#6b7280' }} 
-                      label={{ value: 'Trade Number', position: 'insideBottom', offset: -5, fontSize: 11 }}
-                    />
-                    <YAxis 
+                    <XAxis
+                      dataKey="index"
                       tick={{ fontSize: 11, fill: '#6b7280' }}
-                      label={{ value: 'Profit ($)', angle: -90, position: 'insideLeft', fontSize: 11 }}
+                      label={{ value: t('trade_number'), position: 'insideBottom', offset: -5, fontSize: 11 }}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 11, fill: '#6b7280' }}
+                      label={{ value: t('profit_label'), angle: -90, position: 'insideLeft', fontSize: 11 }}
                     />
                     <Tooltip content={<CustomTooltip type="currency" />} />
-                    <Area 
-                      type="monotone" 
-                      dataKey="cumulative" 
-                      stroke="#3b82f6" 
+                    <Area
+                      type="monotone"
+                      dataKey="cumulative"
+                      stroke="#3b82f6"
                       strokeWidth={3}
                       fill={`url(#colorProfit${accountInfo.id})`}
                       name="Cumulative Profit"
@@ -376,7 +344,7 @@ export default function Trade() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 text-purple-600" />
-                  <CardTitle className="text-base sm:text-lg break-words">Top Performing Symbols</CardTitle>
+                  <CardTitle className="text-base sm:text-lg break-words">{t('top_performing_symbols')}</CardTitle>
                 </div>
                 <Button
                   variant="ghost"
@@ -387,35 +355,35 @@ export default function Trade() {
                   <Download className="h-4 w-4" />
                 </Button>
               </div>
-              <CardDescription className="text-xs sm:text-sm">Best and worst performing trading pairs</CardDescription>
+              <CardDescription className="text-xs sm:text-sm">{t('top_symbols_desc')}</CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
               <div className="w-full overflow-x-auto">
                 <ResponsiveContainer width="100%" height={280} minWidth={300}>
                   <BarChart data={symbolPerformance} layout="horizontal">
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="dark:stroke-gray-700" />
-                    <XAxis 
-                      dataKey="symbol" 
-                      tick={{ fontSize: 11, fill: '#6b7280' }} 
-                      angle={-45} 
-                      textAnchor="end" 
+                    <XAxis
+                      dataKey="symbol"
+                      tick={{ fontSize: 11, fill: '#6b7280' }}
+                      angle={-45}
+                      textAnchor="end"
                       height={80}
                     />
-                    <YAxis 
+                    <YAxis
                       tick={{ fontSize: 11, fill: '#6b7280' }}
-                      label={{ value: 'Profit ($)', angle: -90, position: 'insideLeft', fontSize: 11 }}
+                      label={{ value: t('profit_label'), angle: -90, position: 'insideLeft', fontSize: 11 }}
                     />
                     <Tooltip content={<CustomTooltip type="currency" />} />
-                    <Bar 
-                      dataKey="profit" 
+                    <Bar
+                      dataKey="profit"
                       fill="#8b5cf6"
                       radius={[8, 8, 0, 0]}
                       name="Profit"
                     >
                       {symbolPerformance.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
-                          fill={entry.profit >= 0 ? '#10b981' : '#ef4444'} 
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={entry.profit >= 0 ? '#10b981' : '#ef4444'}
                         />
                       ))}
                     </Bar>
@@ -434,7 +402,7 @@ export default function Trade() {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading trading data...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">{t('loading_trading_data')}</p>
         </div>
       </div>
     );
@@ -449,12 +417,12 @@ export default function Trade() {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
               </svg>
-              <span className="hidden xs:inline">Back to Home</span>
-              <span className="xs:hidden">Back</span>
+              <span className="hidden xs:inline">{t('back_to_home')}</span>
+              <span className="xs:hidden">{t('back')}</span>
             </a>
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-1 sm:mb-2">Trading Dashboard</h1>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Monitor and analyze your MetaTrader 5 trading performance</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">{t('trade_dashboard_title')}</h1>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">{t('trade_dashboard_desc')}</p>
         </div>
 
         <Tabs defaultValue={accountsInfo[0].id} className="w-full">
@@ -465,9 +433,9 @@ export default function Trade() {
                 const trades = tradesData[account.id] || [];
                 const stats = calculateStats(trades);
                 return (
-                  <TabsTrigger 
-                    key={account.id} 
-                    value={account.id} 
+                  <TabsTrigger
+                    key={account.id}
+                    value={account.id}
                     className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-3 sm:py-1.5 px-3 sm:px-4 data-[state=active]:bg-background rounded-md w-full"
                   >
                     <span className="font-semibold text-sm sm:text-base whitespace-nowrap">
@@ -475,8 +443,8 @@ export default function Trade() {
                       <span className="sm:hidden">#</span>
                       {account.id}
                     </span>
-                    <Badge 
-                      variant={stats.totalProfit >= 0 ? "default" : "destructive"} 
+                    <Badge
+                      variant={stats.totalProfit >= 0 ? "default" : "destructive"}
                       className="text-xs whitespace-nowrap"
                     >
                       ${stats.totalProfit.toFixed(2)}

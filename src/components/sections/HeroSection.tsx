@@ -1,10 +1,9 @@
 "use client";
 
 import { Button } from "../ui/button";
-import { Mail, GraduationCap, ArrowDown, TrendingUp, BarChart3, PieChart, LineChart, Play, Star, Users, Award, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Target, Users, TrendingUp, Award, Zap, Globe, Shield, BookOpen, ArrowDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ScrollAnimated, StaggerContainer, FloatingElement, AnimatedSection } from "../AnimatedSection";
 import { useEffect, useState } from "react";
 import { AnimatedCounter } from "../AnimatedCounter";
 
@@ -13,7 +12,7 @@ export function HeroSection() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, -50]);
   const opacity = useTransform(scrollY, [0, 200], [1, 0]);
-  
+
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
@@ -37,10 +36,10 @@ export function HeroSection() {
   };
 
   const stats = [
-    { icon: Users, value: 1000, suffix: "+", label: "Active Students" },
-    { icon: Award, value: 95, suffix: "%", label: "Success Rate" },
-    { icon: Star, value: 5, suffix: "+", label: "Years Experience" },
-    { icon: CheckCircle2, value: 50, suffix: "+", label: "Courses Completed" },
+    { icon: Users, value: 1000, suffix: "+", labelKey: "active_students_label" },
+    { icon: Award, value: 95, suffix: "%", labelKey: "success_rate_label" },
+    { icon: Target, value: 5, suffix: "+", labelKey: "years_experience_label" }, // Changed from Star to Target
+    { icon: BookOpen, value: 50, suffix: "+", labelKey: "courses_completed_label" }, // Changed from CheckCircle2 to BookOpen
   ];
 
   return (
@@ -49,7 +48,7 @@ export function HeroSection() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/50 to-purple-50/30 dark:from-gray-900 dark:via-blue-900/20 dark:to-black pt-20"
     >
       {/* Simplified animated background */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 z-0"
         style={{ y: y1, opacity }}
       >
@@ -72,7 +71,7 @@ export function HeroSection() {
           }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
-        
+
         {/* Interactive gradient */}
         <motion.div
           className="absolute inset-0 opacity-30"
@@ -94,14 +93,14 @@ export function HeroSection() {
           animate={{ y: [0, 20, 0], rotate: [0, -10, 0] }}
           transition={{ duration: 6, repeat: Infinity }}
         >
-          <BarChart3 size={60} />
+          <Zap size={60} /> {/* Changed from BarChart3 to Zap */}
         </motion.div>
       </motion.div>
 
       {/* Main content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          
+
           {/* Left Column - Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -118,7 +117,7 @@ export function HeroSection() {
             >
               <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
-                #1 Trading Education Platform
+                {t('trading_platform_badge')}
               </span>
             </motion.div>
 
@@ -169,11 +168,11 @@ export function HeroSection() {
                   size="lg"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
-                  <Mail className="mr-2 h-5 w-5" />
+                  <ArrowRight className="mr-2 h-5 w-5" /> {/* Changed from Mail to ArrowRight */}
                   {t("get_in_touch")}
                 </Button>
               </motion.div>
-              
+
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   onClick={() => setIsVideoModalOpen(true)}
@@ -181,8 +180,8 @@ export function HeroSection() {
                   variant="outline"
                   className="border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 px-8 py-6 text-lg rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur"
                 >
-                  <Play className="mr-2 h-5 w-5" />
-                  Watch Demo
+                  <Globe className="mr-2 h-5 w-5" /> {/* Changed from Play to Globe */}
+                  {t('watch_demo')}
                 </Button>
               </motion.div>
             </motion.div>
@@ -195,16 +194,16 @@ export function HeroSection() {
               className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-gray-600 dark:text-gray-400"
             >
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-green-500" />
-                <span>No Credit Card Required</span>
+                <Shield className="w-5 h-5 text-green-500" /> {/* Changed from CheckCircle2 to Shield */}
+                <span>{t('no_credit_card')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-green-500" />
-                <span>Free Trial Available</span>
+                <Shield className="w-5 h-5 text-green-500" /> {/* Changed from CheckCircle2 to Shield */}
+                <span>{t('free_trial')}</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-green-500" />
-                <span>Cancel Anytime</span>
+                <Shield className="w-5 h-5 text-green-500" /> {/* Changed from CheckCircle2 to Shield */}
+                <span>{t('cancel_anytime')}</span>
               </div>
             </motion.div>
           </motion.div>
@@ -235,7 +234,7 @@ export function HeroSection() {
                       <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      {stat.label}
+                      {t(stat.labelKey)}
                     </div>
                   </div>
                 </motion.div>
@@ -310,7 +309,7 @@ export function HeroSection() {
             transition={{ duration: 2, repeat: Infinity }}
             className="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >
-            <span className="text-sm font-medium">Scroll to explore</span>
+            <span className="text-sm font-medium">{t('scroll_to_explore')}</span>
             <ArrowDown className="w-5 h-5" />
           </motion.button>
         </motion.div>

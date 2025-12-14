@@ -1,8 +1,7 @@
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import { Check, ArrowRight, Sparkles, Target, Users, TrendingUp, Award, Zap, Globe, Shield, BookOpen } from "lucide-react";
+import { ArrowRight, Sparkles, Target, Users, TrendingUp, Award, Zap, Globe, Shield, BookOpen } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { ScrollAnimated } from "../../hooks/use-scroll-animation";
 import { motion } from "framer-motion";
 
 const projectFeatures = [
@@ -14,7 +13,7 @@ const projectFeatures = [
     bgColor: "bg-blue-50 dark:bg-blue-900/20"
   },
   {
-    titleKey: "community_platform", 
+    titleKey: "community_platform",
     descriptionKey: "community_platform_desc",
     icon: Users,
     color: "from-purple-500 to-pink-600",
@@ -30,29 +29,29 @@ const projectFeatures = [
 ];
 
 const statistics = [
-  { 
-    value: "500+", 
+  {
+    value: "500+",
     labelKey: "students_trained",
     icon: Users,
     color: "from-blue-500 to-indigo-600",
     bgColor: "bg-blue-50 dark:bg-blue-900/20"
   },
-  { 
-    value: "85%", 
+  {
+    value: "85%",
     labelKey: "success_rate",
     icon: Target,
     color: "from-green-500 to-emerald-600",
     bgColor: "bg-green-50 dark:bg-green-900/20"
   },
-  { 
-    value: "50+", 
+  {
+    value: "50+",
     labelKey: "countries_reached",
     icon: Globe,
     color: "from-purple-500 to-pink-600",
     bgColor: "bg-purple-50 dark:bg-purple-900/20"
   },
-  { 
-    value: "24/7", 
+  {
+    value: "24/7",
     labelKey: "support_available",
     icon: Shield,
     color: "from-orange-500 to-red-600",
@@ -111,7 +110,7 @@ export function ProjectsSection() {
         >
           <div className="inline-flex items-center justify-center px-4 py-2 mb-4 sm:mb-6 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 border border-indigo-200 dark:border-indigo-800">
             <Sparkles className="w-4 h-4 mr-2 text-indigo-600 dark:text-indigo-400" />
-            <span className="text-sm font-medium text-indigo-600 dark:text-indigo-400">Portfolio & Achievements</span>
+            <span className="text-sm font-medium text-indigo-600 dark:text-indigo-400">{t('portfolio_achievements')}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
             {t("my_work_projects")}
@@ -120,7 +119,7 @@ export function ProjectsSection() {
             {t("discover_initiatives")}
           </p>
         </motion.div>
-        
+
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-start mb-12 sm:mb-16 lg:mb-20">
           {/* Left Column - Content */}
@@ -134,7 +133,7 @@ export function ProjectsSection() {
             <div>
               <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30">
                 <Award className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
-                <span className="text-xs sm:text-sm font-semibold text-yellow-600 dark:text-yellow-400">Featured Project</span>
+                <span className="text-xs sm:text-sm font-semibold text-yellow-600 dark:text-yellow-400">{t('featured_project')}</span>
               </div>
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                 {t("kj_project_title")}
@@ -143,9 +142,9 @@ export function ProjectsSection() {
                 {t("kj_project_description")}
               </p>
             </div>
-            
+
             {/* Features Cards */}
-            <motion.div 
+            <motion.div
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
@@ -182,7 +181,7 @@ export function ProjectsSection() {
                 );
               })}
             </motion.div>
-            
+
             {/* CTA Button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -190,7 +189,7 @@ export function ProjectsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <Button 
+              <Button
                 onClick={handleScrollToContact}
                 className="group w-full sm:w-auto bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl rounded-xl"
               >
@@ -199,7 +198,7 @@ export function ProjectsSection() {
               </Button>
             </motion.div>
           </motion.div>
-          
+
           {/* Right Column - Image */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
@@ -211,13 +210,13 @@ export function ProjectsSection() {
             <div className="relative group">
               {/* Glowing effect */}
               <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl group-hover:blur-3xl opacity-60 group-hover:opacity-100 transition-all duration-500"></div>
-              
+
               {/* Main image card */}
               <Card className="relative overflow-hidden border-0 shadow-2xl">
                 <div className="aspect-[4/3] sm:aspect-square lg:aspect-[4/5] overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                    alt={t("financial_success_img_alt")} 
+                  <img
+                    src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt={t("financial_success_img_alt")}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
@@ -225,14 +224,14 @@ export function ProjectsSection() {
                   {/* Overlay gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                 </div>
-                
+
                 {/* Floating badge */}
                 <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
                   <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-xl border border-white/20">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-1">Trusted by</p>
-                        <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white">1000+ Traders</p>
+                        <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white">{t('students_1000_plus')}</p>
                       </div>
                       <div className="flex -space-x-2">
                         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 border-2 border-white dark:border-gray-900"></div>
@@ -246,7 +245,7 @@ export function ProjectsSection() {
             </div>
           </motion.div>
         </div>
-        
+
         {/* Enhanced Project Statistics */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -258,18 +257,18 @@ export function ProjectsSection() {
             <div className="relative p-6 sm:p-8 lg:p-12">
               {/* Decorative elements */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
-              
+
               <div className="relative">
                 <div className="text-center mb-8 sm:mb-12">
                   <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30">
                     <Zap className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                    <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400">Impact Metrics</span>
+                    <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400">{t('impact_metrics')}</span>
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                     {t("project_impact")}
                   </h3>
                 </div>
-                
+
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                   {statistics.map((stat, index) => {
                     const IconComponent = stat.icon;
