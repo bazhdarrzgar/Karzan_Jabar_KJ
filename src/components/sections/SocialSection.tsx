@@ -157,8 +157,8 @@ export function SocialSection() {
         {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
@@ -178,8 +178,8 @@ export function SocialSection() {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate="visible"
+
           className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-4 mb-12 sm:mb-16"
         >
           {socialPlatforms.map((platform) => (
@@ -236,8 +236,8 @@ export function SocialSection() {
         {/* Recent Content Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
+
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <Card className="overflow-hidden border-2 border-gray-200 dark:border-gray-700 shadow-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm">
@@ -255,8 +255,8 @@ export function SocialSection() {
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, y: 0 }}
+
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     whileHover={{ y: -5 }}
                   >

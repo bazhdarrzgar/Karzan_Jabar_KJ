@@ -24,21 +24,8 @@ export function AnimatedCounter({
   const counterRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (counterRef.current) {
-      observer.observe(counterRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [isVisible]);
+    setIsVisible(true);
+  }, []);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -47,13 +34,13 @@ export function AnimatedCounter({
     const animateCount = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      
+
       const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
       const easedProgress = easeOutCubic(progress);
-      
+
       const currentCount = start + (end - start) * easedProgress;
       setCount(currentCount);
-      
+
       if (progress < 1) {
         requestAnimationFrame(animateCount);
       }
@@ -67,7 +54,7 @@ export function AnimatedCounter({
   };
 
   return (
-    <span 
+    <span
       ref={counterRef}
       className={`${className} ${isVisible ? 'animate-counter-up' : 'opacity-0'}`}
     >

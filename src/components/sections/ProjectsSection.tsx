@@ -109,8 +109,8 @@ export function ProjectsSection() {
           {/* Header Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
+
             transition={{ duration: 0.6 }}
             className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
@@ -131,8 +131,8 @@ export function ProjectsSection() {
             {/* Left Column - Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, x: 0 }}
+
               transition={{ duration: 0.6 }}
               className="space-y-6 sm:space-y-8"
             >
@@ -153,8 +153,8 @@ export function ProjectsSection() {
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
+                animate="visible"
+
                 className="space-y-4"
               >
                 {projectFeatures.map((feature, index) => {
@@ -191,8 +191,8 @@ export function ProjectsSection() {
               {/* CTA Button */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <Button
@@ -208,8 +208,8 @@ export function ProjectsSection() {
             {/* Right Column - Image */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, x: 0 }}
+
               transition={{ duration: 0.6 }}
               className="relative order-first lg:order-last"
             >
@@ -229,7 +229,7 @@ export function ProjectsSection() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
                       <motion.div
                         initial={{ opacity: 0, scale: 0.5 }}
-                        whileHover={{ opacity: 1, scale: 1 }}
+                        animate={{ opacity: 1, scale: 1 }}
                         className="bg-white/20 backdrop-blur-md p-4 rounded-full border border-white/30"
                       >
                         <Maximize2 className="text-white w-8 h-8" />
@@ -277,8 +277,8 @@ export function ProjectsSection() {
           {/* Enhanced Project Statistics */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
+
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <Card className="overflow-hidden border-0 shadow-2xl bg-gradient-to-br from-white via-gray-50 to-indigo-50 dark:from-gray-800 dark:via-gray-900 dark:to-indigo-950">
@@ -304,8 +304,8 @@ export function ProjectsSection() {
                         <motion.div
                           key={index}
                           initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
+                          animate={{ opacity: 1, scale: 1 }}
+
                           transition={{ duration: 0.5, delay: index * 0.1 }}
                           whileHover={{ scale: 1.05, y: -5 }}
                           className="group"

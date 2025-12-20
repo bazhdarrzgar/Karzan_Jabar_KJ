@@ -68,9 +68,9 @@ export function AboutSection() {
             <motion.div
               className="inline-block mb-4 sm:mb-6"
               initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6 }}
-              viewport={{ once: true, margin: "-100px" }}
+
             >
               <div className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-gradient-to-r from-primary/10 via-purple-500/10 to-blue-500/10 dark:from-primary/20 dark:via-purple-500/20 dark:to-blue-500/20 border border-primary/20 dark:border-primary/30 backdrop-blur-sm">
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-gold animate-pulse" />
@@ -82,18 +82,18 @@ export function AboutSection() {
             <motion.h2
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-4 sm:mb-6 md:mb-8 px-4"
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-100px" }}
+
             >
               <span className="gradient-text leading-tight block">{t("about_title")}</span>
             </motion.h2>
             <motion.p
               className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed px-4"
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              viewport={{ once: true, margin: "-100px" }}
+
             >
               {t("about_paragraph")}
             </motion.p>
@@ -115,7 +115,7 @@ export function AboutSection() {
                     alt={t("about_img_alt")}
                     className="rounded-2xl sm:rounded-3xl shadow-2xl w-full h-auto aspect-[4/5] object-cover"
                     initial={{ opacity: 0, scale: 0.8, rotateY: -10 }}
-                    whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                     transition={{ duration: 1, ease: "backOut" }}
                     viewport={{ once: true }}
                     whileHover={{
@@ -156,7 +156,7 @@ export function AboutSection() {
                   <motion.div
                     className="absolute top-4 right-4 sm:top-6 sm:right-6 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-xl border border-white/20"
                     initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
                     transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.1, rotate: 5 }}
@@ -174,7 +174,7 @@ export function AboutSection() {
                   <motion.div
                     className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-xl border border-white/20"
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7, duration: 0.6 }}
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.05, y: -5 }}

@@ -60,7 +60,7 @@ export function LazyImage({
                 )}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isLoaded ? 1 : 0 }}
-                loading="lazy"
+                loading="eager"
                 decoding="async"
                 {...props}
             />

@@ -12,11 +12,11 @@ export interface ScrollAnimationConfig {
 // Predefined animation variants
 export const scrollAnimations = {
   fadeIn: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: 50
     },
-    visible: { 
+    visible: {
       opacity: 1,
       y: 0,
       transition: {
@@ -26,11 +26,11 @@ export const scrollAnimations = {
     }
   },
   fadeInUp: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: 60
     },
-    visible: { 
+    visible: {
       opacity: 1,
       y: 0,
       transition: {
@@ -40,11 +40,11 @@ export const scrollAnimations = {
     }
   },
   fadeInDown: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: -60
     },
-    visible: { 
+    visible: {
       opacity: 1,
       y: 0,
       transition: {
@@ -54,11 +54,11 @@ export const scrollAnimations = {
     }
   },
   fadeInLeft: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       x: -80
     },
-    visible: { 
+    visible: {
       opacity: 1,
       x: 0,
       transition: {
@@ -68,11 +68,11 @@ export const scrollAnimations = {
     }
   },
   fadeInRight: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       x: 80
     },
-    visible: { 
+    visible: {
       opacity: 1,
       x: 0,
       transition: {
@@ -82,11 +82,11 @@ export const scrollAnimations = {
     }
   },
   scaleIn: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       scale: 0.8
     },
-    visible: { 
+    visible: {
       opacity: 1,
       scale: 1,
       transition: {
@@ -96,11 +96,11 @@ export const scrollAnimations = {
     }
   },
   zoomIn: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       scale: 0.5
     },
-    visible: { 
+    visible: {
       opacity: 1,
       scale: 1,
       transition: {
@@ -110,12 +110,12 @@ export const scrollAnimations = {
     }
   },
   rotateIn: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       rotate: -180,
       scale: 0.5
     },
-    visible: { 
+    visible: {
       opacity: 1,
       rotate: 0,
       scale: 1,
@@ -126,11 +126,11 @@ export const scrollAnimations = {
     }
   },
   slideInLeft: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       x: -100
     },
-    visible: { 
+    visible: {
       opacity: 1,
       x: 0,
       transition: {
@@ -140,11 +140,11 @@ export const scrollAnimations = {
     }
   },
   slideInRight: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       x: 100
     },
-    visible: { 
+    visible: {
       opacity: 1,
       x: 0,
       transition: {
@@ -154,11 +154,11 @@ export const scrollAnimations = {
     }
   },
   bounceIn: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       scale: 0.3
     },
-    visible: { 
+    visible: {
       opacity: 1,
       scale: 1,
       transition: {
@@ -170,11 +170,11 @@ export const scrollAnimations = {
     }
   },
   flipIn: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       rotateX: -90
     },
-    visible: { 
+    visible: {
       opacity: 1,
       rotateX: 0,
       transition: {
@@ -194,11 +194,11 @@ export const scrollAnimations = {
     }
   },
   staggerItem: {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: 30
     },
-    visible: { 
+    visible: {
       opacity: 1,
       y: 0,
       transition: {
@@ -224,20 +224,16 @@ export function useScrollAnimation(
   const controls = useAnimation();
 
   useEffect(() => {
-    if (isInView) {
-      const delay = config.delay || 0;
-      setTimeout(() => {
-        controls.start('visible');
-      }, delay);
-    } else if (!config.triggerOnce) {
-      controls.start('hidden');
-    }
-  }, [isInView, controls, config.delay, config.triggerOnce]);
+    const delay = config.delay || 0;
+    setTimeout(() => {
+      controls.start('visible');
+    }, delay);
+  }, [controls, config.delay]);
 
   return {
     ref,
     animate: controls,
-    initial: 'hidden',
+    initial: 'visible',
     variants: scrollAnimations[animationType],
     isInView
   };
@@ -256,8 +252,8 @@ interface ScrollAnimatedProps {
   customVariants?: Variants;
 }
 
-export function ScrollAnimated({ 
-  children, 
+export function ScrollAnimated({
+  children,
   animation = 'fadeInUp',
   delay = 0,
   duration = 0.6,
@@ -268,23 +264,6 @@ export function ScrollAnimated({
   customVariants
 }: ScrollAnimatedProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, {
-    amount,
-    once: triggerOnce,
-    margin: margin as any
-  });
-
-  const controls = useAnimation();
-
-  useEffect(() => {
-    if (isInView) {
-      setTimeout(() => {
-        controls.start('visible');
-      }, delay);
-    } else if (!triggerOnce) {
-      controls.start('hidden');
-    }
-  }, [isInView, controls, delay, triggerOnce]);
 
   const variants = customVariants || {
     ...scrollAnimations[animation],
@@ -292,7 +271,8 @@ export function ScrollAnimated({
       ...scrollAnimations[animation].visible,
       transition: {
         ...scrollAnimations[animation].visible.transition,
-        duration
+        duration,
+        delay
       }
     }
   };
@@ -300,8 +280,8 @@ export function ScrollAnimated({
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={controls}
+      initial="visible"
+      animate="visible"
       variants={variants}
       className={className}
     >
@@ -318,14 +298,13 @@ interface StaggerAnimationProps {
   itemAnimation?: keyof typeof scrollAnimations;
 }
 
-export function StaggerAnimation({ 
-  children, 
+export function StaggerAnimation({
+  children,
   className = '',
   staggerDelay = 0.1,
   itemAnimation = 'fadeInUp'
 }: StaggerAnimationProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { amount: 0.1, once: true });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -344,8 +323,8 @@ export function StaggerAnimation({
     <motion.div
       ref={ref}
       variants={containerVariants}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      initial="visible"
+      animate="visible"
       className={className}
     >
       {children.map((child, index) => (
@@ -375,12 +354,12 @@ export function useParallaxScroll(speed: number = 0.5) {
 
 // Enhanced reveal animation for text
 export const textRevealVariants = {
-  hidden: { 
+  hidden: {
     opacity: 0,
     y: 50,
     skewY: 10
   },
-  visible: { 
+  visible: {
     opacity: 1,
     y: 0,
     skewY: 0,
@@ -398,21 +377,8 @@ export function useCountUp(end: number, duration: number = 2000, start: number =
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, [isVisible]);
+    setIsVisible(true);
+  }, []);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -421,13 +387,13 @@ export function useCountUp(end: number, duration: number = 2000, start: number =
     const animateCount = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      
+
       const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
       const easedProgress = easeOutCubic(progress);
-      
+
       const currentCount = start + (end - start) * easedProgress;
       setCount(currentCount);
-      
+
       if (progress < 1) {
         requestAnimationFrame(animateCount);
       }

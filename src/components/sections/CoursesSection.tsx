@@ -145,9 +145,9 @@ export function CoursesSection() {
         <ScrollAnimated animation="fadeIn" className="text-center mb-12 sm:mb-16 md:mb-20">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+
             className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-gradient-to-r from-green-500/20 via-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-full backdrop-blur-sm"
           >
             <Sparkles className="w-4 h-4 text-blue-500" />
@@ -160,9 +160,9 @@ export function CoursesSection() {
           <motion.h2
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-4 sm:mb-6 md:mb-8 px-4"
             initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "backOut" }}
-            viewport={{ once: true }}
+
           >
             <span className="bg-gradient-to-r from-gray-900 via-blue-900 to-blue-900 dark:from-white dark:via-blue-200 dark:to-blue-300 bg-clip-text text-transparent">
               {t("trading_courses")}
@@ -172,9 +172,9 @@ export function CoursesSection() {
           <motion.p
             className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed px-4"
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
+
           >
             {t("courses_intro")}
           </motion.p>
@@ -504,7 +504,7 @@ export function CoursesSection() {
                 <div className="text-center mb-8 sm:mb-12 md:mb-16">
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                     viewport={{ once: true }}
                     className="inline-flex items-center gap-2 px-4 py-2 mb-4 bg-gradient-to-r from-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-full backdrop-blur-sm"
@@ -615,7 +615,7 @@ export function CoursesSection() {
                         <motion.div
                           className="mt-3 sm:mt-4 flex items-center gap-2 text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-medium"
                           initial={{ opacity: 0 }}
-                          whileInView={{ opacity: 1 }}
+                          animate={{ opacity: 1 }}
                           transition={{ delay: 0.3 }}
                         >
                           <Check className="w-3 h-3 sm:w-4 sm:h-4" />
