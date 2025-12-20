@@ -63,24 +63,24 @@ const courses = [
 
 const testimonials = [
   {
-    name: "Sara Ahmed",
+    name: "Chnwr Karwan",
     roleKey: "intermediate_graduate",
     image: "https://i.pravatar.cc/100?img=5",
-    quoteKey: "testimonial_sarah",
+    quoteKey: "testimonial_zagros",
     rating: 5
   },
   {
-    name: "Karwan Ali",
+    name: "Raman Sangawy",
     roleKey: "advanced_graduate",
-    image: "https://i.pravatar.cc/100?img=11",
-    quoteKey: "testimonial_michael",
+    image: "/images/profile2.png",
+    quoteKey: "testimonial_raman",
     rating: 5
   },
   {
-    name: "Lanya Othman",
+    name: "Aster Dllshad",
     roleKey: "beginner_graduate",
     image: "https://i.pravatar.cc/100?img=9",
-    quoteKey: "testimonial_emily",
+    quoteKey: "testimonial_xkj",
     rating: 5
   }
 ];
