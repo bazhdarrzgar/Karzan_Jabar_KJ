@@ -15,6 +15,12 @@ export function HeroSection() {
 
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
+
+  const handleVideoOpen = () => {
+    setIsVideoModalOpen(true);
+    setIsVideoLoading(true);
+  };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -36,16 +42,16 @@ export function HeroSection() {
   };
 
   const stats = [
-    { icon: Users, value: 1000, suffix: "+", labelKey: "active_students_label" },
-    { icon: Award, value: 95, suffix: "%", labelKey: "success_rate_label" },
-    { icon: Target, value: 5, suffix: "+", labelKey: "years_experience_label" }, // Changed from Star to Target
-    { icon: BookOpen, value: 50, suffix: "+", labelKey: "courses_completed_label" }, // Changed from CheckCircle2 to BookOpen
+    { icon: Users, value: 2000, suffix: "+", labelKey: "active_students_label" },
+    { icon: Award, value: 90, suffix: "%", labelKey: "success_rate_label" },
+    { icon: Target, value: 8, suffix: "+", labelKey: "years_experience_label" }, // Changed from Star to Target
+    { icon: BookOpen, value: 7000, suffix: "+", labelKey: "courses_completed_label" }, // Changed from CheckCircle2 to BookOpen
   ];
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/50 to-purple-50/30 dark:from-gray-900 dark:via-blue-900/20 dark:to-black pt-20"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent pt-20"
     >
       {/* Simplified animated background */}
       <motion.div
@@ -175,7 +181,7 @@ export function HeroSection() {
 
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
-                  onClick={() => setIsVideoModalOpen(true)}
+                  onClick={handleVideoOpen}
                   size="lg"
                   variant="outline"
                   className="border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400 px-8 py-6 text-lg rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur"
@@ -265,11 +271,11 @@ export function HeroSection() {
           className="flex justify-center items-center gap-4 mt-12"
         >
           {[
-            { icon: "fab fa-youtube", href: "#", color: "#FF0000" },
-            { icon: "fab fa-instagram", href: "#", color: "#E4405F" },
-            { icon: "fab fa-telegram", href: "#", color: "#0088cc" },
-            { icon: "fab fa-facebook", href: "#", color: "#1877F2" },
-            { icon: "fab fa-linkedin", href: "#", color: "#0A66C2" }
+            { icon: "fab fa-youtube", href: "https://www.youtube.com/@kjkarzan", color: "#FF0000" },
+            { icon: "fab fa-instagram", href: "https://www.instagram.com/kjkarzan/", color: "#E4405F" },
+            { icon: "fab fa-telegram", href: "https://t.me/KarzanJabar", color: "#0088cc" },
+            { icon: "fab fa-facebook", href: "https://www.facebook.com/kjkarzan", color: "#1877F2" },
+            { icon: "fab fa-linkedin", href: "https://www.linkedin.com/in/kjkarzan/", color: "#0A66C2" }
           ].map((social, index) => (
             <motion.a
               key={index}
@@ -322,31 +328,47 @@ export function HeroSection() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsVideoModalOpen(false)}
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-gray-900 rounded-2xl overflow-hidden max-w-5xl w-full shadow-2xl"
+            className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden max-w-5xl w-full shadow-2xl border border-white/10 relative"
           >
-            <div className="aspect-video bg-black">
+            <div className="aspect-video bg-black relative">
+              {isVideoLoading && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-900">
+                  <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mb-4"></div>
+                  <p className="text-white/70 text-sm font-medium animate-pulse">Loading Experience...</p>
+                </div>
+              )}
               <iframe
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/sqOZPnUwSNE?start=3&autoplay=1"
+                src="https://www.youtube-nocookie.com/embed/sqOZPnUwSNE?start=3&autoplay=1&rel=0&modestbranding=1&origin=http://localhost:5173"
                 title="KJ Trading Demo Video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="w-full h-full"
+                onLoad={() => setIsVideoLoading(false)}
+                className={`w-full h-full transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
               />
             </div>
-            <div className="p-4 flex justify-between items-center bg-gray-900">
-              <p className="text-white/80 text-sm">KJ Financial Expert - Demo Video</p>
-              <Button onClick={() => setIsVideoModalOpen(false)} variant="outline" className="text-white border-white/20 hover:bg-white/10">
-                Close
+            <div className="p-4 sm:p-6 flex justify-between items-center bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-blue-500" />
+                </div>
+                <p className="text-gray-900 dark:text-white font-bold">KJ Financial Expert - Demo Video</p>
+              </div>
+              <Button
+                onClick={() => setIsVideoModalOpen(false)}
+                variant="outline"
+                className="hover:bg-gray-100 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white px-6 rounded-xl"
+              >
+                {t('close') || 'Close'}
               </Button>
             </div>
           </motion.div>

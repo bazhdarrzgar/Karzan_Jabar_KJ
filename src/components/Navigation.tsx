@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Menu, X, Sparkles, Zap, Star, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
@@ -20,7 +20,7 @@ const navItems = [
 ];
 
 const Navigation = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -29,13 +29,13 @@ const Navigation = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      
+
       // Update active section based on scroll position
       const sections = navItems.map(item => document.querySelector(item.href)).filter(Boolean);
       const scrollPosition = window.scrollY + 100;
-      
+
       for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
+        const section = sections[i] as HTMLElement;
         if (section && section.offsetTop <= scrollPosition) {
           setActiveSection(navItems[i].key);
           break;
@@ -49,27 +49,53 @@ const Navigation = () => {
     };
   }, []);
 
-  const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+  // Handle hash on initial load
+  useEffect(() => {
+    if (window.location.hash && location === "/") {
+      const hash = window.location.hash;
+      setTimeout(() => {
+        scrollToSection(hash);
+      }, 500);
     }
+  }, [location]);
+
+  const scrollToSection = (href: string) => {
     setIsOpen(false);
+
+    // If we are not on the home page, navigate to home with hash
+    const langPrefix = `/${i18n.language}`;
+    if (location !== langPrefix) {
+      window.location.href = langPrefix + href;
+      return;
+    }
+
+    // Small delay to allow the menu to start closing
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        const offset = 80; // Height of the fixed header
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }, 100);
   };
 
   return (
     <>
       <ScrollProgressBar />
-      
+
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-          scrolled
-            ? "nav-light backdrop-blur-xl bg-white/90 dark:bg-black/30 shadow-2xl border-b border-primary/20 dark:border-gold/30"
-            : "bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled
+          ? "nav-light backdrop-blur-xl bg-white/90 dark:bg-black/30 shadow-2xl border-b border-primary/20 dark:border-gold/30"
+          : "bg-transparent"
+          }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -84,22 +110,21 @@ const Navigation = () => {
                   e.preventDefault();
                   scrollToSection("#home");
                 }}
-                className="group relative text-4xl font-bold font-heading"
+                className="group relative"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <motion.span 
-                  className="gradient-text group-hover:scale-110 transition-all duration-300 inline-block relative z-10"
-                  whileHover={{ 
+                <motion.img
+                  src="/images/KJM_logo.jpg"
+                  alt="KJ Company Logo"
+                  className="h-12 w-auto rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:shadow-primary/20"
+                  whileHover={{
                     scale: 1.1,
-                    rotate: [0, -5, 5, 0],
-                    textShadow: "0 0 20px rgba(48, 79, 255, 0.8)"
+                    rotate: [0, -2, 2, 0]
                   }}
                   transition={{ duration: 0.3 }}
-                >
-                  KJ
-                </motion.span>
-                
+                />
+
                 <motion.div
                   className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-lg opacity-0 group-hover:opacity-100"
                   animate={{ rotate: 360 }}
@@ -125,17 +150,17 @@ const Navigation = () => {
                         >
                           {item.icon}
                         </motion.span>
-                        
+
                         <span className="relative z-10">
                           {t(item.key.charAt(0).toUpperCase() + item.key.slice(1))}
                         </span>
-                        
+
                         {!isActive && (
-                          <motion.div 
+                          <motion.div
                             className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/20 to-primary/10 rounded-xl scale-0 group-hover:scale-100 transition-transform duration-300"
                           />
                         )}
-                        
+
                         <AnimatePresence>
                           {isActive && (
                             <motion.div
@@ -155,12 +180,11 @@ const Navigation = () => {
                         {item.isRoute ? (
                           <Link href={item.href}>
                             <motion.a
-                              className={`group relative flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${
-                                isActive
-                                  ? "text-white bg-primary shadow-lg"
-                                  : "text-slate-700 dark:text-foreground/80 hover:text-slate-900 dark:hover:text-white"
-                              }`}
-                              whileHover={{ 
+                              className={`group relative flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${isActive
+                                ? "text-white bg-primary shadow-lg"
+                                : "text-slate-700 dark:text-foreground/80 hover:text-slate-900 dark:hover:text-white"
+                                }`}
+                              whileHover={{
                                 scale: 1.05,
                                 y: -2
                               }}
@@ -179,12 +203,11 @@ const Navigation = () => {
                               e.preventDefault();
                               scrollToSection(item.href);
                             }}
-                            className={`group relative flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
-                              isActive
-                                ? "text-white bg-primary shadow-lg"
-                                : "text-slate-700 dark:text-foreground/80 hover:text-slate-900 dark:hover:text-white"
-                            }`}
-                            whileHover={{ 
+                            className={`group relative flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${isActive
+                              ? "text-white bg-primary shadow-lg"
+                              : "text-slate-700 dark:text-foreground/80 hover:text-slate-900 dark:hover:text-white"
+                              }`}
+                            whileHover={{
                               scale: 1.05,
                               y: -2
                             }}
@@ -205,9 +228,9 @@ const Navigation = () => {
 
             {/* Desktop Language & Theme Toggles */}
             <div className="hidden lg:block">
-              <motion.div 
+              <motion.div
                 className="flex items-center space-x-2 p-2 rounded-lg backdrop-blur-md bg-gradient-to-r from-white/20 via-white/30 to-white/20 dark:from-white/5 dark:via-white/10 dark:to-white/5 border border-white/30 dark:border-white/20 shadow-md relative overflow-hidden group"
-                whileHover={{ 
+                whileHover={{
                   scale: 1.02,
                   backgroundColor: "rgba(255, 255, 255, 0.25)",
                   borderColor: "rgba(48, 79, 255, 0.4)"
@@ -222,7 +245,7 @@ const Navigation = () => {
                   animate={{ x: ["-100%", "100%"] }}
                   transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 />
-                
+
                 <motion.div
                   className="relative z-10"
                   whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
@@ -231,16 +254,16 @@ const Navigation = () => {
                 >
                   <LanguageToggle instanceId="navigation" />
                 </motion.div>
-                
-                <motion.div 
+
+                <motion.div
                   className="relative z-10 w-px h-6 bg-gradient-to-b from-transparent via-primary/60 to-transparent"
-                  animate={{ 
+                  animate={{
                     opacity: [0.3, 1, 0.3],
                     scaleY: [0.6, 1.4, 0.6]
                   }}
                   transition={{ duration: 2.5, repeat: Infinity }}
                 />
-                
+
                 <motion.div
                   className="relative z-10"
                   whileHover={{ scale: 1.1, rotate: [0, 5, -5, 0] }}
@@ -294,7 +317,7 @@ const Navigation = () => {
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                <motion.div 
+                <motion.div
                   className="backdrop-blur-xl bg-white/95 dark:bg-black/90 border-b border-primary/20 dark:border-gold/30 shadow-2xl"
                   initial={{ y: -20 }}
                   animate={{ y: 0 }}
@@ -314,9 +337,9 @@ const Navigation = () => {
                           >
                             {item.icon}
                           </motion.span>
-                          
+
                           {t(item.key.charAt(0).toUpperCase() + item.key.slice(1))}
-                          
+
                           <AnimatePresence>
                             {isActive && (
                               <motion.div
@@ -334,11 +357,10 @@ const Navigation = () => {
                         <Link key={item.key} href={item.href}>
                           <motion.a
                             onClick={() => setIsOpen(false)}
-                            className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 cursor-pointer ${
-                              isActive
-                                ? "text-white bg-primary shadow-lg"
-                                : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                            }`}
+                            className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 cursor-pointer ${isActive
+                              ? "text-white bg-primary shadow-lg"
+                              : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                              }`}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
@@ -356,11 +378,10 @@ const Navigation = () => {
                             e.preventDefault();
                             scrollToSection(item.href);
                           }}
-                          className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
-                            isActive
-                              ? "text-white bg-primary shadow-lg"
-                              : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                          }`}
+                          className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${isActive
+                            ? "text-white bg-primary shadow-lg"
+                            : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                            }`}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}

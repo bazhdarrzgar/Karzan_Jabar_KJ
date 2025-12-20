@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, X, Palette, Globe, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
+import { Settings, X, Palette, Globe, Sparkles } from "lucide-react";
 import LanguageToggle from "./LanguageToggle";
 import ThemeToggle from "./ThemeToggle";
 import { Button } from "./ui/button";

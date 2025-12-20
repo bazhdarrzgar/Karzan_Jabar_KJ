@@ -15,7 +15,20 @@ const socialPlatforms = [
     shadowColor: "shadow-blue-500/20",
     hoverShadow: "hover:shadow-blue-500/40",
     icon: "fab fa-telegram",
-    url: "#",
+    url: "https://t.me/KarzanJabar",
+    gradient: "from-blue-400/10 to-blue-600/10"
+  },
+  {
+    nameKey: "telegram_arabic",
+    subscribersKey: "telegram_arabic_subscribers",
+    descriptionKey: "telegram_arabic_desc",
+    color: "bg-gradient-to-br from-blue-400 to-blue-600",
+    hoverColor: "hover:from-blue-500 hover:to-blue-700",
+    borderColor: "border-blue-400",
+    shadowColor: "shadow-blue-500/20",
+    hoverShadow: "hover:shadow-blue-500/40",
+    icon: "fab fa-telegram",
+    url: "https://t.me/KarzanJabar_Arabic",
     gradient: "from-blue-400/10 to-blue-600/10"
   },
   {
@@ -28,7 +41,7 @@ const socialPlatforms = [
     shadowColor: "shadow-pink-500/20",
     hoverShadow: "hover:shadow-pink-500/40",
     icon: "fab fa-instagram",
-    url: "#",
+    url: "https://www.instagram.com/kjcompany_official",
     gradient: "from-purple-500/10 to-pink-500/10"
   },
   {
@@ -41,7 +54,7 @@ const socialPlatforms = [
     shadowColor: "shadow-red-500/20",
     hoverShadow: "hover:shadow-red-500/40",
     icon: "fab fa-youtube",
-    url: "#",
+    url: "https://www.youtube.com/@kjkarzan",
     gradient: "from-red-500/10 to-red-700/10"
   },
   {
@@ -54,7 +67,7 @@ const socialPlatforms = [
     shadowColor: "shadow-blue-600/20",
     hoverShadow: "hover:shadow-blue-600/40",
     icon: "fab fa-facebook",
-    url: "#",
+    url: "https://www.facebook.com/kjcompany.official",
     gradient: "from-blue-600/10 to-blue-800/10"
   },
   {
@@ -67,7 +80,7 @@ const socialPlatforms = [
     shadowColor: "shadow-blue-700/20",
     hoverShadow: "hover:shadow-blue-700/40",
     icon: "fab fa-linkedin",
-    url: "#",
+    url: "https://www.linkedin.com/company/kjcompany/",
     gradient: "from-blue-700/10 to-blue-900/10"
   }
 ];
@@ -81,7 +94,8 @@ const recentContent = [
     timeKey: "time_2_days_ago",
     titleKey: "youtube_content_title",
     descriptionKey: "youtube_content_desc",
-    engagementKey: "views_12_5k"
+    engagementKey: "views_12_5k",
+    url: "https://youtu.be/Zpia6H6OuAo?si=UpGGa-3mcOrnW9fi"
   },
   {
     platformKey: "telegram",
@@ -91,7 +105,8 @@ const recentContent = [
     timeKey: "time_5_hours_ago",
     titleKey: "telegram_content_title",
     descriptionKey: "telegram_content_desc",
-    engagementKey: "reactions_3_2k"
+    engagementKey: "reactions_3_2k",
+    url: "https://t.me/KJcompany_Kurdish/159"
   },
   {
     platformKey: "instagram",
@@ -101,7 +116,8 @@ const recentContent = [
     timeKey: "time_1_day_ago",
     titleKey: "instagram_content_title",
     descriptionKey: "instagram_content_desc",
-    engagementKey: "likes_8_7k"
+    engagementKey: "likes_8_7k",
+    url: "https://www.instagram.com/reel/DAVZ3-VI99h/?igsh=MXg2ZjZ5eGR5bmJjMQ=="
   }
 ];
 
@@ -130,7 +146,7 @@ export function SocialSection() {
   const { t } = useTranslation();
 
   return (
-    <section id="social" className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+    <section id="social" className="relative py-16 sm:py-20 lg:py-24 bg-transparent overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl"></div>
@@ -164,7 +180,7 @@ export function SocialSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-6 mb-12 sm:mb-16"
+          className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-4 mb-12 sm:mb-16"
         >
           {socialPlatforms.map((platform) => (
             <motion.div
@@ -191,10 +207,10 @@ export function SocialSection() {
 
                     <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">{t(platform.nameKey)}</h3>
                     <div className="flex items-center justify-center gap-1 mb-3 sm:mb-4">
-                      <Users className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500 dark:text-gray-400" />
-                      <p className="text-sm sm:text-base font-semibold text-indigo-600 dark:text-indigo-400">{t(platform.subscribersKey)}</p>
+                      {/* <Users className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500 dark:text-gray-400" /> */}
+                      {/* <p className="text-sm sm:text-base font-semibold text-indigo-600 dark:text-indigo-400">{t(platform.subscribersKey)}</p> */}
                     </div>
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 line-clamp-2 min-h-[2.5rem] sm:min-h-[3rem]">
+                    <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-4 sm:mb-6">
                       {t(platform.descriptionKey)}
                     </p>
                   </div>
@@ -257,10 +273,10 @@ export function SocialSection() {
                           <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
                             {t(content.platformKey)}
                           </span>
-                          <span className="text-xs text-gray-400">•</span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {/* <span className="text-xs text-gray-400">•</span> */}
+                          {/* <span className="text-xs text-gray-500 dark:text-gray-400">
                             {t(content.timeKey)}
-                          </span>
+                          </span> */}
                         </div>
 
                         <h4 className="font-bold text-base sm:text-lg text-gray-900 dark:text-white mb-2 sm:mb-3 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
@@ -273,10 +289,10 @@ export function SocialSection() {
 
                         <div className="flex items-center justify-between pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700">
                           <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{t(content.engagementKey)}</span>
-                          <button className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1 group-hover:gap-2 transition-all">
+                          <a href={content.url} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1 group-hover:gap-2 transition-all">
                             {t('view_more')}
                             <ExternalLink className="w-3 h-3" />
-                          </button>
+                          </a>
                         </div>
                       </CardContent>
                     </Card>

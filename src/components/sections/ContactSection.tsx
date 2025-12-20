@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useToast } from "../../hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "../../lib/queryClient";
-import { Mail, Phone, MessageCircle, Clock, ExternalLink, ArrowRight, GraduationCap, MapPin, Send, CheckCircle, Users, Zap, Globe, Sparkles, TrendingUp, Award, Shield } from "lucide-react";
+import { Mail, Phone, MessageCircle, MapPin, Send, CheckCircle, Users, Zap, Globe, Sparkles, TrendingUp, Award, Shield } from "lucide-react";
 import { ScrollAnimated } from "../../hooks/use-scroll-animation";
 
 interface ContactFormData {
@@ -19,35 +19,89 @@ interface ContactFormData {
   message: string;
 }
 
+// CONTACT details (update these values as needed)
+const CONTACT = {
+  email: "contact@kjcompany.com",
+  whatsapp: {
+    kurdish: "+964 7509496464",
+    arabic: "+964 7709496464",
+  },
+  telegram: {
+    kurdish: "@KJ_Kurdish",
+    arabic: "@KJ_Arabi",
+  },
+};
+
+const makeWaLink = (phone: string) => {
+  const digits = phone.replace(/\D/g, "");
+  return `https://wa.me/${digits}`;
+};
+
+const makeTgLink = (value: string) => {
+  if (!value) return "";
+  if (/^https?:\/\//i.test(value)) return value; // already a URL
+  if (/^\+/.test(value) || /^joinchat\//i.test(value)) {
+    return `https://t.me/${value}`;
+  }
+  return `https://t.me/${value.replace(/^@/, "")}`;
+};
+
+const waKurdishLink = makeWaLink(CONTACT.whatsapp.kurdish);
+const waArabicLink = makeWaLink(CONTACT.whatsapp.arabic);
+const tgKurdishLink = makeTgLink(CONTACT.telegram.kurdish);
+const tgArabicLink = makeTgLink(CONTACT.telegram.arabic);
+
 const contactMethods = [
   {
-    icon: Mail,
-    title: "Email",
-    value: "contact@kjcompany.com",
-    color: "from-amber-400 via-yellow-500 to-orange-500",
-    bgGlow: "bg-amber-500/20",
-    descriptionKey: "drop_us_message"
+    icon: Phone,
+    title: "WhatsApp Kurdish",
+    value: CONTACT.whatsapp.kurdish,
+    link: waKurdishLink,
+    color: "from-emerald-400 via-green-500 to-teal-500",
+    bgGlow: "bg-green-500/20",
+    descriptionKey: "chat_directly"
   },
   {
     icon: Phone,
-    title: "WhatsApp",
-    value: "+1 (555) 123-4567",
+    title: "WhatsApp Arabic",
+    value: CONTACT.whatsapp.arabic,
+    link: waArabicLink,
     color: "from-emerald-400 via-green-500 to-teal-500",
     bgGlow: "bg-green-500/20",
     descriptionKey: "chat_directly"
   },
   {
     icon: MessageCircle,
-    title: "Telegram",
-    value: "@KJTrading",
+    title: "Telegram Kurdish",
+    value: CONTACT.telegram.kurdish,
+    link: tgKurdishLink,
     color: "from-sky-400 via-blue-500 to-indigo-500",
     bgGlow: "bg-blue-500/20",
     descriptionKey: "join_trading_community"
   },
   {
+    icon: MessageCircle,
+    title: "Telegram Arabic",
+    value: CONTACT.telegram.arabic,
+    link: tgArabicLink,
+    color: "from-sky-400 via-blue-500 to-indigo-500",
+    bgGlow: "bg-blue-500/20",
+    descriptionKey: "join_trading_community"
+  },
+  {
+    icon: Mail,
+    title: "Email",
+    value: CONTACT.email,
+    link: `mailto:${CONTACT.email}`,
+    color: "from-blue-400 via-indigo-500 to-purple-500",
+    bgGlow: "bg-indigo-500/20",
+    descriptionKey: "drop_us_message"
+  },
+  {
     icon: MapPin,
     title: "Location",
     value: "Kurdistan Region",
+    link: "https://maps.app.goo.gl/h4DUk4yBvMSBovJMA",
     color: "from-fuchsia-400 via-purple-500 to-pink-500",
     bgGlow: "bg-purple-500/20",
     descriptionKey: "regional_office"
@@ -98,6 +152,15 @@ export function ContactSection() {
 
   const { toast } = useToast();
 
+  const handleSendEmail = () => {
+    const mailtoLink = `mailto:kjaaa@gmail.com?subject=${encodeURIComponent(
+      formData.subject
+    )}&body=${encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
+    )}`;
+    window.location.href = mailtoLink;
+  };
+
   const contactMutation = useMutation({
     mutationFn: (data: ContactFormData) => apiRequest("POST", "/api/contact", data),
     onSuccess: () => {
@@ -129,15 +192,8 @@ export function ContactSection() {
     contactMutation.mutate(formData);
   };
 
-  const handleScrollToCourses = () => {
-    const element = document.querySelector("#courses");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <section id="contact" className="py-12 sm:py-16 md:py-20 lg:py-32 bg-gradient-to-b from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden">
+    <section id="contact" className="py-12 sm:py-16 md:py-20 lg:py-32 bg-transparent relative overflow-hidden">
       {/* Advanced animated background with multiple layers */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Primary gradient orbs */}
@@ -200,16 +256,16 @@ export function ContactSection() {
           <ScrollAnimated animation="slideInLeft" delay={400} className="lg:col-span-3">
             <Card className="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-white dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 backdrop-blur-sm border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-2xl sm:rounded-3xl">
               {/* Animated gradient border */}
-              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-gold via-amber-500 to-yellow-500 animate-pulse"></div>
-              <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-pulse" style={{ animationDelay: '1s' }}></div>
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-pulse"></div>
+              <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 animate-pulse" style={{ animationDelay: '1s' }}></div>
 
               <CardContent className="p-6 sm:p-8 lg:p-10">
                 {/* Form Header with icon */}
                 <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-10">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-gold to-yellow-500 rounded-2xl blur-lg animate-pulse"></div>
-                    <div className="relative bg-gradient-to-br from-gold via-amber-500 to-yellow-500 rounded-xl sm:rounded-2xl p-2.5 sm:p-3 lg:p-4 shadow-xl">
-                      <Send className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-black" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl blur-lg animate-pulse"></div>
+                    <div className="relative bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-500 rounded-xl sm:rounded-2xl p-2.5 sm:p-3 lg:p-4 shadow-xl">
+                      <Send className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" />
                     </div>
                   </div>
                   <div>
@@ -301,7 +357,7 @@ export function ContactSection() {
                   <Button
                     type="submit"
                     disabled={contactMutation.isPending}
-                    className="relative w-full h-14 sm:h-16 bg-gradient-to-r from-gold via-amber-500 to-yellow-500 hover:from-yellow-600 hover:via-gold hover:to-amber-600 text-black text-base sm:text-lg font-bold transition-all duration-300 transform shadow-2xl hover:shadow-3xl hover:scale-105 rounded-xl sm:rounded-2xl overflow-hidden group"
+                    className="relative w-full h-14 sm:h-16 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-700 text-white text-base sm:text-lg font-bold transition-all duration-300 transform shadow-2xl hover:shadow-3xl hover:scale-105 rounded-xl sm:rounded-2xl overflow-hidden group"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
                     <Send className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6 group-hover:rotate-45 transition-transform duration-300" />
@@ -335,12 +391,29 @@ export function ContactSection() {
                       <div
                         key={index}
                         className="relative group cursor-pointer"
+                        onClick={() => {
+                          if (method.title === "Email") {
+                            handleSendEmail();
+                          } else if (method.link) {
+                            window.open(method.link, '_blank');
+                          }
+                        }}
                       >
                         <div className={`absolute inset-0 ${method.bgGlow} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500`}></div>
                         <div className="relative bg-white dark:bg-gray-800/50 p-4 sm:p-5 rounded-2xl border-2 border-gray-200 dark:border-gray-700 hover:border-transparent group-hover:scale-105 transition-all duration-300 backdrop-blur-sm">
                           <div className="flex items-center gap-3 sm:gap-4">
                             <div className={`relative bg-gradient-to-br ${method.color} rounded-xl sm:rounded-2xl w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center flex-shrink-0 shadow-lg group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300`}>
-                              <method.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                              {method.title.includes('WhatsApp') ? (
+                                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 text-white">
+                                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
+                                </svg>
+                              ) : method.title.includes('Telegram') ? (
+                                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 text-white">
+                                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                                </svg>
+                              ) : (
+                                <method.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                              )}
                             </div>
                             <div className="flex-1 min-w-0">
                               <h4 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white mb-0.5 sm:mb-1">
@@ -357,78 +430,7 @@ export function ContactSection() {
                 </CardContent>
               </Card>
 
-              {/* Quick Actions with enhanced styling */}
-              <Card className="overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-gold/10 via-amber-500/5 to-yellow-500/10 backdrop-blur-sm">
-                <div className="h-1.5 bg-gradient-to-r from-gold via-amber-500 to-yellow-500"></div>
-                <CardContent className="p-5 sm:p-6 lg:p-8">
-                  <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-5 sm:mb-6 flex items-center gap-2">
-                    <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-gold" />
-                    {t("quick_actions")}
-                  </h4>
 
-                  <div className="space-y-3 sm:space-y-4">
-                    <Button
-                      asChild
-                      className="w-full h-12 sm:h-14 justify-between bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-green-600 hover:via-emerald-600 hover:to-teal-600 text-white text-sm sm:text-base font-bold transition-all duration-300 hover:shadow-xl hover:scale-105 rounded-xl group"
-                    >
-                      <a href="#" target="_blank" rel="noopener noreferrer">
-                        <span className="flex items-center">
-                          <Phone className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 transition-transform" />
-                          <span className="truncate">{t("message_on_whatsapp")}</span>
-                        </span>
-                        <ExternalLink className="h-4 w-4 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-                      </a>
-                    </Button>
-
-                    <Button
-                      asChild
-                      className="w-full h-12 sm:h-14 justify-between bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 hover:from-blue-600 hover:via-sky-600 hover:to-indigo-600 text-white text-sm sm:text-base font-bold transition-all duration-300 hover:shadow-xl hover:scale-105 rounded-xl group"
-                    >
-                      <a href="#" target="_blank" rel="noopener noreferrer">
-                        <span className="flex items-center">
-                          <MessageCircle className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 transition-transform" />
-                          <span className="truncate">{t("join_telegram_channel")}</span>
-                        </span>
-                        <ExternalLink className="h-4 w-4 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-                      </a>
-                    </Button>
-
-                    <Button
-                      onClick={handleScrollToCourses}
-                      className="w-full h-12 sm:h-14 justify-between bg-gradient-to-r from-gold via-amber-500 to-yellow-500 hover:from-yellow-600 hover:via-gold hover:to-amber-600 text-black text-sm sm:text-base font-bold transition-all duration-300 hover:shadow-xl hover:scale-105 rounded-xl group"
-                    >
-                      <span className="flex items-center">
-                        <GraduationCap className="mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 group-hover:rotate-12 transition-transform" />
-                        <span className="truncate">{t("browse_courses")}</span>
-                      </span>
-                      <ArrowRight className="h-4 w-4 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Response Time Card with premium design */}
-              <Card className="relative overflow-hidden text-center border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-gray-50 to-white dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
-                <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"></div>
-                <CardContent className="p-6 sm:p-8">
-                  <div className="relative inline-block mb-4 sm:mb-6">
-                    <div className="absolute inset-0 bg-gradient-to-br from-gold/30 to-yellow-500/30 rounded-full blur-xl animate-pulse"></div>
-                    <div className="relative bg-gradient-to-br from-gold via-amber-500 to-yellow-500 rounded-full w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 flex items-center justify-center shadow-xl">
-                      <Clock className="text-black text-3xl sm:text-4xl animate-pulse" />
-                    </div>
-                  </div>
-                  <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">
-                    {t("quick_response_time")}
-                  </h4>
-                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-4 sm:mb-6">
-                    {t("response_time_description")}
-                  </p>
-                  <div className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full border border-green-500/30">
-                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
-                    <span className="text-xs sm:text-sm font-bold text-green-700 dark:text-green-400">{t('available_24_7')}</span>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </ScrollAnimated>
         </div>

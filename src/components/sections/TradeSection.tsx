@@ -1,4 +1,5 @@
-import { TrendingUp, ArrowRight, DollarSign, Target, Zap } from 'lucide-react';
+import { useState } from 'react';
+import { TrendingUp, ArrowRight, DollarSign, Target, Zap, X, Play } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Link } from 'wouter';
@@ -13,6 +14,7 @@ interface TradingAccount {
   gradientFrom: string;
   gradientTo: string;
   accentColor: string;
+  video: string;
   image: string;
 }
 
@@ -25,6 +27,7 @@ const tradingAccounts: TradingAccount[] = [
     gradientFrom: 'from-emerald-500',
     gradientTo: 'to-green-600',
     accentColor: 'bg-emerald-500',
+    video: 'https://youtu.be/6XPTJh-pwUI?si=Xo93rlsZxtpRK-2g',
     image: '/images/trade-1.jpg'
   },
   {
@@ -35,6 +38,7 @@ const tradingAccounts: TradingAccount[] = [
     gradientFrom: 'from-blue-500',
     gradientTo: 'to-indigo-600',
     accentColor: 'bg-blue-500',
+    video: "https://youtu.be/sqOZPnUwSNE?si=gy1n4LwPxxeDHrtq",
     image: '/images/trade-2.jpg'
   },
   {
@@ -45,15 +49,119 @@ const tradingAccounts: TradingAccount[] = [
     gradientFrom: 'from-purple-500',
     gradientTo: 'to-pink-600',
     accentColor: 'bg-purple-500',
+    video: "https://youtu.be/2YBW4UHPXHc?si=VofANyNzYDE4fpnq",
     image: '/images/trade-3.jpg'
   }
 ];
 
 export function TradeSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
+
+  // Function to convert YouTube URL to embed URL
+  const getEmbedUrl = (url: string) => {
+    // Handle various YouTube URL formats
+    const videoId = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+    if (videoId && videoId[1]) {
+      return `https://www.youtube-nocookie.com/embed/${videoId[1]}?autoplay=1&rel=0&modestbranding=1&mute=0&showinfo=0&origin=${window.location.origin}`;
+    }
+    return url;
+  };
+
+  const handleVideoClick = (videoUrl: string) => {
+    setSelectedVideo(videoUrl);
+    setIsVideoModalOpen(true);
+    setIsVideoLoading(true);
+  };
+
+  const closeVideoModal = () => {
+    setIsVideoModalOpen(false);
+    setTimeout(() => {
+      setSelectedVideo(null);
+      setIsVideoLoading(true);
+    }, 300);
+  };
+
+  const selectedAccount = tradingAccounts.find(acc => acc.video === selectedVideo);
 
   return (
-    <section id="trade" className="py-16 sm:py-20 md:py-24 lg:py-32 section-light bg-gradient-to-br from-gray-50 via-slate-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-black relative overflow-hidden">
+    <section id="trade" className="py-16 sm:py-20 md:py-24 lg:py-32 section-light bg-transparent relative overflow-hidden">
+      {/* Video Modal */}
+      {isVideoModalOpen && selectedVideo && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={closeVideoModal}
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-8"
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-gray-900 rounded-2xl overflow-hidden max-w-5xl w-full shadow-2xl border border-white/10 relative"
+          >
+            <div className="aspect-video bg-black relative">
+              {/* Loading State */}
+              {isVideoLoading && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-900">
+                  {/* Placeholder Image */}
+                  {selectedAccount && (
+                    <img
+                      src={selectedAccount.image}
+                      alt="Loading..."
+                      className="absolute inset-0 w-full h-full object-cover opacity-30 blur-sm"
+                    />
+                  )}
+                  <div className="relative z-20 flex flex-col items-center">
+                    <div className="w-16 h-16 border-4 border-gold/20 border-t-gold rounded-full animate-spin mb-4"></div>
+                    <p className="text-white/70 font-medium animate-pulse">Initializing Secure Stream...</p>
+                  </div>
+                </div>
+              )}
+
+              <iframe
+                width="100%"
+                height="100%"
+                src={getEmbedUrl(selectedVideo)}
+                title={`Trading Live Video - Account ${selectedAccount?.id || ''}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                onLoad={() => setIsVideoLoading(false)}
+                className={`w-full h-full transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
+              />
+            </div>
+
+            <div className="p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center bg-gray-900 border-t border-white/10">
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${selectedAccount?.gradientFrom} ${selectedAccount?.gradientTo} flex items-center justify-center shadow-lg`}>
+                  <Play className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-white text-sm sm:text-base font-bold">
+                    Account {selectedAccount?.id} - Live Trading Session
+                  </p>
+                  <p className="text-gray-400 text-xs sm:text-sm mt-0.5">
+                    Real-time execution and market analysis
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={closeVideoModal}
+                className="mt-4 sm:mt-0 flex items-center gap-2 px-6 py-2.5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                <X className="w-4 h-4" />
+                <span className="font-semibold">Close Player</span>
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <FloatingElement className="absolute -top-20 sm:-top-40 right-0 sm:-right-20" intensity={15} duration={7}>
@@ -121,93 +229,114 @@ export function TradeSection() {
               animation="scaleIn"
               delay={index * 0.2}
             >
-              <Link href="/trade">
+              <div className="group relative">
+                {/* Card */}
                 <motion.div
-                  className="group relative cursor-pointer"
+                  className="relative bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2 border border-gray-100 dark:border-gray-800"
                   whileHover={{ scale: 1.05, y: -10 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
-                  {/* Card */}
-                  <div className="relative bg-white dark:bg-gray-900 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2 border border-gray-100 dark:border-gray-800">
-                    {/* Card Image Area */}
-                    <div className="relative h-56 sm:h-64 overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent z-10" />
-                      <img
-                        src={account.image}
-                        alt={`Trading account ${account.id}`}
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                      />
+                  {/* Card Image Area with Video Play Button */}
+                  <div
+                    className="relative h-56 sm:h-64 overflow-hidden cursor-pointer"
+                    onClick={() => handleVideoClick(account.video)}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent z-10" />
+                    <img
+                      src={account.image}
+                      alt={`Trading account ${account.id}`}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    />
 
-                      {/* Floating Badge */}
-                      <div className="absolute top-4 right-4 z-20">
-                        <div className={`${account.accentColor} rounded-full px-4 py-1.5 shadow-lg backdrop-blur-md bg-opacity-20 border border-white/50`}>
-                          <span className="text-white text-sm font-bold flex items-center gap-1">
-                            <TrendingUp className="w-3 h-3" />
-                            +{account.percentageGain}%
-                          </span>
+                    {/* Video Play Button Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <motion.div
+                        className="p-4 bg-white/10 dark:bg-black/60 backdrop-blur-md rounded-full hover:bg-white/20 dark:hover:bg-black/80 transition-colors border border-white/20"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <div className="w-12 h-12 bg-gradient-to-r from-primary to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                          <Play className="w-6 h-6 text-white ml-0.5" />
+                        </div>
+                      </motion.div>
+                    </div>
+
+                    {/* Floating Badge */}
+                    <div className="absolute top-4 right-4 z-30">
+                      <div className={`${account.accentColor} rounded-full px-4 py-1.5 shadow-lg backdrop-blur-md bg-opacity-90 dark:bg-opacity-20 border border-white/50`}>
+                        <span className="text-white text-sm font-bold flex items-center gap-1">
+                          <TrendingUp className="w-3 h-3" />
+                          +{account.percentageGain}%
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Account Info Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+                      <div className="flex items-center gap-2 mb-2 text-white/80">
+                        <Target className="w-4 h-4" />
+                        <span className="text-xs font-medium tracking-wider uppercase">{t('account')}</span>
+                      </div>
+                      <div className="text-3xl font-bold text-white font-mono tracking-tight">
+                        {account.id}
+                      </div>
+                      {/* Video indicator */}
+                      <div className="flex items-center gap-2 mt-2 text-white/80 text-xs">
+                        <Play className="w-3 h-3" />
+                        <span className="font-medium">Click to watch trading Live</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="p-6 relative">
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 transition-colors group-hover:bg-white dark:group-hover:bg-gray-800 shadow-sm">
+                        <div className="flex items-center gap-1.5 mb-2 text-gray-600 dark:text-gray-400">
+                          <DollarSign className="w-3.5 h-3.5" />
+                          <span className="text-xs font-semibold uppercase tracking-wider">{t('initial_deposit')}</span>
+                        </div>
+                        <div className="text-xl font-bold text-gray-900 dark:text-white">
+                          ${account.initialDeposit.toLocaleString()}
                         </div>
                       </div>
 
-                      {/* Account Info Overlay */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-                        <div className="flex items-center gap-2 mb-2 text-white/80">
-                          <Target className="w-4 h-4" />
-                          <span className="text-xs font-medium tracking-wider uppercase">{t('account')}</span>
+                      <div className="p-4 rounded-2xl bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-900/30 transition-colors shadow-sm">
+                        <div className="flex items-center gap-1.5 mb-2 text-green-600 dark:text-green-400">
+                          <TrendingUp className="w-3.5 h-3.5" />
+                          <span className="text-xs font-semibold uppercase tracking-wider">{t('total_profit')}</span>
                         </div>
-                        <div className="text-3xl font-bold text-white font-mono tracking-tight">
-                          {account.id}
+                        <div className="text-xl font-bold text-green-600 dark:text-green-400">
+                          <span className="mr-0.5">$</span>
+                          <AnimatedCounter
+                            end={account.finalBalance - account.initialDeposit}
+                            duration={2000}
+                          />
                         </div>
                       </div>
                     </div>
 
-                    {/* Card Body */}
-                    <div className="p-6 relative">
-                      {/* Stats Grid */}
-                      <div className="grid grid-cols-2 gap-4 mb-8">
-                        <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 transition-colors group-hover:bg-white dark:group-hover:bg-gray-800 shadow-sm">
-                          <div className="flex items-center gap-1.5 mb-2 text-gray-500 dark:text-gray-400">
-                            <DollarSign className="w-3.5 h-3.5" />
-                            <span className="text-xs font-semibold uppercase tracking-wider">{t('initial_deposit')}</span>
-                          </div>
-                          <div className="text-xl font-bold text-gray-900 dark:text-white">
-                            ${account.initialDeposit.toLocaleString()}
-                          </div>
-                        </div>
-
-                        <div className="p-4 rounded-2xl bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-900/30 transition-colors shadow-sm">
-                          <div className="flex items-center gap-1.5 mb-2 text-green-600 dark:text-green-400">
-                            <TrendingUp className="w-3.5 h-3.5" />
-                            <span className="text-xs font-semibold uppercase tracking-wider">{t('total_profit')}</span>
-                          </div>
-                          <div className="text-xl font-bold text-green-600 dark:text-green-400">
-                            <span className="mr-0.5">$</span>
-                            <AnimatedCounter
-                              end={account.finalBalance - account.initialDeposit}
-                              duration={2000}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* View Details Button */}
+                    {/* Full Width View Details Button */}
+                    <Link href={`/${i18n.language}/trade`}>
                       <motion.button
-                        className={`w-full py-4 rounded-2xl font-bold text-white bg-gradient-to-r ${account.gradientFrom} ${account.gradientTo} flex items-center justify-center gap-3 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all duration-300 group/btn`}
+                        className={`w-full py-3.5 sm:py-4 rounded-xl font-bold text-white bg-gradient-to-r ${account.gradientFrom} ${account.gradientTo} flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all duration-300 group/btn`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        <span>{t('view_full_analysis')}</span>
-                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                        <span className="text-sm sm:text-base">{t('view_full_analysis')}</span>
+                        <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover/btn:translate-x-1 transition-transform" />
                       </motion.button>
-                    </div>
-
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                    </Link>
                   </div>
 
-                  {/* Glow effect on hover */}
-                  <div className={`absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r ${account.gradientFrom} ${account.gradientTo} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-10`}></div>
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </motion.div>
-              </Link>
+
+                {/* Glow effect on hover */}
+                <div className={`absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r ${account.gradientFrom} ${account.gradientTo} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-10`}></div>
+              </div>
             </ScrollAnimated>
           ))}
         </div>
@@ -224,7 +353,7 @@ export function TradeSection() {
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-6">
               {t('click_for_details')}
             </p>
-            <Link href="/trade">
+            <Link href={`/${i18n.language}/trade`}>
               <motion.button
                 className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary to-blue-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
@@ -236,6 +365,7 @@ export function TradeSection() {
             </Link>
           </motion.div>
         </ScrollAnimated>
+
       </div>
     </section>
   );

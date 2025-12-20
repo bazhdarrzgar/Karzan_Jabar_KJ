@@ -11,7 +11,7 @@ const quickLinks = [
   { href: "#courses", labelKey: "trading_courses" },
   { href: "#projects", labelKey: "kj_project_title" },
   { href: "#partnership", labelKey: "justmarkets_partnership" },
-  { href: "#contact", labelKey: "contact" }
+  { href: "#contact", labelKey: "get_in_touch" }
 ];
 
 const services = [
@@ -82,17 +82,17 @@ export function Footer() {
               {t("footer_brand_desc")}
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-gold transition-colors" target="_blank" rel="noopener noreferrer">
+              <a href="https://t.me/KarzanJabar" className="text-gray-400 hover:text-gold transition-colors" target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-telegram text-xl"></i>
               </a>
-              <a href="#" className="text-gray-400 hover:text-gold transition-colors" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/kjcompany_official" className="text-gray-400 hover:text-gold transition-colors" target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-instagram text-xl"></i>
               </a>
-              <a href="#" className="text-gray-400 hover:text-gold transition-colors" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.youtube.com/@kjkarzan" className="text-gray-400 hover:text-gold transition-colors" target="_blank" rel="noopener noreferrer">
                 <i className="fab fa-youtube text-xl"></i>
               </a>
-              <a href="#" className="text-gray-400 hover:text-gold transition-colors" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-x-twitter text-xl"></i>
+              <a href="https://www.facebook.com/kjcompany.official" className="text-gray-400 hover:text-gold transition-colors" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-facebook text-xl"></i>
               </a>
             </div>
           </div>
@@ -155,7 +155,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-300 mb-4 md:mb-0">
-            © 2024 KJ Company. {t("all_rights_reserved")}
+            © 2026 KJ Company. {t("all_rights_reserved")}
           </p>
           
           <div className="flex space-x-6">

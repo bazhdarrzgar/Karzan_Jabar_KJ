@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation, useInView, Variants } from 'framer-motion';
 
 export interface ScrollAnimationConfig {
-  threshold?: number;
+  amount?: number;
   triggerOnce?: boolean;
-  rootMargin?: string;
+  margin?: string;
   delay?: number;
   duration?: number;
 }
@@ -216,9 +216,9 @@ export function useScrollAnimation(
 ) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, {
-    threshold: config.threshold || 0.1,
+    amount: config.amount || 0.1,
     once: config.triggerOnce ?? true,
-    margin: config.rootMargin || "0px 0px -100px 0px"
+    margin: (config.margin || "0px 0px -100px 0px") as any
   });
 
   const controls = useAnimation();
@@ -250,9 +250,9 @@ interface ScrollAnimatedProps {
   delay?: number;
   duration?: number;
   className?: string;
-  threshold?: number;
+  amount?: number;
   triggerOnce?: boolean;
-  rootMargin?: string;
+  margin?: string;
   customVariants?: Variants;
 }
 
@@ -262,16 +262,16 @@ export function ScrollAnimated({
   delay = 0,
   duration = 0.6,
   className = '',
-  threshold = 0.1,
+  amount = 0.1,
   triggerOnce = true,
-  rootMargin = "0px 0px -50px 0px",
+  margin = "0px 0px -50px 0px",
   customVariants
 }: ScrollAnimatedProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, {
-    threshold,
+    amount,
     once: triggerOnce,
-    margin: rootMargin
+    margin: margin as any
   });
 
   const controls = useAnimation();
@@ -325,7 +325,7 @@ export function StaggerAnimation({
   itemAnimation = 'fadeInUp'
 }: StaggerAnimationProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { threshold: 0.1, once: true });
+  const isInView = useInView(ref, { amount: 0.1, once: true });
 
   const containerVariants = {
     hidden: { opacity: 0 },

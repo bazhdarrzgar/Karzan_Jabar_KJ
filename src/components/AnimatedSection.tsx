@@ -8,7 +8,7 @@ interface AnimatedSectionProps {
   animation?: 'fadeIn' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scaleIn' | 'rotateIn';
   delay?: number;
   duration?: number;
-  threshold?: number;
+  amount?: number;
   once?: boolean;
 }
 
@@ -70,12 +70,12 @@ export function AnimatedSection({
   animation = 'fadeIn',
   delay = 0,
   duration = 0.6,
-  threshold = 0.1,
+  amount = 0.1,
   once = true
 }: AnimatedSectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { 
-    threshold,
+    amount: amount,
     once,
     margin: "0px 0px -50px 0px"
   });
@@ -118,7 +118,7 @@ export function StaggerContainer({
   staggerDelay = 0.1 
 }: StaggerContainerProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { threshold: 0.1, once: true });
+  const isInView = useInView(ref, { amount: 0.1, once: true });
 
   const containerVariants = {
     hidden: { opacity: 0 },

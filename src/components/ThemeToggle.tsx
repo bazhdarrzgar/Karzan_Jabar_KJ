@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Moon, Sun, Monitor, Palette, Stars, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -16,11 +16,26 @@ interface ThemeToggleProps {
   instanceId?: string;
 }
 
+interface Ripple {
+  x: number;
+  y: number;
+  size: number;
+  id: number;
+}
+
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  scale: number;
+  delay: number;
+}
+
 const ThemeToggle = ({ isMobileView = false, instanceId = 'default' }: ThemeToggleProps) => {
   const { theme, setTheme } = useTheme();
   const [isChanging, setIsChanging] = useState(false);
-  const [ripples, setRipples] = useState([]);
-  const [particles, setParticles] = useState([]);
+  const [ripples, setRipples] = useState<Ripple[]>([]);
+  const [particles, setParticles] = useState<Particle[]>([]);
   const { openDropdown, setOpenDropdown } = useDropdown();
   
   const dropdownKey = `theme-${instanceId}`;
