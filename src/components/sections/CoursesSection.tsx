@@ -7,7 +7,8 @@ import { motion } from "framer-motion";
 import { ScrollAnimated, StaggerContainer, FloatingElement } from "../AnimatedSection";
 import { useState } from "react";
 import { FreeCoursModal } from "../FreeCoursModal";
-import { AdvancedCourseEnroll } from "../AdvancedCourseEnroll"; // Add this import
+import { AdvancedCourseEnroll } from "../AdvancedCourseEnroll";
+import { LazyImage } from "../ui/LazyImage";
 
 const courses = [
   {
@@ -539,11 +540,9 @@ export function CoursesSection() {
                             whileHover={{ scale: 1.1 }}
                             transition={{ duration: 0.3 }}
                           >
-                            <img
+                            <LazyImage
                               src={testimonial.image}
                               alt={`${testimonial.name} testimonial portrait`}
-                              loading="lazy"
-                              decoding="async"
                               className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full mr-3 sm:mr-4 object-cover ring-2 ring-blue-500/30 group-hover:ring-blue-500/60 transition-all duration-300 shadow-lg"
                             />
                             <motion.div

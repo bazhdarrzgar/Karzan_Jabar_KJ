@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { ScrollAnimated, FloatingElement } from '../AnimatedSection';
 import { AnimatedCounter } from '../AnimatedCounter';
+import { LazyImage } from '../ui/LazyImage';
 
 interface TradingAccount {
   id: string;
@@ -242,7 +243,7 @@ export function TradeSection() {
                     onClick={() => handleVideoClick(account.video)}
                   >
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent z-10" />
-                    <img
+                    <LazyImage
                       src={account.image}
                       alt={`Trading account ${account.id}`}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"

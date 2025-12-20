@@ -92,7 +92,7 @@ const Navigation = () => {
       <ScrollProgressBar />
 
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ${scrolled
           ? "nav-light backdrop-blur-xl bg-white/90 dark:bg-black/30 shadow-2xl border-b border-primary/20 dark:border-gold/30"
           : "bg-transparent"
           }`}
@@ -310,91 +310,110 @@ const Navigation = () => {
           {/* Enhanced Mobile Navigation */}
           <AnimatePresence>
             {isOpen && (
-              <motion.div
-                className="md:hidden absolute top-full left-0 right-0 z-40"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-              >
+              <>
+                {/* Backdrop for click-outside */}
                 <motion.div
-                  className="backdrop-blur-xl bg-white/95 dark:bg-black/90 border-b border-primary/20 dark:border-gold/30 shadow-2xl"
-                  initial={{ y: -20 }}
-                  animate={{ y: 0 }}
-                  exit={{ y: -20 }}
+                  className="fixed top-[80px] left-0 w-full h-[100dvh] bg-black/20 backdrop-blur-sm z-[40] md:hidden"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsOpen(false)}
+                />
+
+                <motion.div
+                  className="md:hidden absolute top-full left-0 right-0 z-[50] overflow-hidden m-4 rounded-3xl"
+                  initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                  transition={{ duration: 0.4, type: "spring", stiffness: 300, damping: 30 }}
                 >
-                  <div className="px-4 pt-4 pb-6 space-y-2">
-                    {navItems.map((item, index) => {
-                      const isActive = item.isRoute ? location === item.href : activeSection === item.key;
-                      const mobileNavContent = (
-                        <>
-                          <motion.span
-                            animate={{
-                              rotate: isActive ? 360 : 0,
-                              scale: isActive ? 1.1 : 1,
-                            }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            {item.icon}
-                          </motion.span>
+                  <motion.div
+                    className="backdrop-blur-2xl bg-white/90 dark:bg-gray-900/90 border border-white/20 dark:border-white/10 shadow-2xl rounded-3xl overflow-hidden"
+                  >
+                    {/* Decorative background gradients */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-                          {t(item.key.charAt(0).toUpperCase() + item.key.slice(1))}
+                    <div className="px-4 py-6 space-y-2 relative z-10">
+                      {navItems.map((item, index) => {
+                        const isActive = item.isRoute ? location === item.href : activeSection === item.key;
+                        const mobileNavContent = (
+                          <>
+                            <div className={`p-2 rounded-xl transition-colors duration-300 ${isActive ? 'bg-white/20' : 'bg-gray-100/50 dark:bg-gray-800/50 group-hover:bg-primary/10'}`}>
+                              <motion.span
+                                animate={{
+                                  rotate: isActive ? 360 : 0,
+                                  scale: isActive ? 1.1 : 1,
+                                }}
+                                transition={{ duration: 0.3 }}
+                                className={isActive ? 'text-white' : 'text-primary'}
+                              >
+                                {item.icon}
+                              </motion.span>
+                            </div>
 
-                          <AnimatePresence>
-                            {isActive && (
-                              <motion.div
-                                className="ml-auto w-2 h-2 bg-white rounded-full shadow-lg"
-                                initial={{ scale: 0, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                exit={{ scale: 0, opacity: 0 }}
-                              />
-                            )}
-                          </AnimatePresence>
-                        </>
-                      );
+                            <span className="font-semibold tracking-wide">
+                              {t(item.key.charAt(0).toUpperCase() + item.key.slice(1))}
+                            </span>
 
-                      return item.isRoute ? (
-                        <Link key={item.key} href={item.href}>
+                            <AnimatePresence>
+                              {isActive && (
+                                <motion.div
+                                  className="ml-auto flex items-center gap-2"
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  exit={{ opacity: 0, x: -10 }}
+                                >
+                                  <span className="text-xs font-medium uppercase tracking-wider opacity-80">Active</span>
+                                  <div className="w-2 h-2 bg-white rounded-full shadow-lg animate-pulse" />
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        );
+
+                        const itemClasses = `group flex items-center gap-4 px-4 py-3 rounded-2xl text-base transition-all duration-300 cursor-pointer relative overflow-hidden ${isActive
+                          ? "text-white bg-gradient-to-r from-primary to-blue-600 shadow-lg shadow-primary/25"
+                          : "text-gray-700 dark:text-gray-200 hover:bg-white/50 dark:hover:bg-gray-800/50"
+                          }`;
+
+                        return item.isRoute ? (
+                          <Link key={item.key} href={item.href}>
+                            <motion.a
+                              onClick={() => setIsOpen(false)}
+                              className={itemClasses}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.05 }}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {mobileNavContent}
+                            </motion.a>
+                          </Link>
+                        ) : (
                           <motion.a
-                            onClick={() => setIsOpen(false)}
-                            className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 cursor-pointer ${isActive
-                              ? "text-white bg-primary shadow-lg"
-                              : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                              }`}
+                            key={item.key}
+                            href={item.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              scrollToSection(item.href);
+                            }}
+                            className={itemClasses}
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            whileHover={{ x: 5, scale: 1.02 }}
+                            transition={{ delay: index * 0.05 }}
+                            whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
                             {mobileNavContent}
                           </motion.a>
-                        </Link>
-                      ) : (
-                        <motion.a
-                          key={item.key}
-                          href={item.href}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            scrollToSection(item.href);
-                          }}
-                          className={`group flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${isActive
-                            ? "text-white bg-primary shadow-lg"
-                            : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                            }`}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          whileHover={{ x: 5, scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          {mobileNavContent}
-                        </motion.a>
-                      );
-                    })}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+              </>
             )}
           </AnimatePresence>
         </div>

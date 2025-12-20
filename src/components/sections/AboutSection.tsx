@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ScrollAnimated, StaggerContainer, FloatingElement } from "../AnimatedSection";
 import { useState } from "react";
 import { ImageLightbox } from "../ImageLightbox";
+import { LazyImage } from "../ui/LazyImage";
 
 export function AboutSection() {
   const { t } = useTranslation();
@@ -109,10 +110,10 @@ export function AboutSection() {
               >
                 {/* Main image with modern styling */}
                 <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl">
-                  <motion.img
+                  <LazyImage
                     src="/images/karzan.jpg"
                     alt={t("about_img_alt")}
-                    className="rounded-2xl sm:rounded-3xl shadow-2xl w-full h-auto aspect-[4/5] object-cover transform transition-all duration-700"
+                    className="rounded-2xl sm:rounded-3xl shadow-2xl w-full h-auto aspect-[4/5] object-cover"
                     initial={{ opacity: 0, scale: 0.8, rotateY: -10 }}
                     whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
                     transition={{ duration: 1, ease: "backOut" }}

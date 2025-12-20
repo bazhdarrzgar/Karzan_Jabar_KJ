@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { ImageLightbox } from "../ImageLightbox";
+import { LazyImage } from "../ui/LazyImage";
 
 const projectFeatures = [
   {
@@ -219,11 +220,9 @@ export function ProjectsSection() {
                 {/* Main image card */}
                 <Card className="relative overflow-hidden border-0 shadow-2xl">
                   <div className="h-[400px] sm:h-[500px] lg:h-[600px] w-full overflow-hidden relative">
-                    <img
+                    <LazyImage
                       src="/images/project.jpg"
                       alt={t("financial_success_img_alt")}
-                      loading="lazy"
-                      decoding="async"
                       className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
                     />
                     {/* Overlay gradient */}

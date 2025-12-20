@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { ScrollAnimated } from "../../hooks/use-scroll-animation";
 import { useState } from "react";
 import { ImageLightbox } from "../ImageLightbox";
+import { LazyImage } from "../ui/LazyImage";
 
 const benefits = [
   {
@@ -187,11 +188,9 @@ export function PartnershipSection() {
                     <div className="relative group cursor-pointer z-20" onClick={() => setIsLightboxOpen(true)}>
                       <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-gold/40 via-blue-500/40 to-purple-500/40 rounded-2xl sm:rounded-3xl blur-xl sm:blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
                       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl">
-                        <img
+                        <LazyImage
                           src="/images/certificate_karzan.png"
                           alt={t("certificate_img_alt")}
-                          loading="lazy"
-                          decoding="async"
                           className="w-full h-auto transform group-hover:scale-110 transition-transform duration-700"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

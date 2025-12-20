@@ -279,7 +279,7 @@ const LanguageToggle = ({ isMobileView = false, instanceId = 'default' }: Langua
         className={`
           ${isMobileView ? 'w-[320px] max-w-[90vw]' : 'min-w-[220px]'} 
           p-3 rounded-3xl border-2 shadow-2xl
-          bg-white/99 dark:bg-gray-900/99 backdrop-blur-2xl
+          bg-white/95 dark:bg-gray-900/95 backdrop-blur-2xl
           border-primary/20 dark:border-primary/30
           animate-in fade-in-0 zoom-in-95 
           ${isMobileView ? 'slide-in-from-bottom-8' : 'slide-in-from-top-4'}
@@ -318,7 +318,7 @@ const LanguageToggle = ({ isMobileView = false, instanceId = 'default' }: Langua
                 flex items-center gap-4 ${isMobileView ? 'p-5 rounded-2xl' : 'p-4 rounded-xl'} cursor-pointer
                 transition-all duration-300 ease-out group
                 ${i18n.language === language.code
-                    ? `bg-gradient-to-r ${language.color} bg-opacity-20 shadow-xl border-2 border-primary/40`
+                    ? `${language.gradient} shadow-xl border-2 border-primary/40`
                     : 'hover:bg-gradient-to-r hover:from-primary/8 hover:via-primary/12 hover:to-primary/8 hover:shadow-lg border-2 border-transparent'
                   }
                 hover:scale-[1.03] active:scale-[0.97]
