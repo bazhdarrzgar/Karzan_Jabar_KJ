@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRef } from 'react';
 
 interface AnimatedSectionProps {
@@ -8,8 +8,6 @@ interface AnimatedSectionProps {
   animation?: 'fadeIn' | 'slideUp' | 'slideLeft' | 'slideRight' | 'scaleIn' | 'rotateIn';
   delay?: number;
   duration?: number;
-  amount?: number;
-  once?: boolean;
 }
 
 const animationVariants = {
@@ -69,16 +67,9 @@ export function AnimatedSection({
   className = '',
   animation = 'fadeIn',
   delay = 0,
-  duration = 0.6,
-  amount = 0.1,
-  once = true
+  duration = 0.6
 }: AnimatedSectionProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, {
-    amount: amount,
-    once,
-    margin: "0px 0px -50px 0px"
-  });
 
   const variants = {
     ...animationVariants[animation],

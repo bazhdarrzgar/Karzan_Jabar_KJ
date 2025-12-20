@@ -246,9 +246,6 @@ interface ScrollAnimatedProps {
   delay?: number;
   duration?: number;
   className?: string;
-  amount?: number;
-  triggerOnce?: boolean;
-  margin?: string;
   customVariants?: Variants;
 }
 
@@ -258,9 +255,6 @@ export function ScrollAnimated({
   delay = 0,
   duration = 0.6,
   className = '',
-  amount = 0.1,
-  triggerOnce = true,
-  margin = "0px 0px -50px 0px",
   customVariants
 }: ScrollAnimatedProps) {
   const ref = useRef<HTMLDivElement>(null);
