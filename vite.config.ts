@@ -54,6 +54,7 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 3000,
     allowedHosts: [
+      "karzanjabar.work.gd",
       "localhost",
       "127.0.0.1",
       "kj-github-clone-1.preview.emergentagent.com",
@@ -71,5 +72,17 @@ export default defineConfig({
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
     }
+  },
+  preview: {
+    host: "0.0.0.0",
+    port: 3000,
+    allowedHosts: [
+      "karzanjabar.work.gd",
+      "localhost",
+      "127.0.0.1",
+      "kj-github-clone-1.preview.emergentagent.com",
+      ".emergentagent.com",
+      ".preview.emergentagent.com"
+    ]
   }
 });
