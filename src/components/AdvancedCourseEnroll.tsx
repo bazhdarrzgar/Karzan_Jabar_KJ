@@ -17,6 +17,7 @@ export function AdvancedCourseEnroll({ isOpen, onClose }: AdvancedCourseEnrollPr
     phone: "",
   });
   const [phoneError, setPhoneError] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const validateIraqiPhoneNumber = (phone: string): boolean => {
     // Remove all spaces and dashes
@@ -168,30 +169,80 @@ export function AdvancedCourseEnroll({ isOpen, onClose }: AdvancedCourseEnrollPr
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
+                  className="relative"
                 >
                   <label className="block mb-3 text-sm font-semibold text-gray-700 dark:text-gray-300">
                     {t("preferred_language_label")}
                   </label>
                   <div className="relative">
-                    <select
-                      name="language"
-                      value={formData.language}
-                      onChange={(e) => setFormData({ ...formData, language: e.target.value })}
-                      required
-                      className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 dark:focus:ring-blue-400/10 transition-all duration-200 outline-none shadow-sm hover:shadow-md appearance-none cursor-pointer pr-12"
-                      style={{ backgroundImage: 'none' }}
+                    <button
+                      type="button"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 dark:focus:ring-blue-400/10 transition-all duration-200 outline-none shadow-sm hover:shadow-md flex items-center justify-between"
                     >
-                      <option value="" disabled className="text-gray-400">Select Language</option>
-                      <option value="english" className="py-2">🇬🇧 English</option>
-                      <option value="kurdish" className="py-2">🇮🇶 کوردی</option>
-                      <option value="arabic" className="py-2">🇸🇦 العربية</option>
-                    </select>
-                    {/* Custom dropdown arrow */}
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <span className="flex items-center gap-2">
+                        {formData.language ? (
+                          <>
+                            {formData.language === 'english' && <span>🇬🇧</span>}
+                            {formData.language === 'kurdish' && <img src="/images/kurd.png" alt="Kurdish flag" className="w-5 h-3.5 object-cover rounded-sm" />}
+                            {formData.language === 'arabic' && <span>🇸🇦</span>}
+                            <span className="capitalize">{formData.language === 'ckb' ? 'کوردی' : formData.language}</span>
+                          </>
+                        ) : (
+                          <span className="text-gray-400">Select Language</span>
+                        )}
+                      </span>
+                      <svg className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
-                    </div>
+                    </button>
+
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <>
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[110]"
+                            onClick={() => setIsDropdownOpen(false)}
+                          />
+                          <motion.div
+                            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute left-0 right-0 mt-2 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-xl shadow-2xl z-[111] overflow-hidden"
+                          >
+                            <div className="py-1">
+                              {[
+                                { id: 'english', label: 'English', flag: '🇬🇧' },
+                                { id: 'kurdish', label: 'کوردی', flag: <img src="/images/kurd.png" alt="Kurdish flag" className="w-5 h-3.5 object-cover rounded-sm" /> },
+                                { id: 'arabic', label: 'العربية', flag: '🇸🇦' }
+                              ].map((lang) => (
+                                <button
+                                  key={lang.id}
+                                  type="button"
+                                  onClick={() => {
+                                    setFormData({ ...formData, language: lang.id });
+                                    setIsDropdownOpen(false);
+                                  }}
+                                  className="w-full px-4 py-3 flex items-center gap-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-900 dark:text-gray-100 transition-colors duration-150"
+                                >
+                                  <span className="flex-shrink-0 w-6 flex justify-center">{lang.flag}</span>
+                                  <span className="font-medium">{lang.label}</span>
+                                  {formData.language === lang.id && (
+                                    <svg className="w-5 h-5 text-blue-500 ml-auto" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                  )}
+                                </button>
+                              ))}
+                            </div>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </motion.div>
 
@@ -214,8 +265,8 @@ export function AdvancedCourseEnroll({ isOpen, onClose }: AdvancedCourseEnrollPr
                       required
                       placeholder="750 000 0000"
                       className={`w-full px-4 py-3.5 rounded-xl border-2 ${phoneError
-                          ? 'border-red-500 dark:border-red-500 focus:ring-red-500/10'
-                          : 'border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500/10 dark:focus:ring-blue-400/10'
+                        ? 'border-red-500 dark:border-red-500 focus:ring-red-500/10'
+                        : 'border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500/10 dark:focus:ring-blue-400/10'
                         } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-4 transition-all duration-200 outline-none shadow-sm hover:shadow-md`}
                     />
                   </div>

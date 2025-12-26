@@ -51,7 +51,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent pt-20"
+      className="relative min-h-screen flex items-start sm:items-center justify-center overflow-hidden bg-transparent pt-20 sm:pt-20"
     >
       {/* Simplified animated background */}
       <motion.div
@@ -104,7 +104,7 @@ export function HeroSection() {
       </motion.div>
 
       {/* Main content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20 sm:py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
 
           {/* Left Column - Text Content */}
@@ -170,7 +170,7 @@ export function HeroSection() {
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
-                  onClick={() => handleScrollToSection("#contact")}
+                  onClick={() => handleScrollToSection("#social")}
                   size="lg"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
@@ -361,7 +361,7 @@ export function HeroSection() {
                 <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-blue-500" />
                 </div>
-                <p className="text-gray-900 dark:text-white font-bold">KJ Financial Expert - Demo Video</p>
+                <p className="text-gray-900 dark:text-white font-bold">KJ Financial Expert - Example Video</p>
               </div>
               <Button
                 onClick={() => setIsVideoModalOpen(false)}
