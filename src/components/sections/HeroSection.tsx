@@ -104,7 +104,7 @@ export function HeroSection() {
       </motion.div>
 
       {/* Main content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20 sm:py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-10 sm:pt-20 sm:pb-12">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
 
           {/* Left Column - Text Content */}
@@ -170,7 +170,7 @@ export function HeroSection() {
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
-                  onClick={() => handleScrollToSection("#social")}
+                  onClick={() => handleScrollToSection("#contact")}
                   size="lg"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
@@ -263,51 +263,14 @@ export function HeroSection() {
           </div>
         </motion.div>
 
-        {/* Social Links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="flex justify-center items-center gap-4 mt-12"
-        >
-          {[
-            { icon: "fab fa-youtube", href: "https://www.youtube.com/@kjkarzan", color: "#FF0000" },
-            { icon: "fab fa-instagram", href: "https://www.instagram.com/kjkarzan/", color: "#E4405F" },
-            { icon: "fab fa-telegram", href: "https://t.me/KarzanJabar", color: "#0088cc" },
-            { icon: "fab fa-facebook", href: "https://www.facebook.com/kjkarzan", color: "#1877F2" },
-            { icon: "fab fa-linkedin", href: "https://www.linkedin.com/in/kjkarzan/", color: "#0A66C2" }
-          ].map((social, index) => (
-            <motion.a
-              key={index}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, y: -5 }}
-              whileTap={{ scale: 0.9 }}
-              className="w-12 h-12 bg-white/80 dark:bg-gray-800/80 backdrop-blur border border-gray-200 dark:border-gray-700 rounded-xl flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-white transition-all shadow-lg hover:shadow-xl"
-              style={{
-                backgroundColor: `${social.color}00`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = social.color;
-                e.currentTarget.style.borderColor = social.color;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '';
-                e.currentTarget.style.borderColor = '';
-              }}
-            >
-              <i className={`${social.icon} text-xl`} />
-            </motion.a>
-          ))}
-        </motion.div>
+
 
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="flex justify-center mt-12"
+          className="flex justify-center mt-6"
         >
           <motion.button
             onClick={() => handleScrollToSection("#about")}

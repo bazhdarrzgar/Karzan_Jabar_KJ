@@ -13,7 +13,7 @@ export function AboutSection() {
 
   return (
     <>
-      <section id="about" className="py-16 sm:py-20 md:py-24 lg:py-32 section-light bg-transparent relative overflow-hidden">
+      <section id="about" className="pt-4 pb-16 sm:pt-6 sm:pb-20 md:pt-8 md:pb-24 lg:pt-10 lg:pb-32 section-light bg-transparent relative overflow-hidden">
         {/* Enhanced background decorative elements with floating animations */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <FloatingElement className="absolute -top-20 sm:-top-40 -right-20 sm:-right-40" intensity={20} duration={8}>
@@ -74,7 +74,7 @@ export function AboutSection() {
             >
               <div className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-gradient-to-r from-primary/10 via-purple-500/10 to-blue-500/10 dark:from-primary/20 dark:via-purple-500/20 dark:to-blue-500/20 border border-primary/20 dark:border-primary/30 backdrop-blur-sm">
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-gold animate-pulse" />
-                <span className="text-xs sm:text-sm font-semibold text-primary dark:text-gold uppercase tracking-wider">About Karzan Jabar</span>
+                <span className="text-xs sm:text-sm font-semibold text-primary dark:text-gold uppercase tracking-wider">{t("about_header_label")}</span>
                 <Star className="w-4 h-4 sm:w-5 sm:h-5 text-gold animate-pulse" />
               </div>
             </motion.div>
@@ -541,6 +541,79 @@ export function AboutSection() {
             </StaggerContainer>
           </ScrollAnimated>
         </div>
+
+        {/* Social Links */}
+        {/* Social Links Hub */}
+        <div className="flex justify-center mt-12 pb-12 relative z-10 px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="w-full max-w-4xl text-center relative"
+          >
+            <div className="relative z-10">
+              <div className="inline-block mb-4">
+                <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 dark:bg-black/10 border border-black/5 dark:border-white/5 backdrop-blur-sm">
+                  <Sparkles className="w-3 h-3 text-gold animate-pulse" />
+                  <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 uppercase tracking-wider">{t("social_media_hub")}</span>
+                  <Sparkles className="w-3 h-3 text-gold animate-pulse" />
+                </div>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl font-heading font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 dark:from-white dark:via-blue-200 dark:to-white mb-2">
+                {t("connect_with_me")}
+              </h3>
+
+              <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-lg mx-auto text-sm">
+                {t("social_media_hub_desc")}
+              </p>
+
+              <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
+                {[
+                  { icon: "fab fa-youtube", href: "https://www.youtube.com/@kjkarzan", color: "#FF0000", label: "YouTube" },
+                  { icon: "fab fa-instagram", href: "https://www.instagram.com/kjkarzan/", color: "#E4405F", label: "Instagram" },
+                  { icon: "fab fa-telegram", href: "https://t.me/KarzanJabar", color: "#0088cc", label: "Telegram" },
+                  { icon: "fab fa-facebook", href: "https://www.facebook.com/kjkarzan", color: "#1877F2", label: "Facebook" },
+                  { icon: "fab fa-linkedin", href: "https://www.linkedin.com/in/kjkarzan/", color: "#0A66C2", label: "LinkedIn" }
+                ].map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.1, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="group relative flex flex-col items-center gap-2"
+                  >
+                    <div
+                      className="w-10 h-10 sm:w-12 sm:h-12 bg-white dark:bg-gray-800/80 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-xl flex items-center justify-center text-gray-500 dark:text-gray-400 transition-all duration-300 shadow-md group-hover:shadow-lg group-hover:text-white"
+                      style={{
+                        // We use inline style for hover color in CSS or handle it via logic.
+                        // To make it simple and robust with tailwind, we can just use the color prop in onMouseEnter
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = social.color;
+                        e.currentTarget.style.borderColor = social.color;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '';
+                        e.currentTarget.style.borderColor = '';
+                      }}
+                    >
+                      <i className={`${social.icon} text-lg sm:text-xl transition-transform duration-300 group-hover:scale-110`} />
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+        {/* Font Awesome Icons CDN */}
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          rel="stylesheet"
+        />
       </section >
 
       <ImageLightbox

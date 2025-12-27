@@ -78,9 +78,9 @@ const testimonials = [
     rating: 5
   },
   {
-    name: "Aster Dllshad",
+    name: "X KJ",
     roleKey: "beginner_graduate",
-    image: "https://i.pravatar.cc/100?img=9",
+    image: "/images/xkj.jpg",
     quoteKey: "testimonial_xkj",
     rating: 5
   }

@@ -64,6 +64,12 @@ export default defineConfig({
     hmr: {
       clientPort: 3000
     },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
     // Add security headers for development server
     headers: {
       'X-Content-Type-Options': 'nosniff',

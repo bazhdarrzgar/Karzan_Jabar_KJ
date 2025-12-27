@@ -19,7 +19,7 @@ const resources = {
       // Hero Section
       hero: {
         title: "KJ",
-        subtitle: "Karzan Jabar",
+        subtitle: "Karzan Jalal",
         description: "Empowering Traders to Build Wealth & Achieve Financial Freedom",
         tagline: "From Zero to Hero: Your Journey to Trading Success Starts Here",
         credentials: "Trusted by 7000+ Clients Worldwide • 90% Success Rate • 8+ Years of Proven Results",
@@ -34,6 +34,7 @@ const resources = {
         title: "About Me",
         content: "I am KJ(Karzan Jalal), a dedicated financial expert with extensive experience in economic analysis, trading, and investment strategies. As the founder of KJ Company and KJ Project, I've helped countless individuals navigate the complex world of finance and build sustainable wealth.",
       },
+      about_header_label: "About Karzan Jalal",
       about_title: "About Me",
       about_paragraph: "I am KJ(Karzan Jalal), a dedicated financial expert with extensive experience in economic analysis, trading, and investment strategies.",
       about_img_alt: "KJ Financial Expert",
@@ -98,7 +99,9 @@ const resources = {
       language_placeholder: "e.g. English, Arabic, Kurdish",
       submit_enrollment: "Submit Enrollment",
       invalid_iraqi_phone_number: "Please enter a valid Iraqi phone number (075xxxxxxxx or 077xxxxxxxx)",
-      phone_format_hint: "Format: 75/77 followed by 8 digits (e.g.,  750 000 0000 or 0750000000)",
+
+      name_placeholder: "Enter your full name",
+      select_language_placeholder: "Select Language",
 
       // Contact Section
       contact: {
@@ -106,9 +109,13 @@ const resources = {
         subtitle: "Ready to start your trading journey?",
         form: {
           name: "Name",
+          name_placeholder: "John Doe",
           email: "Email",
+          email_placeholder: "john@example.com",
           subject: "Subject",
+          select_subject_placeholder: "Select a Subject",
           message: "Message",
+          message_placeholder: "Tell me about your trading goals and how I can help you succeed...",
           submit: "Send Message",
         },
         subjects: {
@@ -245,6 +252,7 @@ const resources = {
       services: "Services",
       trading_education: "Trading Education",
       market_analysis: "Market Analysis",
+      portfolio_management: "Portfolio Management",
       broker_partnership: "Broker Partnership",
       stay_updated: "Stay Updated",
       newsletter_desc: "Get the latest market insights and course updates directly in your inbox.",
@@ -362,7 +370,7 @@ const resources = {
       drop_us_message: "Drop us a message anytime",
       chat_directly: "Chat with us directly",
       join_trading_community: "Join our trading community",
-      regional_office: "Our regional office",
+      regional_office: "Our regional office KJ",
       verified_expert: "Verified Expert",
       certified_professional: "Certified trading professional",
       students_1000_plus: "2000+ Active Clients",
@@ -400,9 +408,20 @@ const resources = {
       years_experience_label: "Years Experience",
       trading_platform_badge: "#1 Trading Education Platform",
       watch_demo: "Example video",
-      no_credit_card: "No Credit Card Required",
-      free_trial: "Free Trial Available",
-      cancel_anytime: "Cancel Anytime",
+      no_credit_card: "Learning & Working Methods",
+      free_trial: "Evaluate Your Work",
+      cancel_anytime: "Daily Updates & Changes",
+      learn_trading_free: "Trading Course",
+      free_course_videos: {
+        video_title_1: "Introduction to Forex",
+        video_title_2: "How to Start Forex",
+        video_title_3: "Broker Types",
+        video_title_4: "How to Choose a Broker?",
+        video_title_5: "Account Management",
+        video_title_6: "MT5 Tutorial",
+        video_title_7: "Symbols & Lot Sizes",
+        video_title_8: "Spread, Commission & Swap",
+      },
     },
   },
   ckb: {
@@ -422,10 +441,10 @@ const resources = {
       // Hero Section
       hero: {
         title: "KJ",
-        subtitle: "کارزان جەبار",
+        subtitle: "کارزان جەلال",
         description: "بەهێزکردنی بازرگانان بۆ بەدەستهێنانی سامان و بوونی ئازادی دارایی",
         tagline: "لە سفرەوە بۆ لووتکە: گەشتەکەت بۆ سەرکەوتنی بازرگانی لێرەوە دەست پێدەکات",
-        credentials: "متمانەپێکراو لەلایەن ٧٠٠٠+ فێرخوازەوە لە جیهاندا • ٩٠٪ ڕێژەی سەرکەوتن • ٨+ ساڵ ئەنجامی سەلمێنراو",
+        credentials: "متمانەپێکراو لەلایەن ٧٠٠٠+ فێرخوازەوە لە جیهاندا - ٩٠٪ ڕێژەی سەرکەوتن - ٨+ ساڵ ئەنجامی سەلمێنراو",
         cta: {
           courses: "کۆرسەکان ببینە",
           learn: "ئەمڕۆ دەست پێ بکە",
@@ -437,6 +456,7 @@ const resources = {
         title: "دەربارەی من",
         content: "من کارزان جەلالم، پسپۆڕی بازاری دارایی بە ئەزموونی فراوان و چەندین ساڵ ئەزموون لە شیکاری ئابووری، بازرگانی و ستراتیژیەکانی وەبەرهێنان.",
       },
+      about_header_label: "ئەزموونی کارزان جەلال",
       about_title: "دەربارەی من",
       about_paragraph: "من کارزان جەلالم، پسپۆڕی بازاری دارایی بە ئەزموونی فراوان و چەندین ساڵ ئەزموون لە شیکاری ئابووری، بازرگانی و ستراتیژیەکانی وەبەرهێنان.",
       about_img_alt: "پسپۆڕی بازاڕی دارایی کارزان جەلال",
@@ -476,7 +496,7 @@ const resources = {
       beginner_graduate: "دەرچووی کۆرسی VIP",
       testimonial_zagros: "بەتامەزرۆیی هەموو وانەکانم تەماشا کرد بەڵام هێشتا پێم وایە زیاتر ماوە کە فێری ببم و بەتەواوی بتوانم داغڵی بازارگانی ببم هیوادارم بەردەوام بن و دەست دەکەم بە ئاستی پێشکەوتوو",
       testimonial_raman: "ئێستا تێگەشتم لە بازار زانستە نەک قومارکردن هەموو کەس مەرج نیە سەرکەوتوو بێت رێگای زۆرم تاقی کردەوە هەمان ئەنجامی هەبوو بەڵام ئێستا زانیم لە پشتی ڕوداواکان لە جیهانی فۆرێکس ئەوەی خەڵک نایبینی من بیبینم، جێگای شانازین",
-      testimonial_xkj: "من خوێندکاری تایبەت بووم وانەم وەرگرتوە لەلایەن مامۆستا کارزان جەلال ئێستا وانە ئەڵێمەوە و خاوەنی باشترین گروپی سیگناڵم و سیگناڵ ئەنێم بەژداربووەکانم شایدی ئەوە ئەدەن",
+      testimonial_xkj: "من خوێندکاری تایبەت بووم وانەم وەرگرتوە لەلایەن مامۆستا کارزان جەلال ئێستا وانە ئەڵێمەوە و خاوەنی باشترین گروپی سیگناڵم و لە ئێستادا بە هەزاران کەس لە سیگناڵی ڕۆژانەم سودمەندن",
 
       // Course taglines and additional features
       beginner_tagline: "گونجاوە بۆ بازرگانی سەرەتایی",
@@ -501,7 +521,9 @@ const resources = {
       language_placeholder: "بۆ نموونە: کوردی، عەرەبی، ئینگلیزی",
       submit_enrollment: "تۆمارکردن بنێرە",
       invalid_iraqi_phone_number: "تکایە ژمارەی مۆبایلی عێراقی دروست بنووسە (075xxxxxxxx یان 077xxxxxxxx)",
-      phone_format_hint: "فۆرمات: 75/77 و پاشان ٨ ژمارە (بۆ نموونە:  750 000 0000 یان 0750000000)",
+
+      name_placeholder: "ناوی تەواوەت بنووسە",
+      select_language_placeholder: "زمان هەڵبژێرە",
 
       // Contact Section
       contact: {
@@ -509,9 +531,13 @@ const resources = {
         subtitle: "ئامادەیت بۆ دەستپێکردنی گەشتی بازرگانیت؟",
         form: {
           name: "ناو",
+          name_placeholder: "ناوی سیانی",
           email: "ئیمەیڵ",
+          email_placeholder: "example@gmail.com",
           subject: "بابەت",
+          select_subject_placeholder: "بابەت دیاری بکە",
           message: "پەیام",
+          message_placeholder: "دەربارەی ئامانجەکانی بازرگانیکردنت بۆمان بنووسە...",
           submit: "ناردنی پەیام",
         },
         subjects: {
@@ -648,6 +674,7 @@ const resources = {
       services: "خزمەتگوزاریەکان",
       trading_education: "فێرکاری بازرگانی",
       market_analysis: "شیکاری بازاڕ",
+      portfolio_management: "بەڕێوەبردنی هەژمار",
       broker_partnership: "هاوبەشی بڕۆکەر",
       stay_updated: "ئاگاداربە",
       newsletter_desc: "نوێترین زانیاری بازاڕ و کۆرسەکان ڕاستەوخۆ لە ئیمەیڵەکەت وەربگرە.",
@@ -762,10 +789,10 @@ const resources = {
       available_24_7: "٢٤/٧ بەردەستە",
       privacy_notice: "زانیارییەکانت پارێزراون و هەرگیز بڵاوناکرێنەوە",
       fill_form_desc: "فۆڕمەکەی خوارەوە پڕبکەرەوە بەزوترین کات وەڵامت دەدەینەوە",
-      drop_us_message: "هەر کاتێک ویستت نامە بنێرە",
-      chat_directly: "ڕاستەوخۆ قسەمان لەگەڵ بکە",
-      join_trading_community: "بەشداری کۆمەڵگای بازرگانیمان بکە",
-      regional_office: "ناونیشانی نووسینگەی ",
+      drop_us_message: "ناردنی پەیام لەڕێهەی ئیمێڵ",
+      chat_directly: "پەیوەندی ڕاستەوخۆ لە ڕێگەی واتسئەپەوە",
+      join_trading_community: "پەیوەندی ڕاستەوخۆ لەڕێگەی تێلیگرامەوە",
+      regional_office: "ناونیشانی نووسینگەی KJ",
       verified_expert: "پسپۆڕی پەسەندکراو",
       certified_professional: "بازرگانی پسپۆڕی بڕوانامەدار",
       students_1000_plus: "٢٠٠٠+ فێرخوازی چالاک",
@@ -793,7 +820,7 @@ const resources = {
       time_1_day_ago: "١ ڕۆژ لەمەوبەر",
       likes_8_7k: "٢٢ هەزار بینەر",
       stay_updated_desc: "ئاگاداری نوێترین تێڕوانین و شیکارییەکان بە",
-      connect_with_me: "پەیوەندیم لەگەڵ ببەستە",
+      connect_with_me: "هەژماری فەرمیم لە تۆرەکۆمەڵایەتییەکان",
 
       // Hero Section Extra
       scroll_to_explore: "بۆ گەڕان سکڕۆڵ بکە",
@@ -801,11 +828,22 @@ const resources = {
       active_students_label: "فێرخوازی چالاک",
       courses_completed_label: "فێرخوازی ڕاهێنراو ",
       years_experience_label: "ساڵ ئەزموون",
-      trading_platform_badge: "پلاتفۆڕمی بازرگان",
+      trading_platform_badge: "یەکەمین پلاتفۆرمی بازرگان",
       watch_demo: "بینینی نموونەیەک",
-      no_credit_card: "ڕێکاگاکانی فێربوون و کار کردن بەخۆڕایی",
-      free_trial: "تاقیکردنەوەی کارکردنی خۆت بە خۆڕایی",
-      cancel_anytime: "ئاگاداربوونی ڕۆژانە و گۆڕانکاریەکان بە خۆڕایی",
+      no_credit_card: "ڕێکاگاکانی فێربوون و کار کردن بێ بەرامبەر",
+      free_trial: "تاقیکردنەوەی کارکردنی خۆت بێ بەرامبەر",
+      cancel_anytime: "ئاگاداربوونی ڕۆژانە و گۆڕانکاریەکان بێ بەرامبەر",
+      learn_trading_free: "کۆرسی بازرگانی",
+      free_course_videos: {
+        video_title_1: "ناساندنی فۆڕێکس",
+        video_title_2: "چۆن دەست بە فۆڕێکس بکەم",
+        video_title_3: "شێوازەکانی بڕۆکەر",
+        video_title_4: "چۆن بڕۆکەر هەڵبژێڕم؟",
+        video_title_5: "بەڕێوەبردنی هەژمار لە بڕۆکەر",
+        video_title_6: "فێرکراری و بەشەکانی MT5",
+        video_title_7: "هێماکان و لۆت بناسە",
+        video_title_8: "سپرید و کۆمیشن و سواپ چین؟",
+      },
     },
   },
   ar: {
@@ -825,7 +863,7 @@ const resources = {
       // Hero Section
       hero: {
         title: "KJ",
-        subtitle: "كارزان جبار",
+        subtitle: "کارزان جلال",
         description: "تمكين المتداولين من بناء الثروة وتحقيق الحرية المالية",
         tagline: "من البداية إلى الاحتراف: رحلتك نحو النجاح في التداول تبدأ هنا",
         credentials: "حاز على ثقة أكثر من ٧٠٠٠ متداول حول العالم • معدل نجاح ٩٠% • أكثر من ٥ سنوات من النتائج المثبتة",
@@ -840,6 +878,7 @@ const resources = {
         title: "نبذة عني",
         content: "أنا کارزان جلال، خبير مالي متخصص ذو خبرة واسعة في التحليل الاقتصادي، التداول، واستراتيجيات الاستثمار.",
       },
+      about_header_label: "عن كارزان جلال",
       about_title: "نبذة عني",
       about_paragraph: "أنا KJ، خبير مالي متخصص ذو خبرة واسعة في التحليل الاقتصادي، التداول، واستراتيجيات الاستثمار.",
       about_img_alt: "الخبير المالي KJ",
@@ -904,7 +943,9 @@ const resources = {
       language_placeholder: "مثال: العربية، الإنجليزية، الكردية",
       submit_enrollment: "إرسال التسجيل",
       invalid_iraqi_phone_number: "الرجاء إدخال رقم هاتف عراقي صحيح (075xxxxxxxx أو 077xxxxxxxx)",
-      phone_format_hint: "الصيغة: 75/77 متبوعة بـ 8 أرقام (مثال:  750 000 0000 أو 0750000000)",
+
+      name_placeholder: "أدخل اسمك الكامل",
+      select_language_placeholder: "اختر اللغة",
 
       // Contact Section
       contact: {
@@ -912,9 +953,13 @@ const resources = {
         subtitle: "هل أنت مستعد لبدء رحلتك في التداول؟",
         form: {
           name: "الاسم",
+          name_placeholder: "الاسم الكامل",
           email: "البريد الإلكتروني",
+          email_placeholder: "example@gmail.com",
           subject: "الموضوع",
+          select_subject_placeholder: "اختر الموضوع",
           message: "الرسالة",
+          message_placeholder: "أخبرنا عن أهدافك في التداول وكيف يمكننا مساعدتك...",
           submit: "إرسال",
         },
         subjects: {
@@ -1051,6 +1096,7 @@ const resources = {
       services: "خدماتنا",
       trading_education: "تعليم التداول",
       market_analysis: "تحليل السوق",
+      portfolio_management: "إدارة المحافظ",
       broker_partnership: "شراكة الوسيط",
       stay_updated: "كن على اطلاع",
       newsletter_desc: "احصل على أحدث تحليلات السوق وتحديثات الدورات مباشرة في بريدك الوارد.",
@@ -1168,7 +1214,7 @@ const resources = {
       drop_us_message: "راسلنا في أي وقت",
       chat_directly: "تحدث معنا مباشرة",
       join_trading_community: "انضم لمجتمع التداول لدينا",
-      regional_office: "مكتبنا الإقليمي",
+      regional_office: "مكتبنا الإقليمي KJ",
       verified_expert: "خبير موثق",
       certified_professional: "محترف تداول معتمد",
       students_1000_plus: "٢٠٠٠+ طالب نشط",
@@ -1206,9 +1252,20 @@ const resources = {
       years_experience_label: "سنوات خبرة",
       trading_platform_badge: "#1 منصة لتعليم التداول",
       watch_demo: "شاهد العرض التوضيحي",
-      no_credit_card: "لا يلزم بطاقة ائتمان",
-      free_trial: "تجربة مجانية متاحة",
-      cancel_anytime: "إلغاء في أي وقت",
+      no_credit_card: "طرق تعلم وعمل مجانية",
+      free_trial: "اختبر عملك مجاناً",
+      cancel_anytime: "تحديثات وتغييرات يومية مجانية",
+      learn_trading_free: "تعلم التداول",
+      free_course_videos: {
+        video_title_1: "مقدمة في الفوركس",
+        video_title_2: "كيف أبدأ في الفوركس",
+        video_title_3: "أنواع الوسطاء",
+        video_title_4: "كيف أختار الوسيط؟",
+        video_title_5: "إدارة حساب التداول",
+        video_title_6: "شرح منصة MT5",
+        video_title_7: "الرموز والأحجام (Lots)",
+        video_title_8: "السبريد والعمولة والسواب",
+      },
     },
   },
 };

@@ -224,65 +224,65 @@ export function PartnershipSection() {
                     </div>
                   </div>
                 </ScrollAnimated>
-
-                {/* Partnership Benefits Section */}
-                <ScrollAnimated animation="fadeInUp" delay={800} className="mt-12 sm:mt-16 lg:mt-20 pt-12 border-t-2 border-gray-200 dark:border-gray-700">
-                  <div className="text-center mb-8 sm:mb-12">
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                      {t("partnership_benefits")}
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
-                      {t('unlock_exclusive_advantages')}
-                    </p>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    {partnershipBenefits.map((benefit, index) => (
-                      <ScrollAnimated
-                        key={index}
-                        animation="bounceIn"
-                        delay={index * 200}
-                        className="relative group"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-purple-500/20 rounded-2xl sm:rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <Card className="relative p-6 sm:p-8 text-center hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-gold rounded-2xl sm:rounded-3xl h-full">
-                          <div className={`${benefit.bgColor} rounded-2xl sm:rounded-3xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl`}>
-                            <benefit.icon className="text-white text-2xl sm:text-3xl" />
-                          </div>
-                          <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 group-hover:text-gold transition-colors">
-                            {t(benefit.titleKey)}
-                          </h4>
-                          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                            {t(benefit.descriptionKey)}
-                          </p>
-                        </Card>
-                      </ScrollAnimated>
-                    ))}
-                  </div>
-                </ScrollAnimated>
-
-                {/* Trust Badges */}
-                <ScrollAnimated animation="fadeInUp" delay={1000} className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-gray-200 dark:border-gray-700">
-                  <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                    <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
-                      <Shield className="w-4 h-4 text-green-500" />
-                      <span className="font-medium">{t('ssl_secured')}</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
-                      <Award className="w-4 h-4 text-gold" />
-                      <span className="font-medium">{t('certified_partner')}</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
-                      <Star className="w-4 h-4 text-yellow-500" />
-                      <span className="font-medium">{t('award_winning')}</span>
-                    </div>
-                  </div>
-                </ScrollAnimated>
               </div>
+
+              {/* Partnership Benefits Section */}
+              <ScrollAnimated animation="fadeInUp" delay={800} className="mt-12 sm:mt-16 lg:mt-20 pt-12 border-t-2 border-gray-200 dark:border-gray-700">
+                <div className="text-center mb-8 sm:mb-12">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+                    {t("partnership_benefits")}
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
+                    {t('unlock_exclusive_advantages')}
+                  </p>
+                </div>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                  {partnershipBenefits.map((benefit, index) => (
+                    <ScrollAnimated
+                      key={index}
+                      animation="bounceIn"
+                      delay={index * 200}
+                      className="relative group"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-purple-500/20 rounded-2xl sm:rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <Card className="relative p-6 sm:p-8 text-center hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-gold rounded-2xl sm:rounded-3xl h-full">
+                        <div className={`${benefit.bgColor} rounded-2xl sm:rounded-3xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl`}>
+                          <benefit.icon className="text-white text-2xl sm:text-3xl" />
+                        </div>
+                        <h4 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 group-hover:text-gold transition-colors">
+                          {t(benefit.titleKey)}
+                        </h4>
+                        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+                          {t(benefit.descriptionKey)}
+                        </p>
+                      </Card>
+                    </ScrollAnimated>
+                  ))}
+                </div>
+              </ScrollAnimated>
+
+              {/* Trust Badges */}
+              <ScrollAnimated animation="fadeInUp" delay={1000} className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                  <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
+                    <Shield className="w-4 h-4 text-green-500" />
+                    <span className="font-medium">{t('ssl_secured')}</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
+                    <Award className="w-4 h-4 text-gold" />
+                    <span className="font-medium">{t('certified_partner')}</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 sm:px-4 py-2 rounded-full">
+                    <Star className="w-4 h-4 text-yellow-500" />
+                    <span className="font-medium">{t('award_winning')}</span>
+                  </div>
+                </div>
+              </ScrollAnimated>
             </Card>
           </ScrollAnimated>
-        </div>
-      </section>
+        </div >
+      </section >
 
       <ImageLightbox
         src="/images/certificate_karzan.png"

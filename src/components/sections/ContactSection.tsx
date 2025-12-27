@@ -21,7 +21,7 @@ interface ContactFormData {
 
 // CONTACT details (update these values as needed)
 const CONTACT = {
-  email: "contact@kjcompany.com",
+  email: "official.kjcompany@gmail.com",
   whatsapp: {
     kurdish: "+964 7509496464",
     arabic: "+964 7709496464",
@@ -142,7 +142,7 @@ const trustBadges = [
 ];
 
 export function ContactSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
@@ -153,7 +153,7 @@ export function ContactSection() {
   const { toast } = useToast();
 
   const handleSendEmail = () => {
-    const mailtoLink = `mailto:kjaaa@gmail.com?subject=${encodeURIComponent(
+    const mailtoLink = `mailto:karzanjabar@gmail.com?subject=${encodeURIComponent(
       formData.subject
     )}&body=${encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
@@ -161,7 +161,7 @@ export function ContactSection() {
     window.location.href = mailtoLink;
   };
 
-  const contactMutation = useMutation({
+  const contactMutation = useMutation<Response, Error, ContactFormData>({
     mutationFn: (data: ContactFormData) => apiRequest("POST", "/api/contact", data),
     onSuccess: () => {
       toast({
@@ -170,10 +170,10 @@ export function ContactSection() {
       });
       setFormData({ name: "", email: "", subject: "", message: "" });
     },
-    onError: () => {
+    onError: (error: any) => {
       toast({
         title: t("error"),
-        description: t("failed_to_send_message"),
+        description: error.message || t("failed_to_send_message"),
         variant: "destructive",
       });
     },
@@ -288,11 +288,12 @@ export function ContactSection() {
                         <Input
                           id="name"
                           type="text"
-                          placeholder="John Doe"
+                          dir={i18n.dir()}
+                          placeholder={t("contact.form.name_placeholder")}
                           value={formData.name}
                           onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                           required
-                          className="h-12 sm:h-14 text-sm sm:text-base pl-4 pr-4 transition-all duration-300 focus:ring-2 focus:ring-gold/50 border-2 border-gray-200 dark:border-gray-700 hover:border-gold/50 focus:border-gold rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm"
+                          className="h-12 sm:h-14 text-sm sm:text-base px-6 transition-all duration-300 focus:ring-2 focus:ring-gold/50 border-2 border-gray-200 dark:border-gray-700 hover:border-gold/50 focus:border-gold rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm"
                         />
                       </div>
                     </div>
@@ -307,11 +308,12 @@ export function ContactSection() {
                         <Input
                           id="email"
                           type="email"
-                          placeholder="john@example.com"
+                          dir={i18n.dir()}
+                          placeholder={t("contact.form.email_placeholder")}
                           value={formData.email}
                           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                           required
-                          className="h-12 sm:h-14 text-sm sm:text-base pl-4 pr-4 transition-all duration-300 focus:ring-2 focus:ring-blue-500/50 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500/50 focus:border-blue-500 rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm"
+                          className="h-12 sm:h-14 text-sm sm:text-base px-6 transition-all duration-300 focus:ring-2 focus:ring-blue-500/50 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500/50 focus:border-blue-500 rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm"
                         />
                       </div>
                     </div>
@@ -321,16 +323,16 @@ export function ContactSection() {
                   <div className="relative group">
                     <Label htmlFor="subject" className="text-sm sm:text-base font-bold text-gray-700 dark:text-gray-300 mb-2 block flex items-center gap-2">
                       <span className="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>
-                      {t("subject")}
+                      {t("contact.form.subject")}
                     </Label>
                     <Select value={formData.subject} onValueChange={(value) => setFormData(prev => ({ ...prev, subject: value }))}>
-                      <SelectTrigger className="h-12 sm:h-14 text-sm sm:text-base transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 border-2 border-gray-200 dark:border-gray-700 hover:border-purple-500/50 rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm">
-                        <SelectValue placeholder={t("select_subject")} />
+                      <SelectTrigger dir={i18n.dir()} className="h-12 sm:h-14 px-6 text-sm sm:text-base transition-all duration-300 focus:ring-2 focus:ring-purple-500/50 border-2 border-gray-200 dark:border-gray-700 hover:border-purple-500/50 rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm">
+                        <SelectValue placeholder={t("contact.form.select_subject_placeholder")} />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="course">{t("trading_course_inquiry")}</SelectItem>
-                        <SelectItem value="partnership">{t("justmarkets_partnership")}</SelectItem>
-                        <SelectItem value="consultation">{t("private_consultation")}</SelectItem>
+                      <SelectContent dir={i18n.dir()}>
+                        <SelectItem value="course">{t("contact.subjects.courses")}</SelectItem>
+                        <SelectItem value="partnership">{t("contact.subjects.partnership")}</SelectItem>
+                        <SelectItem value="consultation">{t("contact.subjects.trading")}</SelectItem>
                         <SelectItem value="other">{t("other")}</SelectItem>
                       </SelectContent>
                     </Select>
@@ -340,16 +342,17 @@ export function ContactSection() {
                   <div className="relative group">
                     <Label htmlFor="message" className="text-sm sm:text-base font-bold text-gray-700 dark:text-gray-300 mb-2 block flex items-center gap-2">
                       <span className="w-1.5 h-1.5 bg-pink-500 rounded-full"></span>
-                      {t("message")}
+                      {t("contact.form.message")}
                     </Label>
                     <Textarea
                       id="message"
                       rows={6}
-                      placeholder="Tell me about your trading goals and how I can help you succeed..."
+                      dir={i18n.dir()}
+                      placeholder={t("contact.form.message_placeholder")}
                       value={formData.message}
                       onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                       required
-                      className="text-sm sm:text-base resize-none transition-all duration-300 focus:ring-2 focus:ring-pink-500/50 border-2 border-gray-200 dark:border-gray-700 hover:border-pink-500/50 focus:border-pink-500 rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm"
+                      className="text-sm sm:text-base resize-none p-6 transition-all duration-300 focus:ring-2 focus:ring-pink-500/50 border-2 border-gray-200 dark:border-gray-700 hover:border-pink-500/50 focus:border-pink-500 rounded-xl bg-white dark:bg-gray-800/50 backdrop-blur-sm"
                     />
                   </div>
 
@@ -419,7 +422,9 @@ export function ContactSection() {
                               <h4 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white mb-0.5 sm:mb-1">
                                 {method.title}
                               </h4>
-                              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-semibold truncate">{method.value}</p>
+                              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-semibold truncate">
+                                <span dir="ltr">{method.value}</span>
+                              </p>
                               <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t(method.descriptionKey)}</p>
                             </div>
                           </div>

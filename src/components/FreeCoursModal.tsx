@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 interface Video {
   id: string;
-  title: string;
+  translationKey: string;
   duration: string;
   thumbnail: string;
   url: string;
@@ -19,87 +19,59 @@ interface FreeCoursModalProps {
 const videos: Video[] = [
   {
     id: "tQ1XFQL4rbo",
-    title: "Trading Platform Setup",
+    translationKey: "free_course_videos.video_title_1",
     duration: "17:55",
     thumbnail: "https://img.youtube.com/vi/tQ1XFQL4rbo/maxresdefault.jpg",
     url: "https://www.youtube.com/watch?v=tQ1XFQL4rbo"
   },
   {
     id: "TIWGCdwoCXA",
-    title: "Candlestick Pattern Analysis",
+    translationKey: "free_course_videos.video_title_2",
     duration: "20:12",
     thumbnail: "https://img.youtube.com/vi/TIWGCdwoCXA/maxresdefault.jpg",
     url: "https://www.youtube.com/watch?v=TIWGCdwoCXA"
   },
   {
     id: "3y9sJKycNGw",
-    title: "Moving Averages Strategy",
+    translationKey: "free_course_videos.video_title_3",
     duration: "14:25",
     thumbnail: "https://img.youtube.com/vi/3y9sJKycNGw/maxresdefault.jpg",
     url: "https://www.youtube.com/watch?v=3y9sJKycNGw"
   },
   {
     id: "cGsLjMrJEqY",
-    title: "Support and Resistance Levels",
+    translationKey: "free_course_videos.video_title_4",
     duration: "16:30",
     thumbnail: "https://img.youtube.com/vi/cGsLjMrJEqY/maxresdefault.jpg",
     url: "https://www.youtube.com/watch?v=cGsLjMrJEqY"
   },
   {
-    id: "2YBW4UHPXHc",
-    title: "Chart Pattern Recognition",
-    duration: "19:48",
-    thumbnail: "https://img.youtube.com/vi/2YBW4UHPXHc/maxresdefault.jpg",
-    url: "https://www.youtube.com/watch?v=2YBW4UHPXHc"
-  },
-  {
     id: "xclk2s0mQT0",
-    title: "Technical Analysis Basics",
+    translationKey: "free_course_videos.video_title_5",
     duration: "22:15",
     thumbnail: "https://img.youtube.com/vi/xclk2s0mQT0/maxresdefault.jpg",
     url: "https://www.youtube.com/watch?v=xclk2s0mQT0"
   },
   {
     id: "Al8bWQA5qBQ",
-    title: "Risk Management Strategies",
+    translationKey: "free_course_videos.video_title_6",
     duration: "18:20",
     thumbnail: "https://img.youtube.com/vi/Al8bWQA5qBQ/maxresdefault.jpg",
     url: "https://www.youtube.com/watch?v=Al8bWQA5qBQ"
   },
   {
     id: "hDGHjihV7_o",
-    title: "Understanding Market Psychology",
+    translationKey: "free_course_videos.video_title_7",
     duration: "15:32",
     thumbnail: "https://img.youtube.com/vi/hDGHjihV7_o/maxresdefault.jpg",
     url: "https://www.youtube.com/watch?v=hDGHjihV7_o"
   },
   {
     id: "-DEdKOEwb94",
-    title: "Trading Fundamentals - Introduction",
+    translationKey: "free_course_videos.video_title_8",
     duration: "12:45",
     thumbnail: "https://img.youtube.com/vi/-DEdKOEwb94/maxresdefault.jpg",
     url: "https://www.youtube.com/watch?v=-DEdKOEwb94"
-  },
-  {
-    id: "Zpia6H6OuAo",
-    title: "Building Your First Trading Plan",
-    duration: "24:30",
-    thumbnail: "https://img.youtube.com/vi/Zpia6H6OuAo/maxresdefault.jpg",
-    url: "https://www.youtube.com/watch?v=Zpia6H6OuAo"
-  },
-  {
-    id: "sqOZPnUwSNE",
-    title: "Market Timing Strategies",
-    duration: "21:08",
-    thumbnail: "https://img.youtube.com/vi/sqOZPnUwSNE/maxresdefault.jpg",
-    url: "https://www.youtube.com/watch?v=sqOZPnUwSNE"
-  },
-  {
-    id: "6XPTJh-pwUI",
-    title: "Money Management Principles",
-    duration: "13:40",
-    thumbnail: "https://img.youtube.com/vi/6XPTJh-pwUI/maxresdefault.jpg",
-    url: "https://www.youtube.com/watch?v=6XPTJh-pwUI"
   }
 ];
 
@@ -155,7 +127,7 @@ export function FreeCoursModal({ isOpen, onClose }: FreeCoursModalProps) {
   };
 
   const getTotalDuration = () => {
-    return "4h 32m"; // Calculated total duration
+    return "2h 18m"; // Calculated total duration
   };
 
   const getEmbedUrl = (videoId: string) => {
@@ -271,7 +243,7 @@ export function FreeCoursModal({ isOpen, onClose }: FreeCoursModalProps) {
                       </motion.div>
                       <div className="absolute bottom-3 left-3 right-3 text-white">
                         <p className="text-[10px] font-bold uppercase tracking-widest text-green-400 mb-0.5">Up Next</p>
-                        <h3 className="text-xs sm:text-lg font-bold line-clamp-1">{currentVideo.title}</h3>
+                        <h3 className="text-xs sm:text-lg font-bold line-clamp-1">{t(currentVideo.translationKey)}</h3>
                       </div>
                     </div>
                   )}
@@ -287,7 +259,7 @@ export function FreeCoursModal({ isOpen, onClose }: FreeCoursModalProps) {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
                     <div className="min-w-0">
                       <h3 className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-0.5 line-clamp-1">
-                        {t("lesson")} {currentVideoIndex + 1}: {currentVideo.title}
+                        {t("lesson")} {currentVideoIndex + 1}: {t(currentVideo.translationKey)}
                       </h3>
                       <div className="flex items-center gap-3 text-[10px] sm:text-sm text-gray-500 dark:text-gray-400">
                         <div className="flex items-center">
@@ -374,7 +346,7 @@ export function FreeCoursModal({ isOpen, onClose }: FreeCoursModalProps) {
                         <div className="relative flex-shrink-0 w-16 sm:w-24 aspect-video rounded-lg overflow-hidden shadow-sm">
                           <img
                             src={video.thumbnail}
-                            alt={video.title}
+                            alt={t(video.translationKey)}
                             className="w-full h-full object-cover"
                           />
                           <div className={`absolute inset-0 flex items-center justify-center transition-opacity ${index === currentVideoIndex ? 'bg-green-500/40 opacity-100' : 'bg-black/20 opacity-0 group-hover:opacity-100'}`}>
@@ -387,7 +359,7 @@ export function FreeCoursModal({ isOpen, onClose }: FreeCoursModalProps) {
                             ? 'text-green-600 dark:text-green-400'
                             : 'text-gray-900 dark:text-white'
                             }`}>
-                            {index + 1}. {video.title}
+                            {index + 1}. {t(video.translationKey)}
                           </h4>
                           <div className="flex items-center text-[9px] sm:text-xs text-gray-500 dark:text-gray-400">
                             <Clock className="w-2.5 h-2.5 mr-1" />

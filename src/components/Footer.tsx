@@ -16,7 +16,7 @@ const quickLinks = [
 
 const services = [
   "trading_education",
-  "market_analysis", 
+  "market_analysis",
   "private_consultation",
   "portfolio_management",
   "broker_partnership"
@@ -24,7 +24,7 @@ const services = [
 
 const legalLinks = [
   "privacy_policy",
-  "terms_of_service", 
+  "terms_of_service",
   "cookie_policy"
 ];
 
@@ -96,7 +96,7 @@ export function Footer() {
               </a>
             </div>
           </div>
-          
+
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold mb-4">{t("quick_links")}</h3>
@@ -113,7 +113,7 @@ export function Footer() {
               ))}
             </ul>
           </div>
-          
+
           {/* Services */}
           <div>
             <h3 className="text-lg font-semibold mb-4">{t("services")}</h3>
@@ -127,12 +127,12 @@ export function Footer() {
               ))}
             </ul>
           </div>
-          
+
           {/* Newsletter */}
           <div>
             <h3 className="text-lg font-semibold mb-4">{t("stay_updated")}</h3>
             <p className="text-gray-300 mb-4">{t("newsletter_desc")}</p>
-            
+
             <form onSubmit={handleNewsletterSubmit} className="space-y-3">
               <Input
                 type="email"
@@ -151,13 +151,13 @@ export function Footer() {
             </form>
           </div>
         </div>
-        
+
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-300 mb-4 md:mb-0">
             © 2026 KJ Company. {t("all_rights_reserved")}
           </p>
-          
+
           <div className="flex space-x-6">
             {legalLinks.map((link) => (
               <button
