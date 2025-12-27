@@ -153,7 +153,7 @@ export function ContactSection() {
   const { toast } = useToast();
 
   const handleSendEmail = () => {
-    const mailtoLink = `mailto:karzanjabar@gmail.com?subject=${encodeURIComponent(
+    const mailtoLink = `mailto:official.kjcompany@gmail.com?subject=${encodeURIComponent(
       formData.subject
     )}&body=${encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`

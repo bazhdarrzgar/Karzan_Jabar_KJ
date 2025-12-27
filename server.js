@@ -31,7 +31,7 @@ app.post('/api/enroll', async (req, res) => {
 
     const mailOptions = {
         from: 'soyansoon9@gmail.com',
-        to: 'karzanjabar@gmail.com',
+        to: 'official.kjcompany@gmail.com',
         subject: `New Enrollment: ${course}`,
         text: `
       New enrollment request received:
@@ -58,7 +58,7 @@ app.post('/api/contact', async (req, res) => {
 
     const mailOptions = {
         from: 'soyansoon9@gmail.com',
-        to: 'karzanjabar@gmail.com',
+        to: 'official.kjcompany@gmail.com',
         subject: `Contact Form: ${subject}`,
         text: `
       New message from contact form:
@@ -86,7 +86,7 @@ app.post('/api/newsletter', async (req, res) => {
 
     const mailOptions = {
         from: 'soyansoon9@gmail.com',
-        to: 'karzanjabar@gmail.com',
+        to: 'official.kjcompany@gmail.com',
         subject: `Newsletter Subscription`,
         text: `
       New newsletter subscription:
