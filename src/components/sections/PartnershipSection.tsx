@@ -191,6 +191,7 @@ export function PartnershipSection() {
                         <LazyImage
                           src="/images/certificate_karzan.png"
                           alt={t("certificate_img_alt")}
+                          priority={true}
                           className="w-full h-auto transform group-hover:scale-110 transition-transform duration-700"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

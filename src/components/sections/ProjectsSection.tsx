@@ -223,6 +223,7 @@ export function ProjectsSection() {
                     <LazyImage
                       src="/images/project.jpg"
                       alt={t("financial_success_img_alt")}
+                      priority={true}
                       className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
                     />
                     {/* Overlay gradient */}

@@ -246,6 +246,7 @@ export function TradeSection() {
                     <LazyImage
                       src={account.image}
                       alt={`Trading account ${account.id}`}
+                      priority={index === 0}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     />
 

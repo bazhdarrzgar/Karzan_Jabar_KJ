@@ -114,6 +114,7 @@ export function AboutSection() {
                     src="/images/karzan.jpg"
                     alt={t("about_img_alt")}
                     className="rounded-2xl sm:rounded-3xl shadow-2xl w-full h-auto aspect-[4/5] object-cover"
+                    priority={true}
                     initial={{ opacity: 0, scale: 0.8, rotateY: -10 }}
                     animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                     transition={{ duration: 1, ease: "backOut" }}

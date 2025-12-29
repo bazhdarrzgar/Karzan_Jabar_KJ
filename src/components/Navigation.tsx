@@ -118,6 +118,9 @@ const Navigation = () => {
                   src="/images/KJM_logo.jpg"
                   alt="KJ Company Logo"
                   className="h-12 w-auto rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:shadow-primary/20"
+                  // @ts-ignore
+                  fetchpriority="high"
+                  decoding="async"
                   whileHover={{
                     scale: 1.1,
                     rotate: [0, -2, 2, 0]
