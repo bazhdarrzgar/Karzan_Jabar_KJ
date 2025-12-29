@@ -55,6 +55,8 @@ export default defineConfig({
     port: 3000,
     allowedHosts: [
       "karzanjabar.work.gd",
+      "kjkarzan.com",
+      "www.kjkarzan.com",
       "localhost",
       "127.0.0.1",
       "kj-github-clone-1.preview.emergentagent.com",
@@ -84,6 +86,8 @@ export default defineConfig({
     port: 3000,
     allowedHosts: [
       "karzanjabar.work.gd",
+      "kjkarzan.com",
+      "www.kjkarzan.com",
       "localhost",
       "127.0.0.1",
       "kj-github-clone-1.preview.emergentagent.com",
