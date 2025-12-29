@@ -89,6 +89,12 @@ export default defineConfig({
       "kj-github-clone-1.preview.emergentagent.com",
       ".emergentagent.com",
       ".preview.emergentagent.com"
-    ]
+    ],
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
   }
 });

@@ -7,7 +7,7 @@
     "dev": "concurrently \"vite --host 0.0.0.0 --port 3000\" \"node server.js\"",
     "server": "node server.js",
     "build": "tsc && vite build",
-    "preview": "vite preview --host 0.0.0.0 --port 3000",
+    "preview": "concurrently \"vite preview --host 0.0.0.0 --port 3000\" \"node server.js\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "type-check": "tsc --noEmit",
     "docker:dev": "docker-compose up -d kj-website-dev",
