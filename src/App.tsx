@@ -11,6 +11,7 @@ import { useEffect, lazy, Suspense, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { PremiumBackground } from "./components/PremiumBackground";
+import { GlobalPreloader } from "./components/GlobalPreloader";
 import "./i18n";
 
 // Lazy load pages for better performance
@@ -67,6 +68,7 @@ function App() {
         <ThemeProvider defaultTheme="light" storageKey="kj-theme">
           <DropdownProvider>
             <div className="min-h-screen font-sans antialiased relative">
+              <GlobalPreloader />
               <PremiumBackground />
               <Suspense fallback={<PageLoader />}>
                 <Switch>
